@@ -3,27 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Profile</title>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-<script type="text/javascript" src="../assets/js/dist/ng-file-upload.min.js"></script>
-<script type="text/javascript" src="../assets/js/dist/ng-file-upload-shim.min.js"></script>
-<script src="../assets/js/fileUpload.js"></script> 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 </head>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
-  <script>
-
-  $(function(){
-    $("input[type='submit']").click(function(){
-        var $fileUpload = $("input[type='file']");
-        if (parseInt($fileUpload.get(0).files.length)>500){
-         alert("You can only upload a maximum of 500 files");
-        }
-    });    
-});
-  </script>
- 
 <body ng-app="fileUpload">
 <div class="container" style ="margin-top: 3cm;">
         <div class="col-md-8 col-md-offset-2">
@@ -67,25 +49,6 @@
                             </div>
                         </div>
                     </div>
-                        </br>
-                        <div class="row">
-                           <div class="form-group">
-                          <form  ng-controller="imgController as up" name="up.upload_form">
-                 <label class="col-md-3 control-label">Upload images(max 500 files)</label>
-                 <div class="col-md-9">
-            <input type="file" ngf-select ng-model="up.file" name="file" 
-            accept = "image/*" multiple ng-click="reset()" />
-          </br>
-            <button class="btn btn-success" type="submit" ng-click="submit('<%= user.username %>')">submit</button>
-            </br>
-            <div>{{up.progress}}</div>
-            </br>
-            <div ng-if="up.progress == 'progress: 100%'" class="alert alert-success">{{msg}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <button ng-if="up.progress == 'progress: 100%'" class="btn btn-success" type="submit" ng-click="analyse()">Analyse</button></div>
-       </form>
-                    </div>
-                  </div>
-                    </br>
             <div class="row">
               
                         <div class="form-group">
@@ -94,9 +57,7 @@
                                     Logout
                                 </a>
 
-                              <a class="btn btn-link" href="/dashboard">
-                                    Dashboard
-                                </a>
+                              
                                 <a class="btn btn-link" href="/">
                                     Exit
                                 </a>
