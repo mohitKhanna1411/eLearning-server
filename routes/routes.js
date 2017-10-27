@@ -26,6 +26,10 @@ app.post('/register', passport.authenticate('register',{
     failureFlash : true
 }));
 
+app.get('/profile', isLoggedIn, function(req,res){
+    res.render('profile.ejs',{user : req.user});
+});
+
 app.get('/logout', function(req,res){
     req.logout();
     console.log("logout success");
