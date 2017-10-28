@@ -17,6 +17,7 @@ module.exports = function(passport){
         passReqToCallback:true
     },
     function(req,username, password, done) {
+        console.log("register req" + req.body.username);
         Auth.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
             if (user) {
@@ -32,7 +33,6 @@ module.exports = function(passport){
             }
         });
     }));
-
     passport.use('login',new LocalStrategy({
         usernameField: 'username',
         passwordField: 'password',

@@ -23,6 +23,11 @@ var Auth = require('./models/user');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
+app.get('/', function(req, res){
+	app.use(express.static(path.join(__dirname)));
+    res.render(path.join(__dirname,'/index.ejs'));
+});
+
 //initial route
 // app.get('/', function(req, res){
 // 	var express=require('express');
