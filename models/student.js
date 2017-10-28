@@ -17,6 +17,9 @@ var studentSchema = mongoose.Schema({
 	grade:{
         type: String
     },
+    teacher_id:{
+        type : String
+    },
 	fav_subject:{
         type: String
     }
