@@ -139,18 +139,20 @@ passport.use('studentRegister',new LocalStrategy({
         console.log(req.body.job_description);
         console.log(req.body.grade);
         console.log(req.body.fav_subject);
+        console.log(req.body.teacherID.replace('string:',''));
         Student.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
             if (user) {
                 return done(null, false, req.flash('registerMessage','Username is already taken...' ));
             }else{
                 var newUser = new Student();
-              newUser.username = username;
+                newUser.username = username;
                 newUser.password = newUser.generateHash(password);
                 newUser.qualification = req.body.qualification;
                 newUser.job_description = req.body.job_description;
                 newUser.grade = req.body.grade;
-                newUser.fav_subject = req.body.fav_subject
+                newUser.fav_subject = req.body.fav_subject;
+                newUser.teacher_id = req.body.teacherID.replace('string:','');
                 newUser.save(function(err){
                     if(err) throw err;
                     return done(null,newUser);
@@ -170,6 +172,7 @@ passport.use('studentRegister',new LocalStrategy({
         console.log(req.body.job_description);
         console.log(req.body.grade);
         console.log(req.body.fav_subject);
+        console.log(req.body.studentID.replace('string:',''));
         Parent.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
             if (user) {
@@ -182,6 +185,7 @@ passport.use('studentRegister',new LocalStrategy({
                 newUser.job_description = req.body.job_description;
                 newUser.grade = req.body.grade;
                 newUser.fav_subject = req.body.fav_subject;
+                newUser.student_id = req.body.studentID.replace('string:','');
                 newUser.save(function(err){
                     if(err) throw err;
                     return done(null,newUser);
