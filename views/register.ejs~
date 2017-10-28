@@ -15,7 +15,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading"><h3>Register</h3></div>
 
-    <u> Register As</u><br><br>
+     Register As<br>
         <a href="/parentRegister">Parent</a><br>
 	 <a href="/studentRegister">Student</a><br>
 	 <a href="/teacherRegister">Teacher</a>
