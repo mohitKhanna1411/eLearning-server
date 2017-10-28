@@ -42,7 +42,8 @@ app.use(morgan('dev'));
 app.use(session({
 	secret:'secret123',
 	saveUninitialized: true,
-	resave:true
+	resave:true,
+	
 }));
 app.use(passport.initialize());
 app.use(passport.session());
