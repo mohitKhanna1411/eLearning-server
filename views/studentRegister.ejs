@@ -1,15 +1,24 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
 <meta charset="UTF-8">
 <title>Student Registration</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script>
+var app = angular.module('myApp', []);
+app.controller('stu', function($scope, $http) {
+    console.log("controllerStudent");
+    $http.get('/api/listTeacherIDs').success(function(res){
+      $scope.options = res;
+      console.log($scope.options[0]._id);
+    })
+});
+</script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 </head>
-<body>
+<body ng-app="myApp" ng-controller="stu">
 
-
-
-<div class="container" style ="margin-top: 3cm;">
+<div class="container" style ="margin-top: 3cm;" >
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading"><h3>Student Register Here</h3></div>
@@ -40,11 +49,26 @@
                             </div>
                         </div>
                     </div>
-	                      
+                          
+                    </br> 
+                    <div class="row">
+
+                        <div class="form-group">
+                            <label for="password" class="col-md-4 control-label">Select Teacher ID</label>
+
+                            <div class="col-md-6">
+                                
+            
+            <select class="form-control" name="teacherID" ng-model="myselect" ng-options="o._id as o._id for o in options"></select>
+               
+                            </div>
+                        </div>
+                    </div>
+                          
                     </br>
 
 
-
+                   
 
 
                <div class="row">

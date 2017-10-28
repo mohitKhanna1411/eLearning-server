@@ -20,6 +20,9 @@ mongoose.connect(config.db,{
 require('./config/passport')(passport);
 // var User = require('./config/db');
 var Auth = require('./models/user');
+var Teacher= require('./models/teacher');
+var Student= require('./models/student');
+var Parent= require('./models/parent');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -51,6 +54,21 @@ app.use(flash());
 app.set('view engine','ejs');
 require('./routes/routes')(app, passport);
 
+app.get('/api/listTeacherIDs', function(req,res,next){
+	console.log("inside list t_ID");
+	Teacher.find( {},{_id: 1 } ,function(request,docs){
+		console.log(docs);
+		res.send(JSON.stringify(docs));
+	});
+});
+
+app.get('/api/listStudentIDs', function(req,res,next){
+	console.log("inside list t_ID");
+	Student.find( {},{_id: 1 } ,function(request,docs){
+		console.log(docs);
+		res.send(JSON.stringify(docs));
+	});
+});
 
 app.listen(port,function()
 {
