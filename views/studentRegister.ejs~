@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Student Registration</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+</head>
+<body>
+
+
+
+<div class="container" style ="margin-top: 3cm;">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3>Student Register Here</h3></div>
+
+                <div class="panel-body">
+                	<% if(message.length>0){ %>
+								<div class="alert alert-danger"><%= message %></div>
+					<% } %>
+                    <form action="/studentRegister" method="post">
+                    	    <div class="row">
+
+                        <div class="form-group">
+                            <label for="username" class="col-md-4 control-label">Username</label>
+
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="username" required="" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                </br>
+                        <div class="row">
+
+                        <div class="form-group">
+                            <label for="password" class="col-md-4 control-label">Password</label>
+
+                            <div class="col-md-6">
+                                <input type="password" class="form-control" name="password" required="">
+                            </div>
+                        </div>
+                    </div>
+	                      
+                    </br>
+
+
+
+
+
+               <div class="row">
+
+                        <div class="form-group">
+                            <label for="qualification" class="col-md-4 control-label">Qualification</label>
+
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="qualification" required="" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                </br>
+           
+       <div class="row">
+
+                        <div class="form-group">
+                            <label for="job_description" class="col-md-4 control-label">Job Description</label>
+
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="job_description" required="" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                </br>
+
+
+
+    <div class="row">
+
+                        <div class="form-group">
+                            <label for="grade" class="col-md-4 control-label">Grade</label>
+
+                            <div class="col-md-6">
+                                <input type="number" class="form-control" name="Grade" required="" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                </br>
+
+
+      <div class="row">
+
+                        <div class="form-group">
+                            <label for="subject" class="col-md-4 control-label">Favourite Subject</label>
+
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="fav_subject" required="" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                </br>
+
+
+
+
+						<div class="row">
+							
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                                <button type="submit" class="btn btn-success">
+                                    Register
+                                </button>
+
+                            	<a class="btn btn-link" href="/login">
+                                    Already registered?
+                                </a>
+                                <a class="btn btn-link" href="/">
+                                    Exit
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    </form>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</body>
+</html>
