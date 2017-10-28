@@ -5,7 +5,7 @@ var path = require('path');
 module.exports = function(app,passport){
 
 
-app.get('/', function(req, res){
+app.get('/login', function(req, res){
     res.render('login.ejs',{message: req.flash('loginMessage')});
 });
 
@@ -36,6 +36,18 @@ app.get('/logout', function(req,res){
     res.redirect('/');
 });
 
+
+app.get('/dashboardTeacher', function(req, res){
+    res.render('dashboardTeacher.ejs'); 
+});
+
+app.get('/dashboardStudent', function(req, res){
+    res.render('dashboardStudent.ejs'); 
+});
+
+app.get('/dashboardParent', function(req, res){
+    res.render('dashboardParent.ejs'); 
+});
 
 };
 //checking logged in user
