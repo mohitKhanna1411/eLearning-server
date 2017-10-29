@@ -66,8 +66,6 @@ app.post('/parentRegister', passport.authenticate('parentRegister',{
     failureFlash : true
 }));
 
-
-
 app.get('/dashboardTeacher', function(req, res){
     res.render('dashboardTeacher.ejs'); 
 });
@@ -80,7 +78,9 @@ app.get('/dashboardParent', function(req, res){
     res.render('dashboardParent.ejs'); 
 });
 
-
+app.get('/dashboardAdmin', function(req, res){
+    res.render('dashboardAdmin.ejs'); 
+});
 
 app.get('/logout', function(req,res){
     req.logout();

@@ -14,13 +14,11 @@ var parentSchema = mongoose.Schema({
 	job_description:{
         type: String
     },
-	Qualification:{
+	qualification:{
+
         type: String
     },
 	address:{
-        type: String
-    },
-	grade:{
         type: String
     },
     student_id:{
@@ -30,9 +28,6 @@ var parentSchema = mongoose.Schema({
         type: String
     },
 	contact:{
-        type: String
-    },
-	address:{
         type: String
     }
   
