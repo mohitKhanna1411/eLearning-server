@@ -23,6 +23,7 @@ var Auth = require('./models/user');
 var Teacher= require('./models/teacher');
 var Student= require('./models/student');
 var Parent= require('./models/parent');
+var Class = require('./models/class');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -46,7 +47,6 @@ app.use(session({
 	secret:'secret123',
 	saveUninitialized: true,
 	resave:true,
-	
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -69,6 +69,94 @@ app.get('/api/listStudentIDs', function(req,res,next){
 		res.send(JSON.stringify(docs));
 	});
 });
+
+app.post('/api/teacher/manageGrade', function(req,res,next){
+	console.log(req.body);
+	// console.log(Class);
+
+ var newModel = new Class();
+ newModel.standard = req.body.class;
+ newModel.section = req.body.section;
+ newModel.subject = req.body.subject;
+
+ newModel.save(function(err,savedObject){
+ 	if(err){
+ 		console.log(err);
+ 		if(err.code == 11000)
+ 		res.end("Class already exists.")
+ 	}
+ 	else{
+ 		console.log(savedObject);
+ 		res.end("Class : "+savedObject.standard+"-"+savedObject.section+"-"+savedObject.subject+"  successfully created.")
+ 	}
+ });
+});
+
+app.post('/api/teacher/addStudent', function(req,res,next){
+	console.log(req.body);
+	var stu_id = { Student_ID: req.body.student };
+	console.log(stu_id);
+	// console.log(Class);
+// Class.update(
+//     { _id: person._id }, 
+//     { $push: { friends: friend } },
+//     done
+// );
+
+Class.update( { $and: [
+    { standard : req.body.class }, 
+    { section: req.body.section },
+    { subject: req.body.subject }
+  ]},{$addToSet : { students : stu_id } },function(request,docs){
+		console.log(docs);
+		if(docs.n == 0 && docs.nModified == 0){
+			res.end("Class combination does not exist! Please add Student into a valid class");
+		}
+		else if(docs.n == 1 && docs.nModified == 0){
+			res.end("Student Already added in this class.");
+		}
+		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+			res.end("Student successfully added.");
+		}
+	});
+ 
+});
+
+app.post('/api/teacher/deleteStudent', function(req,res,next){
+	console.log(req.body);
+	var stu_id = req.body.student ;
+	console.log(stu_id);
+	// console.log(Class);
+// Class.update(
+//     { _id: person._id }, 
+//     { $push: { friends: friend } },
+//     done
+// );
+
+Class.update( { $and: [
+    { standard : req.body.class }, 
+    { section: req.body.section },
+    { subject: req.body.subject }
+  ]}, { "$pull": { students: { Student_ID : stu_id } }}, { safe: true, multi:true },function(request,docs){
+		console.log(docs);
+		if(docs.n == 0 && docs.nModified == 0){
+			res.end("Class combination does not exist! Please delete Student from a valid class");
+		}
+		else if(docs.n == 1 && docs.nModified == 0){
+			res.end("Student Already deleted in this class.");
+		}
+		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+			res.end("Student successfully deleted.");
+		}
+	});
+ 
+});
+
+// Dive.update({ _id: diveId }, { "$pull": { "divers": { "user": userIdToRemove } }}, { safe: true, multi:true }, function(err, obj) {
+//     //do something smart
+// });
+
+
 
 app.listen(port,function()
 {
