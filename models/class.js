@@ -1,33 +1,34 @@
 //var fs = require('fs');
 var mongoose = require('mongoose');  
 
-var classSchema = new mongoose.Schema({
-            Teacher_ID:{ 
-                  type: String,
-                  unique : true
-            },
-            Standard:{ 
+var classSchema = mongoose.Schema({
+            standard:{ 
                   type: String
             },
-            Section:{ 
+            section:{ 
                   type: String
             },
-            Subject:{ 
+            subject:{ 
                   type: String
             },
             
-            Students:[
+            students:[
                   {
-                        Student_ID : {type : String}
+                        Student_ID : {type : String },
+                        _id : false
                   }
             ],
-            Lessons : [
+            lessons : [
                   {
                         Content : {type : String},
-                        Ref_Link : {type : String}
+                        Ref_Link : {type : String},
+                        _id : false
                   }
             ] 
 });
+
+classSchema.index({ standard: 1, section: 1, subject: 1}, { unique: true });
+// var Test = db.mode("Test", testSchema );
 
 var Class = mongoose.model('Class', classSchema);  
 module.exports = Class;
