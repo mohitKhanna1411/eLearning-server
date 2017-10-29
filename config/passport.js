@@ -17,27 +17,7 @@ module.exports = function(passport){
             done(err, user);
         });
     });
-    // passport.use('register',new LocalStrategy({
-    //     usernameField: 'username',
-    //     passwordField: 'password',
-    //     passReqToCallback:true
-    // },
-    // function(req,username, password, done) {
-    //     Auth.findOne({ username: username }, function(err, user) {
-    //         if (err) { return done(err); }
-    //         if (user) {
-    //             return done(null, false, req.flash('registerMessage','Username is already taken...' ));
-    //         }else{
-    //             var newUser = new Auth();
-    //             newUser.username = username;
-    //             newUser.password = newUser.generateHash(password);
-    //             newUser.save(function(err){
-    //                 if(err) throw err;
-    //                 return done(null,newUser);
-    //             });
-    //         }
-    //     });
-    // }));
+
 
     passport.use('login',new LocalStrategy({
         usernameField: 'username',
