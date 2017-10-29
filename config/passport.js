@@ -17,27 +17,7 @@ module.exports = function(passport){
             done(err, user);
         });
     });
-    // passport.use('register',new LocalStrategy({
-    //     usernameField: 'username',
-    //     passwordField: 'password',
-    //     passReqToCallback:true
-    // },
-    // function(req,username, password, done) {
-    //     Auth.findOne({ username: username }, function(err, user) {
-    //         if (err) { return done(err); }
-    //         if (user) {
-    //             return done(null, false, req.flash('registerMessage','Username is already taken...' ));
-    //         }else{
-    //             var newUser = new Auth();
-    //             newUser.username = username;
-    //             newUser.password = newUser.generateHash(password);
-    //             newUser.save(function(err){
-    //                 if(err) throw err;
-    //                 return done(null,newUser);
-    //             });
-    //         }
-    //     });
-    // }));
+
 
     passport.use('login',new LocalStrategy({
         usernameField: 'username',
@@ -100,11 +80,6 @@ passport.use('teacherRegister',new LocalStrategy({
         passReqToCallback:true
     },
     function(req,username, password,done) {
-	console.log(req.body.qualification);
-        console.log(req.body.job_description);
-	console.log(req.body.teaching_experience);
-        console.log(req.body.grade);
-        console.log(req.body.fav_subject);
         Teacher.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
             if (user) {
@@ -117,9 +92,11 @@ passport.use('teacherRegister',new LocalStrategy({
                 newUser.password = newUser.generateHash(password);
                 newUser.qualification = req.body.qualification;
                 newUser.job_description = req.body.job_description;
-		newUser.teaching_experience = req.body.teaching_experience;
-                newUser.grade = req.body.grade;
-                newUser.fav_subject = req.body.fav_subject;
+		      newUser.teaching_experience = req.body.teaching_experience;
+                newUser.email_id = req.body.email_id;
+                newUser.contact_number = req.body.contact_number;
+                newUser.address = req.body.address;
+                newUser.aadhar_no = req.body.aadhar_no;
                 newUser.save(function(err){
                     if(err) throw err;
                     return done(null,newUser);

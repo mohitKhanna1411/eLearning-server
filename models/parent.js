@@ -8,7 +8,7 @@ var parentSchema = mongoose.Schema({
     password:{
         type: String
     },
-	Qualification:{
+	qualification:{
         type: String
     },
 	job_description:{
