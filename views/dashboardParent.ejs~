@@ -6,14 +6,14 @@
     <link rel="icon" type="image/png" sizes="96x96" href="../assets/img/favicon.png">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 
-    <title>Paper Dashboard by Creative Tim</title>
+    <title>Parent Dashboard</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
-    <script src="../assets/js/scriptStudent.js"></script>
+    <script src="../assets/js/scriptParent.js"></script>
     <base href="/">
 
     <!-- Bootstrap core CSS     -->
@@ -36,7 +36,7 @@
     <link href="../assets/css/themify-icons.css" rel="stylesheet">
 
 </head>
-<body ng-controller="controllerStudent">
+<body ng-controller="controllerParent">
 
 <div class="wrapper">
     <div class="sidebar" data-background-color="white" data-active-color="danger">
@@ -48,26 +48,20 @@
 
         <div class="sidebar-wrapper">
             <div class="logo">
-                <a href="/dashboardStudent" class="simple-text">
-                    Student Dashboard
+                <a href="/dashboardParent" class="simple-text">
+                    Parent Dashboard
                 </a>
             </div>
 
             <ul class="nav">
                 <li class="active">
-                    <a href="/lessonsStudent">
-                        <i class="ti-user"></i>
-                        <p>Lessons</p>
+                    <a href="/reportParent">
+                        <i class="ti-panel"></i>
+                        <p>Report</p>
                     </a>
                 </li>
                 <li>
-                    <a href="#">
-                        <i class="ti-view-list-alt"></i>
-                        <p>Assesment</p>
-                    </a>
-                </li>
-                <li>
-                    <a href="#">
+                    <a href="/recommendationParent">
                         <i class="ti-text"></i>
                         <p>Recommendation</p>
                     </a>
@@ -77,8 +71,8 @@
     </div>
 
     <div class="main-panel" ng-view autoscroll="true">
-        
-        </div>
+
+    </div>
 </body>
 
     <!--   Core JS Files   -->
