@@ -80,11 +80,6 @@ passport.use('teacherRegister',new LocalStrategy({
         passReqToCallback:true
     },
     function(req,username, password,done) {
-	console.log(req.body.qualification);
-        console.log(req.body.job_description);
-	console.log(req.body.teaching_experience);
-        console.log(req.body.grade);
-        console.log(req.body.fav_subject);
         Teacher.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
             if (user) {
@@ -97,9 +92,11 @@ passport.use('teacherRegister',new LocalStrategy({
                 newUser.password = newUser.generateHash(password);
                 newUser.qualification = req.body.qualification;
                 newUser.job_description = req.body.job_description;
-		newUser.teaching_experience = req.body.teaching_experience;
-                newUser.grade = req.body.grade;
-                newUser.fav_subject = req.body.fav_subject;
+		      newUser.teaching_experience = req.body.teaching_experience;
+                newUser.email_id = req.body.email_id;
+                newUser.contact_number = req.body.contact_number;
+                newUser.address = req.body.address;
+                newUser.aadhar_no = req.body.aadhar_no;
                 newUser.save(function(err){
                     if(err) throw err;
                     return done(null,newUser);
