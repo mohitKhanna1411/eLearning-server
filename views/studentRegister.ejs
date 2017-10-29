@@ -51,6 +51,24 @@ app.controller('stu', function($scope, $http) {
                     </div>
                           
                     </br> 
+
+
+                          <div class="row">
+
+                        <div class="form-group">
+                            <label for="email" class="col-md-4 control-label">Email</label>
+
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="email" required="" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                </br>
+
+
+
+
+    
                     <div class="row">
 
                         <div class="form-group">
@@ -66,44 +84,73 @@ app.controller('stu', function($scope, $http) {
                     </div>
                           
                     </br>
+                  
 
 
-                   
 
-
-               <div class="row">
+                      <div class="row">
 
                         <div class="form-group">
-                            <label for="qualification" class="col-md-4 control-label">Qualification</label>
+                            <label for="grade" class="col-md-4 control-label">Contact</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="qualification" required="" autofocus>
+                                <input type="text" class="form-control" name="contact" required="" autofocus>
                             </div>
                         </div>
                     </div>
                 </br>
-           
-       <div class="row">
+                          
+                       
+      <div class="row">
 
                         <div class="form-group">
-                            <label for="job_description" class="col-md-4 control-label">Job Description</label>
+                            <label for="aadhar" class="col-md-4 control-label">Aadhar</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="job_description" required="" autofocus>
+                                <input type="text" class="form-control" name="aadhar" required="" autofocus>
                             </div>
                         </div>
                     </div>
                 </br>
+                  <div class="row">
+               <div class="form-group">
+                            <label for="address" class="col-md-4 control-label">Address</label>
 
+                            <div class="col-md-6">
+                                <input type="textarea" class="form-control" name="address" required="" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                </br>
+<div class="row">
 
+                        <div class="form-group">
+                            <label for="school" class="col-md-4 control-label">School</label>
 
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="school" required="" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                </br>
     <div class="row">
 
                         <div class="form-group">
                             <label for="grade" class="col-md-4 control-label">Grade</label>
 
                             <div class="col-md-6">
-                                <input type="number" class="form-control" name="grade" required="" autofocus>
+                                <select name="grade" class="form-control" required="">
+              <option value="1">Class 1</option>
+              <option value="2">Class 2</option>
+              <option value="3">Class 3</option>
+              <option value="4">Class 4</option>
+               <option value="5">Class 5</option>
+              <option value="6">Class 6</option>
+              <option value="7">Class 7</option>
+              <option value="8">Class 8</option>
+            <option value="9">Class 9</option>
+              <option value="10">Class 10</option>
+            </select>
                             </div>
                         </div>
                     </div>
@@ -116,7 +163,10 @@ app.controller('stu', function($scope, $http) {
                             <label for="subject" class="col-md-4 control-label">Favourite Subject</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="fav_subject" required="" autofocus>
+                                <select name="fav_subject" class="form-control" required="">
+			  <option value="maths">Maths</option>
+			  <option value="science">Science</option>
+			  <option value="english">English</option></select>
                             </div>
                         </div>
                     </div>

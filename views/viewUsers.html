@@ -13,22 +13,29 @@
       <tr>
         <th>S.NO</th>
         <th>Username</th>
-        <th>Qualification</th>
-        <th>Job Description</th>
-        <th>Grade</th>
+        <th>Email ID</th>
+        <th>Address</th>
         <th>Teacher ID</th>
+        <th>School</th>
+        <th>Grade</th>
         <th>Fav Subject</th>
+        <th>Aadhar Number</th>
+        <th>Contact Number</th>
+
       </tr>
     </thead>
     <tbody  ng-repeat = "list1 in list1">
       <tr>
         <td>{{$index+1}}</td>
         <td>{{list1.username}}</td>
-        <td>{{list1.qualification}}</td>
-        <td>{{list1.job_description}}</td>
-        <td>{{list1.grade}}</td>
+        <td>{{list1.email}}</td>
+        <td>{{list1.address}}</td>
         <td>{{list1.teacher_id}}</td>
+        <td>{{list1.school}}</td>
+        <td>{{list1.grade}}</td>
         <td>{{list1.fav_subject}}</td>
+        <td>{{list1.aadhar}}</td>
+        <td>{{list1.contact}}</td>
       </tr>
     </tbody>
   </table>
@@ -43,11 +50,11 @@
         <th>Username</th>
         <th>Email ID</th>
         <th>Address</th>
-        <th>Contact</th>
-        <th>Aadhar Number</th>
         <th>Qualification</th>
         <th>Job Description</th>
         <th>Teaching Exp.</th>
+        <th>Aadhar Number</th>
+        <th>Contact Number</th>
       </tr>
     </thead>
     <tbody  ng-repeat = "list2 in list2">
@@ -56,11 +63,12 @@
         <td>{{list2.username}}</td>
         <td>{{list2.email_id}}</td>
         <td>{{list2.address}}</td>
-        <td>{{list2.contact_number}}</td>
-        <td>{{list2.aadhar_no}}</td>
         <td>{{list2.qualification}}</td>
         <td>{{list2.job_description}}</td>
         <td>{{list2.teaching_experience}}</td>
+         <td>{{list2.aadhar_no}}</td>
+        <td>{{list2.contact_number}}</td>
+       
       </tr>
     </tbody>
   </table>
@@ -73,22 +81,26 @@
       <tr>
         <th>S.NO</th>
         <th>Username</th>
-        <th>Qualification</th>
+        <th>Email ID</th>
+        <th>Address</th>
         <th>Job Description</th>
-        <th>Grade</th>
+        <th>Qualification</th>
         <th>Student ID</th>
-        <th>Fav Subject</th>
+        <th>Aadhar Number</th>
+        <th>Contact Number</th>
       </tr>
     </thead>
     <tbody  ng-repeat = "list3 in list3">
       <tr>
          <td>{{$index+1}}</td>
         <td>{{list3.username}}</td>
-        <td>{{list3.qualification}}</td>
+        <td>{{list3.email}}</td>
+        <td>{{list3.address}}</td>
         <td>{{list3.job_description}}</td>
-        <td>{{list3.grade}}</td>
+        <td>{{list3.qualification}}</td>
         <td>{{list3.student_id}}</td>
-        <td>{{list3.fav_subject}}</td>
+        <td>{{list3.aadhar}}</td>
+        <td>{{list3.contact}}</td>
       </tr>
     </tbody>
   </table>

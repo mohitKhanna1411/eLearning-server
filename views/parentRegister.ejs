@@ -53,7 +53,17 @@ app.controller('par', function($scope, $http) {
                     </br>
 
 
+                          <div class="row">
 
+                        <div class="form-group">
+                            <label for="email" class="col-md-4 control-label">Email</label>
+
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" name="email" required="" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                </br>
 
 
                <div class="row">
@@ -95,10 +105,10 @@ app.controller('par', function($scope, $http) {
     <div class="row">
 
                         <div class="form-group">
-                            <label for="grade" class="col-md-4 control-label">Grade</label>
+                            <label for="grade" class="col-md-4 control-label">Contact</label>
 
                             <div class="col-md-6">
-                                <input type="number" class="form-control" name="grade" required="" autofocus>
+                                <input type="text" class="form-control" name="contact" required="" autofocus>
                             </div>
                         </div>
                     </div>
@@ -108,20 +118,25 @@ app.controller('par', function($scope, $http) {
       <div class="row">
 
                         <div class="form-group">
-                            <label for="subject" class="col-md-4 control-label">Favourite Subject</label>
+                            <label for="aadhar" class="col-md-4 control-label">Aadhar</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="fav_subject" required="" autofocus>
+                                <input type="text" class="form-control" name="aadhar" required="" autofocus>
                             </div>
                         </div>
                     </div>
                 </br>
+                  <div class="row">
+               <div class="form-group">
+                            <label for="address" class="col-md-4 control-label">Address</label>
 
-
-
-
-						<div class="row">
-							
+                            <div class="col-md-6">
+                                <input type="textarea" class="form-control" name="address" required="" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                </br>
+						<div class="row">							
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
                                 <button type="submit" class="btn btn-success">
