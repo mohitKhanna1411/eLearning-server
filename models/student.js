@@ -8,10 +8,7 @@ var studentSchema = mongoose.Schema({
     password:{
         type: String
     },
-	qualification:{
-        type: String
-    },
-	job_description:{
+	email:{
         type: String
     },
 	grade:{
@@ -21,6 +18,18 @@ var studentSchema = mongoose.Schema({
         type : String
     },
 	fav_subject:{
+        type: String
+    },
+	aadhar:{
+        type: String
+    },
+	school:{
+        type: String
+    },
+	address:{
+        type: String
+    },
+	contact:{
         type: String
     }
   

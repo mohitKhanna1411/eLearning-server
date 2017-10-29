@@ -8,21 +8,28 @@ var parentSchema = mongoose.Schema({
     password:{
         type: String
     },
-	qualification:{
+    email:{
         type: String
-    },
+    }, 
 	job_description:{
         type: String
     },
-	grade:{
+	qualification:{
+
+        type: String
+    },
+	address:{
         type: String
     },
     student_id:{
         type : String
     },
-	fav_subject:{
+	aadhar:{
         type: String
     },
+	contact:{
+        type: String
+    }
   
 });
 

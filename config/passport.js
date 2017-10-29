@@ -112,10 +112,12 @@ passport.use('studentRegister',new LocalStrategy({
         passReqToCallback:true
     },
     function(req,username, password,done) {
-       console.log(req.body.qualification);
-        console.log(req.body.job_description);
         console.log(req.body.grade);
         console.log(req.body.fav_subject);
+	console.log(req.body.email);
+        console.log(req.body.contact);
+	console.log(req.body.school);
+	console.log(req.body.aadhar);
         console.log(req.body.teacherID.replace('string:',''));
         Student.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
@@ -125,9 +127,12 @@ passport.use('studentRegister',new LocalStrategy({
                 var newUser = new Student();
                 newUser.username = username;
                 newUser.password = newUser.generateHash(password);
-                newUser.qualification = req.body.qualification;
-                newUser.job_description = req.body.job_description;
+                newUser.email = req.body.email;
                 newUser.grade = req.body.grade;
+                newUser.contact = req.body.contact;
+                newUser.address = req.body.address;
+                newUser.aadhar = req.body.aadhar;
+                newUser.school = req.body.school;
                 newUser.fav_subject = req.body.fav_subject;
                 newUser.teacher_id = req.body.teacherID.replace('string:','');
                 newUser.save(function(err){
@@ -147,8 +152,8 @@ passport.use('studentRegister',new LocalStrategy({
     function(req,username,password,done)  {
         console.log(req.body.qualification);
         console.log(req.body.job_description);
-        console.log(req.body.grade);
-        console.log(req.body.fav_subject);
+        console.log(req.body.email);
+        console.log(req.body.aadhar);
         console.log(req.body.studentID.replace('string:',''));
         Parent.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
@@ -158,10 +163,12 @@ passport.use('studentRegister',new LocalStrategy({
                 var newUser = new Parent();
                 newUser.username = username;
                 newUser.password = newUser.generateHash(password);
+                newUser.email = req.body.email;
                 newUser.qualification = req.body.qualification;
                 newUser.job_description = req.body.job_description;
-                newUser.grade = req.body.grade;
-                newUser.fav_subject = req.body.fav_subject;
+                newUser.contact = req.body.contact;
+                newUser.aadhar = req.body.aadhar;
+                newUser.address = req.body.address;
                 newUser.student_id = req.body.studentID.replace('string:','');
                 newUser.save(function(err){
                     if(err) throw err;
