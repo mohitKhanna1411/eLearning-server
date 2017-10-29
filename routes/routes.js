@@ -80,6 +80,8 @@ app.get('/dashboardParent', function(req, res){
     res.render('dashboardParent.ejs'); 
 });
 
+
+
 app.get('/logout', function(req,res){
     req.logout();
     console.log("logout success");

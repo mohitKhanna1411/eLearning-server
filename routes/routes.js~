@@ -5,26 +5,33 @@ var path = require('path');
 module.exports = function(app,passport){
 
 
-app.get('/', function(req, res){
+app.get('/login', function(req, res){
     res.render('login.ejs',{message: req.flash('loginMessage')});
 });
 
 app.post('/login', passport.authenticate('login',{
-    successRedirect : '/profile',
+    
     failureRedirect : '/login',
     failureFlash : true
-}));
+}),(req,res)=>{
+
+        // console.log(req.body);
+    if (req.body.role=="teacher") {
+      res.redirect('/dashboardTeacher');
+    }
+    else if (req.body.role=="parent") {
+      res.redirect('/dashboardParent');
+    }
+    else if (req.body.role=="student") {
+      res.redirect('dashboardStudent');
+    }
+
+});
 
 app.get('/register', function(req, res){
     //res.json({message: req.flash('registerMessage')});
-    res.render('register.ejs',{message: req.flash('registerMessage')});    
+    res.render('register.ejs');    
 });
-
-app.post('/register', passport.authenticate('register',{
-    successRedirect : '/profile',
-    failureRedirect : '/register',
-    failureFlash : true
-}));
 
 app.get('/studentRegister', function(req, res){
     //res.json({message: req.flash('registerMessage')});
@@ -32,7 +39,7 @@ app.get('/studentRegister', function(req, res){
 });
 
 app.post('/studentRegister', passport.authenticate('studentRegister',{
-    successRedirect : '/profile',
+    successRedirect : '/dashboardStudent',
     failureRedirect : '/register',
     failureFlash : true
 }));
@@ -42,7 +49,7 @@ app.get('/teacherRegister', function(req, res){
 });
 
 app.post('/teacherRegister', passport.authenticate('teacherRegister',{
-    successRedirect : '/profile',
+    successRedirect : '/dashboardTeacher',
     failureRedirect : '/register',
     failureFlash : true
 }));
@@ -54,12 +61,24 @@ app.get('/parentRegister', function(req, res){
 });
 
 app.post('/parentRegister', passport.authenticate('parentRegister',{
-    successRedirect : '/profile',
+    successRedirect : '/dashboardParent',
     failureRedirect : '/register',
     failureFlash : true
 }));
 
 
+
+app.get('/dashboardTeacher', function(req, res){
+    res.render('dashboardTeacher.ejs'); 
+});
+
+app.get('/dashboardStudent', function(req, res){
+    res.render('dashboardStudent.ejs'); 
+});
+
+app.get('/dashboardParent', function(req, res){
+    res.render('dashboardParent.ejs'); 
+});
 
 
 
