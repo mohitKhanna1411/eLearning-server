@@ -41,20 +41,26 @@
       <tr>
         <th>S.NO</th>
         <th>Username</th>
+        <th>Email ID</th>
+        <th>Address</th>
+        <th>Contact</th>
+        <th>Aadhar Number</th>
         <th>Qualification</th>
         <th>Job Description</th>
-        <th>Grade</th>
-        <th>Fav Subject</th>
+        <th>Teaching Exp.</th>
       </tr>
     </thead>
     <tbody  ng-repeat = "list2 in list2">
       <tr>
         <td>{{$index+1}}</td>
         <td>{{list2.username}}</td>
+        <td>{{list2.email_id}}</td>
+        <td>{{list2.address}}</td>
+        <td>{{list2.contact_number}}</td>
+        <td>{{list2.aadhar_no}}</td>
         <td>{{list2.qualification}}</td>
         <td>{{list2.job_description}}</td>
-        <td>{{list2.grade}}</td>
-        <td>{{list2.fav_subject}}</td>
+        <td>{{list2.teaching_experience}}</td>
       </tr>
     </tbody>
   </table>
