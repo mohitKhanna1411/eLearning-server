@@ -20,7 +20,7 @@
 
                         <div class="form-group">
 				<label for="role" class="col-md-4 control-label">Standard </label>
-			 <select name="standard">
+			 <select name="standard" ng-model="standard">
 			  <option value="1">Class 1</option>
 			  <option value="2">Class 2</option>
 			  <option value="3">Class 3</option>
@@ -49,7 +49,7 @@
                             <label for="Section" class="col-md-4 control-label">Section</label>
 
                             <div class="col-md-6">
-                                <select name="section">
+                                <select name="section" ng-model="section">
 			  <option value="A">Sec A</option>
 			  <option value="B">Sec B</option>
 			  <option value="C">Sec C</option></select>
@@ -63,7 +63,7 @@
                             <label for="subject" class="col-md-4 control-label">Subject</label>
 
                             <div class="col-md-6">
-                                <select name="subject">
+                                <select name="subject" ng-model="subject">
 			  <option value="maths">Maths</option>
 			  <option value="science">Science</option>
 			  <option value="english">English</option></select>
@@ -110,7 +110,7 @@
 
                         <div class="form-group">
 				<label for="role" class="col-md-4 control-label">Standard </label>
-			 <select name="standard">
+			 <select name="standard" ng-model="standard">
 			  <option value="1">Class 1</option>
 			  <option value="2">Class 2</option>
 			  <option value="3">Class 3</option>
@@ -139,7 +139,7 @@
                             <label for="Section" class="col-md-4 control-label">Section</label>
 
                             <div class="col-md-6">
-                                <select name="section">
+                                <select name="section" ng-model="section">
 			  <option value="A">Sec A</option>
 			  <option value="B">Sec B</option>
 			  <option value="C">Sec C</option></select>
@@ -157,7 +157,7 @@
                             <label for="Student" class="col-md-4 control-label">Student</label>
 
                             <div class="col-md-6">
-                                <select name="student">
+                                <select name="student" ng-model="student">
 			  <option value="A">Student1</option>
 			  <option value="B">student 2</option>
 			  <option value="C">student 3</option></select>
