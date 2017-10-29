@@ -158,71 +158,6 @@ Class.update( { $and: [
 
 
 
- app.post('/api/admin/addlessons', function(req,res,next){
-	console.log(req.body);
-	var data = { Content: req.body.content,Ref_Link: req.body.ref_link };
-	console.log(data);
-	// console.log(Class);
-// Class.update(
-//     { _id: person._id }, 
-//     { $push: { friends: friend } },
-//     done
-// );
-
-Class.update( { $and: [
-    { standard : req.body.class }, 
-    { section: req.body.section },
-    { subject: req.body.subject }
-  ]},{$addToSet : { lessons : data } },function(request,docs){
-		console.log(docs);
-		if(docs.n == 0 && docs.nModified == 0){
-			res.end("Class combination does not exist! Please add lesson into a valid class");
-		}
-		else if(docs.n == 1 && docs.nModified == 0){
-			res.end("Lesson Already added in this class.");
-		}
-		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-			res.end("Lesson successfully added.");
-		}
-	});
- 
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.post('/api/teacher/deleteStudent', function(req,res,next){
 	console.log(req.body);
 	var stu_id = req.body.student ;
@@ -266,6 +201,28 @@ app.get('/api/getTeachers', function(req,res,next){
 	Teacher.find( {},function(request,docs){
 		res.send(JSON.stringify(docs));
 	});
+});
+
+app.get('/api/getlessons', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	
+Class.find( { $and: [
+    { standard : req.query.class }, 
+    { section: req.query.section },
+    { subject: req.query.subject }
+  ]},{ lessons : 1, _id: 0 },function(request,docs){
+		console.log(docs.length);
+		if(docs.length == 0){
+			res.end(JSON.stringify(docs.length));
+		}
+		else{
+			res.end(JSON.stringify(docs[0].lessons));
+		} 
+		
+	});
+ 
 });
 
 app.listen(port,function()
