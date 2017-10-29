@@ -8,7 +8,20 @@ var teacherSchema = mongoose.Schema({
     password:{
         type: String
     },
-	qualification:{
+    email_id:{
+        type: String,
+        unique:true
+    },
+	address:{
+        type: String
+    },
+    contact_number:{
+        type: String
+    },
+    aadhar_no:{
+        type: String
+    },
+    qualification:{
         type: String
     },
 	job_description:{
@@ -17,13 +30,6 @@ var teacherSchema = mongoose.Schema({
     teaching_experience:{
         type: Number
     },
-	grade:{
-        type: String
-    },
-	fav_subject:{
-        type: String
-    }
-  
 });
 
 teacherSchema.methods.generateHash = function(password){

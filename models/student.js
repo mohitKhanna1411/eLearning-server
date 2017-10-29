@@ -20,9 +20,6 @@ var studentSchema = mongoose.Schema({
 	fav_subject:{
         type: String
     },
-	parent:{
-        type: String
-    },
 	aadhar:{
         type: String
     },

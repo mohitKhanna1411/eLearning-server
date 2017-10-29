@@ -199,12 +199,6 @@ app.post('/api/teacher/deleteStudent', function(req,res,next){
 	console.log(req.body);
 	var stu_id = req.body.student ;
 	console.log(stu_id);
-	// console.log(Class);
-// Class.update(
-//     { _id: person._id }, 
-//     { $push: { friends: friend } },
-//     done
-// );
 
 Class.update( { $and: [
     { standard : req.body.class }, 
@@ -225,11 +219,26 @@ Class.update( { $and: [
  
 });
 
-// Dive.update({ _id: diveId }, { "$pull": { "divers": { "user": userIdToRemove } }}, { safe: true, multi:true }, function(err, obj) {
-//     //do something smart
-// });
+app.get('/api/getStudents', function(req,res,next){
+	console.log("inside get");
+	Student.find( {},function(request,docs){
+		res.send(JSON.stringify(docs));
+	});
+});
 
+app.get('/api/getParents', function(req,res,next){
+	console.log("inside get");
+	Parent.find( {},function(request,docs){
+		res.send(JSON.stringify(docs));
+	});
+});
 
+app.get('/api/getTeachers', function(req,res,next){
+	console.log("inside get");
+	Teacher.find( {},function(request,docs){
+		res.send(JSON.stringify(docs));
+	});
+});
 
 app.listen(port,function()
 {
