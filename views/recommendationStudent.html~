@@ -8,29 +8,24 @@
 <div class="container" style ="margin-top: 3cm;">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading"><h3>Lessons</h3></div>
+                <div class="panel-heading"><h3>Recommendation</h3></div>
 
                 <div class="panel-body">
                 	
-                    <form>
+                    <form action="" method="Post" ng-submit="recommend()" >
 
 
 
 			<div class="row">
 
                         <div class="form-group">
-				<label for="role" class="col-md-4 control-label">Standard </label>
-			 <select name="standard" ng-model="standard" class="form-control" required="">
-			  <option value="1">Class 1</option>
-			  <option value="2">Class 2</option>
-			  <option value="3">Class 3</option>
-			  <option value="4">Class 4</option>
-	                  <option value="5">Class 5</option>
-			  <option value="6">Class 6</option>
-			  <option value="7">Class 7</option>
-			  <option value="8">Class 8</option>
-			<option value="9">Class 9</option>
-			  <option value="10">Class 10</option>
+				<label for="role" class="col-md-4 control-label">Student </label>
+			 <select name="student" ng-model="student">
+			  <option value="1">Student 1</option>
+			  <option value="2">Student 2</option>
+			  <option value="3">Student 3</option>
+			  <option value="4">Student 4</option>
+	      
 			</select>
                         </div>
                     </div>
@@ -43,27 +38,14 @@
 
 
 
-                    	    <div class="row">
-
-                        <div class="form-group">
-                            <label for="Section" class="col-md-4 control-label">Section</label>
-
-                            <div class="col-md-6">
-                                <select name="section" ng-model="section" class="form-control" required="">
-			  <option value="A">Sec A</option>
-			  <option value="B">Sec B</option>
-			  <option value="C">Sec C</option></select>
-                            </div>
-                        </div>
-                    </div>
-                </br>
+                    	
                         <div class="row">
 
                         <div class="form-group">
                             <label for="subject" class="col-md-4 control-label">Subject</label>
 
                             <div class="col-md-6">
-                                <select name="subject" ng-model="subject" class="form-control" required="">
+                                <select name="subject" ng-model="subject">
 			  <option value="maths">Maths</option>
 			  <option value="science">Science</option>
 			  <option value="english">English</option></select>
@@ -80,20 +62,29 @@
                             </div>
                         </div> -->
                     </br>
+              
+
+			 <div class="row">
+
+                        <div class="form-group">
+                            <label for="Topic" class="col-md-4 control-label">Topics</label>
+
+                            <div class="col-md-6">
+                                <select name="topic" ng-model="topic">
+			  <option value="A">Topic 1</option>
+			  <option value="B">Topic 2</option>
+			  <option value="C">Topic 3</option></select>
+                            </div>
+                        </div>
+                    </div>
+                </br>
 						<div class="row">
 							
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-success" ng-click="lessons()">
-                                    Go
-                                </button>
-                            <a href="#">Resume Last Lesson</a>
-	                      <a href="#">Skip Topic</a>
-                                     <div class="row">
-            <div ng-if="msg1.length > 0" class="alert alert-info">
-                <strong><center>{{msg1}}</center></strong>
-            </div>
-        </div>
+                                <a href="#">
+                                   Recommend
+                                </a>
 
                      
 
@@ -108,7 +99,7 @@
         </div>
     </div>
 </div>
-
+ 
 
 
 

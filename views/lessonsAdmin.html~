@@ -8,29 +8,26 @@
 <div class="container" style ="margin-top: 0.5cm;">
         <div class="col-md-8">
             <div class="panel panel-default">
-                <div class="panel-heading"><h3>Create Lessons</h3></div>
+                <div class="panel-heading"><h3>Find Lessons</h3></div>
 
                 <div class="panel-body">
                 	
-                    <form ng-submit="addinglessons()">
-
-
-
+                    <form>
 			<div class="row">
 
                         <div class="form-group">
 				<label for="role" class="col-md-4 control-label">Standard </label>
-			 <div class="col-md-6">
-             <select name="standard" ng-model="standard" class="form-control" required="">
+                <div class="col-md-6">
+			 <select name="standard" ng-model="standard" class="form-control" required="">
 			  <option value="1">Class 1</option>
 			  <option value="2">Class 2</option>
 			  <option value="3">Class 3</option>
 			  <option value="4">Class 4</option>
-	                  <option value="5">Class 5</option>
+	          <option value="5">Class 5</option>
 			  <option value="6">Class 6</option>
 			  <option value="7">Class 7</option>
 			  <option value="8">Class 8</option>
-			<option value="9">Class 9</option>
+			  <option value="9">Class 9</option>
 			  <option value="10">Class 10</option>
 			</select>
         </div>
@@ -65,57 +62,58 @@
                             </div>
                         </div>
                     </div>
-	                        
+	                   
                     </br>
-
-
-
-
-				    <div class="row">
-
-                        <div class="form-group">
-                            <label for="Content" class="col-md-4 control-label">Content</label>
-
-                            <div class="col-md-6">
-                                <input type="textarea" name="content" ng-model="content" class="form-control" required="">
-			 
-                            </div>
-                        </div>
-                    </div>
-                </br>
-
-                 <div class="row">
-
-                        <div class="form-group">
-                            <label for="Ref" class="col-md-4 control-label">Reference Link</label>
-
-                            <div class="col-md-6">
-                                <input type="text" name="ref_link" ng-model="ref_link" class="form-control" required="">
-			 
-                            </div>
-                        </div>
-                    </div>
-                </br>
-
 						<div class="row">
 							
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-success" >
-                                    Add New Lesson
+                                <button type="submit" class="btn btn-success" ng-click="lessons()">
+                                    Go
                                 </button>
+                                     <div class="row">
+            <div ng-if="msg1.length > 0" class="alert alert-info">
+                <strong><center>{{msg1}}</center></strong>
+            </div>
+        </div>
+
+                     
+
+
+
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-            <div ng-if="msg1.length > 0" class="alert alert-info">
-                <strong><center>{{msg1}}</center></strong>
+                </br>
+<div class="row">
+            <div ng-if="list == 0" class="alert alert-info">
+                <strong><center>No lessons found. Please try with different class combination</center></strong>
             </div>
         </div>
                     </form>
                 </div>
         </div>
     </div>
+</div>
+
+<div class="container" ng-if="list.length > 0">
+  <h2>Lessons Information</h2>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>S.NO</th>
+        <th>Content</th>
+        <th>Reference Link</th>
+      </tr>
+    </thead>
+    <tbody  ng-repeat = "list in list">
+      <tr>
+        <td>{{$index+1}}</td>
+        <td>{{list.Content}}</td>
+        <td>{{list.Ref_Link}}</td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 
