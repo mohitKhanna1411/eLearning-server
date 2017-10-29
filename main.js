@@ -157,44 +157,6 @@ Class.update( { $and: [
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.post('/api/teacher/deleteStudent', function(req,res,next){
 	console.log(req.body);
 	var stu_id = req.body.student ;
@@ -238,6 +200,29 @@ app.get('/api/getTeachers', function(req,res,next){
 	Teacher.find( {},function(request,docs){
 		res.send(JSON.stringify(docs));
 	});
+});
+
+app.get('/api/getlessons', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	// var data = { Content: req.body.content,Ref_Link: req.body.ref_link };
+	// console.log(data);
+Class.find( { $and: [
+    { standard : req.query.class }, 
+    { section: req.query.section },
+    { subject: req.query.subject }
+  ]},{ lessons : 1, _id: 0 },function(request,docs){
+		console.log(docs.length);
+		if(docs.length == 0){
+			res.end(JSON.stringify(docs.length));
+		}
+		else{
+			res.end(JSON.stringify(docs[0].lessons));
+		} 
+		
+	});
+ 
 });
 
 app.listen(port,function()
