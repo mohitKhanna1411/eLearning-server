@@ -8,6 +8,9 @@ var parentSchema = mongoose.Schema({
     password:{
         type: String
     },
+    role:{
+        type: String
+    },
     email:{
         type: String
     }, 
@@ -30,7 +33,6 @@ var parentSchema = mongoose.Schema({
 	contact:{
         type: String
     }
-  
 });
 
 parentSchema.methods.generateHash = function(password){
