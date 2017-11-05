@@ -8,6 +8,9 @@ var studentSchema = mongoose.Schema({
     password:{
         type: String
     },
+    role:{
+        type: String
+    },
 	email:{
         type: String
     },

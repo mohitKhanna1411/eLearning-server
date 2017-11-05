@@ -66,15 +66,15 @@ app.post('/parentRegister', passport.authenticate('parentRegister',{
     failureFlash : true
 }));
 
-app.get('/dashboardTeacher', function(req, res){
+app.get('/dashboardTeacher',isLoggedIn, function(req, res){
     res.render('dashboardTeacher.ejs'); 
 });
 
-app.get('/dashboardStudent', function(req, res){
+app.get('/dashboardStudent',isLoggedIn, function(req, res){
     res.render('dashboardStudent.ejs'); 
 });
 
-app.get('/dashboardParent', function(req, res){
+app.get('/dashboardParent',isLoggedIn, function(req, res){
     res.render('dashboardParent.ejs'); 
 });
 
