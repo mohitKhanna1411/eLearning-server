@@ -19,7 +19,6 @@ mongoose.connect(config.db,{
 
 require('./config/passport')(passport);
 // var User = require('./config/db');
-var Auth = require('./models/user');
 var Teacher= require('./models/teacher');
 var Student= require('./models/student');
 var Parent= require('./models/parent');
