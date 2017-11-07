@@ -21,8 +21,20 @@ var classSchema = mongoose.Schema({
             lessons : [
                   {
                         Content : {type : String},
-                        Ref_Link : {type : String},
-                        _id : false
+                        Ref_Link : {type : String}
+                  }
+            ] ,
+            assesment : [
+                  {
+                        _id : false,
+                        lesson_id: {type : String},
+                        question : {type : String},
+                        options : [{
+                              answerText : {type : String},
+                              correct : {type : Boolean},
+                              _id : false
+                        }]
+
                   }
             ] 
 });
