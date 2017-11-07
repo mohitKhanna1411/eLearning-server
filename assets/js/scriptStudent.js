@@ -104,6 +104,7 @@ $scope.getAssignment= function()
  $scope.answers ={};
   $scope.correctCount = 0;
   $scope.showResult = function(){
+    var errors=[];
     $scope.correctCount = 0;
     var qLength = $scope.questions.length;
     for(var i=0;i<qLength;i++){
@@ -119,6 +120,12 @@ $scope.getAssignment= function()
           $scope.correctCount++;
         }else if($scope.questions[i].userAnswer === answers[j].answerText && answers[j].correct===false){
           answers[j].selected = "false";
+          if (errors.indexOf($scope.questions[i].lesson_id) == -1) {
+              errors.push($scope.questions[i].lesson_id);
+          }
+          
+          console.log(errors);
+          console.log(errors.length);
         }
       }
     }
