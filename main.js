@@ -124,6 +124,41 @@ Class.update( { $and: [
 
 
 
+app.post('/api/teacher/addAssesment', function(req,res,next){
+	console.log(req.body);
+	var assess= {question:req.body.question, option1:req.body.option1,option2:req.body.option2,option3:req.body.option3,option4:req.body.option4,right_answer:req.body.right_answer,lesson_id:req.body.lesson_id};
+	console.log(assesment);
+	// console.log(Class);
+// Class.update(
+//     { _id: person._id }, 
+//     { $push: { friends: friend } },
+//     done
+// );
+
+Class.update( { $and: [
+    { standard : req.body.class }, 
+    { section: req.body.section },
+    { subject: req.body.subject }
+  ]},{$addToSet : { assesment: assess } },function(request,docs){
+		console.log(docs);
+		if(docs.n == 0 && docs.nModified == 0){
+			res.end("Class combination does not exist! Please add Student into a valid class");
+		}
+		else if(docs.n == 1 && docs.nModified == 0){
+			res.end("Student Already added in this class.");
+		}
+		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+			res.end("Student successfully added.");
+		}
+	});
+ 
+});
+
+
+
+
+
+
 
 app.post('/api/teacher/addlessons', function(req,res,next){
 	console.log(req.body);
