@@ -23,6 +23,7 @@ var Teacher= require('./models/teacher');
 var Student= require('./models/student');
 var Parent= require('./models/parent');
 var Class = require('./models/class');
+var Result = require('./models/result');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -144,9 +145,33 @@ Class.update( { $and: [
 });
 
 
+app.post('/api/addResults', function(req,res,next){
 
+	console.log(req.body.recommendations);
 
+			var newRes = new Result();
+                newRes.standard = req.body.class;
+                newRes.section = req.body.section;
+                newRes.subject = req.body.subject;
+                newRes.student_id = req.user._id;
+		        newRes.marks = req.body.count;
+                newRes.recommendations = req.body.recommendations;
+                newRes.save(function(err,savedObject){
+       if(err){
+             console.log(err);
+             if(err.code == 11000){
+             	res.end("You have already taken this test. Please attempt a new one!")
+             }
+             res.end("Error : " + err.code);
+       }
+       else{
+             console.log(savedObject);
+             res.end("Test Results Saved successfully!");
+      }
+});
 
+ 
+});
 
 
 app.post('/api/teacher/addlessons', function(req,res,next){
@@ -269,6 +294,30 @@ Class.find( { $and: [
 	});
  
 });
+
+app.get('/api/getRes', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	
+Result.find( { $and: [
+    { standard : req.query.class }, 
+    { section: req.query.section },
+    { subject: req.query.subject }
+    ,{ student_id: req.user._id }
+  ]},{ recommendations : 1, _id: 0 },function(request,docs){
+		console.log(docs);
+		if(docs.length == 0){
+			res.end(JSON.stringify(docs.length));
+		}
+		else{
+			res.end(JSON.stringify(docs[0].recommendations));
+		} 
+		
+	});
+ 
+});
+
 
 app.listen(port,function()
 {
