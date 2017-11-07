@@ -15,6 +15,10 @@
       templateUrl : '/views/assesmentTeacher.html',
       controller  : 'controllerTeacher'
     })
+    .when('/createAssesment', {
+      templateUrl : '/views/createAssesment.html',
+      controller  : 'controllerTeacher'
+    })
     .when('/recommendationTeacher', {
       templateUrl : '/views/recommendationTeacher.html',
       controller  : 'controllerTeacher'
@@ -23,7 +27,7 @@
   });
 
 // creating mainController
-  myApp.controller('controllerTeacher', function($scope, $http) {
+  myApp.controller('controllerTeacher', function($scope, $http,$window) {
 
      $http.get('/api/listStudentIDs').success(function(res){
       $scope.options = res;
@@ -53,8 +57,56 @@
 		
 	}
 
+   
+
+$scope.lessons= function()
+  {
+        $scope.msg = "";
+        $scope.msg1 = "";
+    var standard=$scope.standard;
+    var section=$scope.section;
+    var subject=$scope.subject;
+    
+    var data={"class":standard, "subject":subject, "section":section};
+                console.log(data);
+     $http.get('/api/getlessons', { params: data }).success(function(res){
+        $scope.list1 = res;
+         console.log($scope.list1);
+         $window.location.href = '/createAssesment';
+    })
+    
+  }
 
 
+
+  $scope.addAssesment= function()
+  {
+        $scope.msg = "";
+        $scope.msg1 = "";
+    var question=$scope.question;
+    var option1=$scope.option1;
+     var option2=$scope.option2;
+      var option3=$scope.option3;
+       var option4=$scope.option4;
+        var right_answer=$scope.right_answer;
+        var lesson_id=$scope.lesson_id;
+        
+    var assesment={"question":question, "option1":option1, "option2":option2, "option3":option3,"option4":option4,"right_answer":right_answer,"lesson_id":lesson_id};
+                console.log(assesment);
+    $http.post('/api/teacher/addAssesment', assesment).success(function(res){
+      $scope.msg1 = res;
+      $scope.question = "";
+      $scope.option1="";
+      $scope.option2= "";
+      $scope.option3= "";
+      $scope.option4= "";
+      $scope.right_answer= "";
+      $scope.lesson_id= "";
+      
+    })
+
+    
+  }
 
 
       $scope.addingStudent= function()
