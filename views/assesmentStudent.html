@@ -2,8 +2,18 @@
 <html>
 <head>
 <script src = "/assets/js/scriptStudent.js"></script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</link>
 </head>
+<style type="text/css">
+  .isCorrect_true{
+  background-color: green;
+}
+
+.isCorrect_false{
+  background-color: red;
+}
+</style>
 <body style="background:#eef1f6;" ng-app="myApp" ng-controller ="controllerStudent">
   <div class="container" style ="margin-top: 0.5cm;">
     <div class="col-md-8">
@@ -90,9 +100,28 @@
 </div>
 </div>
 
+<div class="container" style ="margin-top: 0.5cm;" ng-if = "ok == 'ok'">
+    <ul class="unstyled">
+      <li ng-repeat="question in questions">
+       <strong>{{ question.question }}</strong>
+       <ul class="unstyled" id="quest_{{$parent.$index}}"">
+        <li ng-repeat="answer in question.options">
+          <label class="isCorrect_{{answer.selected}}" for="quest_{{$parent.$index}}_answer_{{$index}}">
+            <input type="radio" id="quest_{{$parent.$index}}_answer_{{$index}}" 
+            ng-model="options[$parent.$index]" value="{{ answer.answerText }}"  name="quest_{{$parent.$index}}_answers" />{{ answer.answerText }}</label>
+        </li>
+       </ul>
+      </li>
+    </ul>
+    <button class="btn" type="submit" ng:click="showResult()">Submit</button>
+  <div class="well">
+    <p>you got {{ correctCount }} out of {{questions.length}} right</p>
+    
+  </div>
+    
+  </div>
 
-
-
+<!-- 
 <div class="container" style ="margin-top: 0.5cm;" ng-if = "ok == 'ok'">
   <div class="col-md-8">
     <div class="panel panel-default">
@@ -100,7 +129,7 @@
 
       <div class="panel-body">
 
-        <form>
+       
         <ul class="form-control">
       <li ng-repeat="question in questions">
        <strong class="question">{{question.question}}</strong>
@@ -130,6 +159,6 @@
 </div>
 </div>
 </div>
-
+ -->
 </body>
 </html>

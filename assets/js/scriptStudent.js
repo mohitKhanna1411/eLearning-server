@@ -55,7 +55,7 @@ $scope.getAssignment= function()
                 console.log(data);
      $http.get('/api/getAssign', { params: data }).success(function(res){
         $scope.questions = res;
-         console.log($scope.res);
+        console.log(res);
          $scope.ok="ok";
     })
 
