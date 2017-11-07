@@ -105,11 +105,11 @@ passport.use('teacherRegister',new LocalStrategy({
 
                     
                 var newUser = new Teacher();
-               newUser.username = username;
+                newUser.username = username;
                 newUser.password = newUser.generateHash(password);
                 newUser.qualification = req.body.qualification;
                 newUser.job_description = req.body.job_description;
-		      newUser.teaching_experience = req.body.teaching_experience;
+		        newUser.teaching_experience = req.body.teaching_experience;
                 newUser.email_id = req.body.email_id;
                 newUser.contact_number = req.body.contact_number;
                 newUser.address = req.body.address;

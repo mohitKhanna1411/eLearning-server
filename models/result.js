@@ -11,16 +11,15 @@ var resultSchema = mongoose.Schema({
             subject:{ 
                   type: String
             },
-            
             student_id:{
                   type : String
-            }
+            },
             marks : {
                   type : String
-            }
-            recommendation : [
+            },
+            recommendations : [
                   {
-                        lesson_id : {type : String}
+                        type : String
                   }
             ] 
 });

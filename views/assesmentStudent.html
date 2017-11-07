@@ -113,7 +113,7 @@
         <li ng-repeat="answer in question.options">
           <label class="isCorrect_{{answer.selected}}" for="quest_{{$parent.$index}}_answer_{{$index}}">
             <input type="radio" id="quest_{{$parent.$index}}_answer_{{$index}}" 
-            ng-model="answers[$parent.$index]" value="{{ answer.answerText }}"  name="quest_{{$parent.$index}}_answers" />{{ answer.answerText }}</label>
+            ng-model="answers[$parent.$index]" value="{{ answer.answerText }}"  name="quest_{{$parent.$index}}_answers" required="">{{ answer.answerText }}</label>
         </li>
        </ul>
       </li>
@@ -123,10 +123,16 @@
     <p>you got {{ correctCount }} out of {{questions.length}} right</p>
     
   </div>
-    
+  <div class="well" ng-if="msg.length > 0" class="alert alert-info">
+    <strong><center>{{msg}}</center></strong>
   </div>
   </div>
   </div>
+  </div>
+
+
+
+
   </div>
 
 </body>
