@@ -86,16 +86,18 @@ $scope.lessons= function()
 
  $scope.optionsArr = [];
  $scope.contents = [];
-  $scope.addAssesment= function()
+ var data ={};
+  $scope.addAssesment= function(data)
   {
         $scope.msg = "";
-        console.log($scope.right_answer);
+        console.log(data.right_answer);
         console.log($scope.optionsArr);
-        console.log($scope.standard);
-        console.log($scope.section);
-        console.log($scope.subject);
+        console.log(data.question);
+        // console.log($scope.standard);
+        // console.log($scope.section);
+        // console.log($scope.subject);
         for(var i=0 ; i< 4 ; i++){
-          if($scope.optionsArr[i] == $scope.right_answer){
+          if($scope.optionsArr[i] == data.right_answer){
             $scope.contents.push({
                 answerText: $scope.optionsArr[i],
                 correct: true
@@ -110,14 +112,13 @@ $scope.lessons= function()
         }
         console.log($scope.contents)
 
-    var data={"question":$scope.question, "class":$scope.standard, "subject":$scope.subject, "section":$scope.section , "options":$scope.contents , "lesson_id":$scope.lesson_id};
-                console.log(data);
-     $http.post('/api/teacher/addQues', data).success(function(res){
+    var sendData={"question": data.question, "class": $scope.standard, "subject": $scope.subject, "section": $scope.section , "options": $scope.contents , "lesson_id": data.lesson_id};
+                console.log(sendData);
+     $http.post('/api/teacher/addQues', sendData).success(function(res){
       $scope.msg = res;
        $scope.optionsArr = [];
       $scope.contents = [];
-      $scope.question = "";
-      $scope.lesson_id = "";
+      data = "";
     })
 
     
