@@ -21,7 +21,7 @@
 // creating mainController
   myApp.controller('controllerStudent', function($scope, $http) {
 
-
+     
       $scope.lessons= function()
 	{
         $scope.msg = "";
@@ -42,7 +42,7 @@
 		
 	
 
-
+$scope.ok = "not";
 $scope.getAssignment= function()
   {
         $scope.msg = "";
@@ -54,8 +54,9 @@ $scope.getAssignment= function()
     var data={"class":standard, "subject":subject, "section":section};
                 console.log(data);
      $http.get('/api/getAssign', { params: data }).success(function(res){
-        $scope.res = res;
+        $scope.questions = res;
          console.log($scope.res);
+         $scope.ok="ok";
     })
 
     
@@ -98,4 +99,30 @@ $scope.getAssignment= function()
 	}
     
     
+
+
+ $scope.answers ={};
+  $scope.correctCount = 0;
+  $scope.showResult = function(){
+    $scope.correctCount = 0;
+    var qLength = $scope.questions.length;
+    for(var i=0;i<qLength;i++){
+      var answers = $scope.questions[i].answers;
+      $scope.questions[i].userAnswerCorrect = false;
+      $scope.questions[i].userAnswer = $scope.answers[i];
+      for(var j=0;j<answers.length;j++){
+        answers[j].selected = "donno";
+        if ($scope.questions[i].userAnswer === answers[j].answerText && answers[j].correct===true){
+          $scope.questions[i].userAnswerCorrect = true;
+          answers[j].selected = "true";
+          $scope.correctCount++;
+        }else if($scope.questions[i].userAnswer === answers[j].answerText && answers[j].correct===false){
+          answers[j].selected = "false";
+        }
+      }
+    }
+  }
+
+
+
   });
