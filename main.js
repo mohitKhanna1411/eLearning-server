@@ -120,10 +120,9 @@ Class.update( { $and: [
 
 
 app.post('/api/teacher/addQues', function(req,res,next){
-	// console.log(req.body);
+	 // console.log(req.body);
 	 var assArr= {question:req.body.question, options:req.body.options,lesson_id:req.body.lesson_id};
-	 console.log(assArr);
-	// console.log(Class);
+	 console.log("assArr" + assArr);
 
 Class.update( { $and: [
     { standard : req.body.class }, 
