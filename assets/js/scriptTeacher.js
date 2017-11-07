@@ -15,6 +15,10 @@
       templateUrl : '/views/assesmentTeacher.html',
       controller  : 'controllerTeacher'
     })
+    .when('/createAssesment', {
+      templateUrl : '/views/createAssesment.html',
+      controller  : 'controllerTeacher'
+    })
     .when('/recommendationTeacher', {
       templateUrl : '/views/recommendationTeacher.html',
       controller  : 'controllerTeacher'
@@ -23,7 +27,7 @@
   });
 
 // creating mainController
-  myApp.controller('controllerTeacher', function($scope, $http) {
+  myApp.controller('controllerTeacher', function($scope, $http,$window) {
 
      $http.get('/api/listStudentIDs').success(function(res){
       $scope.options = res;
@@ -53,8 +57,71 @@
 		
 	}
 
+   
+$scope.ok = "not";
+$scope.lessons= function()
+  {
+    $scope.ok = "not";
+        $scope.msg = "";
+        $scope.msg1 = "";
+    var standard=$scope.standard;
+    var section=$scope.section;
+    var subject=$scope.subject;
+    
+    var data={"class":standard, "subject":subject, "section":section};
+                console.log(data);
+     $http.get('/api/getlessons', { params: data }).success(function(res){
+        $scope.list1 = res;
+        if(res == "0"){
+            $scope.msg1 = "No lessons found in this class. Please Add one first!";
+            $scope.ok = "not";
+        }else{
+            $scope.msg1 = res.length + " Number of lessons found. Please Add Questions in Assignment for this class";
+            $scope.ok = "ok";
+          }
+    })
+    
+  }
 
 
+ $scope.optionsArr = [];
+ $scope.contents = [];
+  $scope.addAssesment= function()
+  {
+        $scope.msg = "";
+        console.log($scope.right_answer);
+        console.log($scope.optionsArr);
+        console.log($scope.standard);
+        console.log($scope.section);
+        console.log($scope.subject);
+        for(var i=0 ; i< 4 ; i++){
+          if($scope.optionsArr[i] == $scope.right_answer){
+            $scope.contents.push({
+                answerText: $scope.optionsArr[i],
+                correct: true
+            });
+          }else{
+            $scope.contents.push({
+                answerText: $scope.optionsArr[i],
+                correct: false
+            });
+          }
+
+        }
+        console.log($scope.contents)
+
+    var data={"question":$scope.question, "class":$scope.standard, "subject":$scope.subject, "section":$scope.section , "options":$scope.contents , "lesson_id":$scope.lesson_id};
+                console.log(data);
+     $http.post('/api/teacher/addQues', data).success(function(res){
+      $scope.msg = res;
+       $scope.optionsArr = [];
+      $scope.contents = [];
+      $scope.question = "";
+      $scope.lesson_id = "";
+    })
+
+    
+  }
 
 
       $scope.addingStudent= function()
