@@ -11,9 +11,9 @@
       templateUrl : '/views/lessonsAdmin.html',
       controller  : 'controllerAdmin'
     })
-    .when('/assesmentTeacher', {
-      templateUrl : '/views/assesmentTeacher.html',
-      controller  : 'controllerTeacher'
+    .when('/viewClasses', {
+      templateUrl : '/views/viewClasses.html',
+      controller  : 'controllerAdmin'
     })
     .when('/recommendationTeacher', {
       templateUrl : '/views/recommendationTeacher.html',
@@ -36,6 +36,10 @@
     $http.get('/api/getParents').success(function(res){
       $scope.list3 = res;
       console.log(res);
+    })
+    $http.get('/api/getClasses').success(function(res){
+      $scope.list4 = res;
+      console.log(res.students[0]);
     })
 
      $scope.lessons= function()

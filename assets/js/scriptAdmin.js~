@@ -11,9 +11,9 @@
       templateUrl : '/views/lessonsAdmin.html',
       controller  : 'controllerAdmin'
     })
-    .when('/assesmentTeacher', {
-      templateUrl : '/views/assesmentTeacher.html',
-      controller  : 'controllerTeacher'
+    .when('/viewClasses', {
+      templateUrl : '/views/viewClasses.html',
+      controller  : 'controllerAdmin'
     })
     .when('/recommendationTeacher', {
       templateUrl : '/views/recommendationTeacher.html',

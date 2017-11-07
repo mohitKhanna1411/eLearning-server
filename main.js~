@@ -182,6 +182,14 @@ Class.update( { $and: [
  
 });
 
+
+ app.get('/api/getClasses', function(req,res,next){
+	console.log("inside get");
+	Class.find( {},function(request,docs){
+		res.send(JSON.stringify(docs));
+	});
+});
+
 app.get('/api/getStudents', function(req,res,next){
 	console.log("inside get");
 	Student.find( {},function(request,docs){
@@ -229,3 +237,4 @@ app.listen(port,function()
 {
 	console.log('Server started on port '+port+' !');
 });
+
