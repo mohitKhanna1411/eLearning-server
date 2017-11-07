@@ -107,11 +107,12 @@ $scope.getAssignment= function()
     $scope.correctCount = 0;
     var qLength = $scope.questions.length;
     for(var i=0;i<qLength;i++){
-      var answers = $scope.questions[i].answers;
+      var answers = $scope.questions[i].options;
+      console.log(answers);
       $scope.questions[i].userAnswerCorrect = false;
       $scope.questions[i].userAnswer = $scope.answers[i];
       for(var j=0;j<answers.length;j++){
-        answers[j].selected = "donno";
+       // answers[j].selected = "donno";
         if ($scope.questions[i].userAnswer === answers[j].answerText && answers[j].correct===true){
           $scope.questions[i].userAnswerCorrect = true;
           answers[j].selected = "true";
