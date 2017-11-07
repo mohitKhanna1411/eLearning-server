@@ -95,12 +95,7 @@ app.post('/api/teacher/addStudent', function(req,res,next){
 	console.log(req.body);
 	var stu_id = { Student_ID: req.body.student };
 	console.log(stu_id);
-	// console.log(Class);
-// Class.update(
-//     { _id: person._id }, 
-//     { $push: { friends: friend } },
-//     done
-// );
+
 
 Class.update( { $and: [
     { standard : req.body.class }, 
@@ -124,31 +119,26 @@ Class.update( { $and: [
 
 
 
-app.post('/api/teacher/addAssesment', function(req,res,next){
-	console.log(req.body);
-	var assess= {question:req.body.question, option1:req.body.option1,option2:req.body.option2,option3:req.body.option3,option4:req.body.option4,right_answer:req.body.right_answer,lesson_id:req.body.lesson_id};
-	console.log(assesment);
+app.post('/api/teacher/addQues', function(req,res,next){
+	// console.log(req.body);
+	 var assArr= {question:req.body.question, options:req.body.options,lesson_id:req.body.lesson_id};
+	 console.log(assArr);
 	// console.log(Class);
-// Class.update(
-//     { _id: person._id }, 
-//     { $push: { friends: friend } },
-//     done
-// );
 
 Class.update( { $and: [
     { standard : req.body.class }, 
     { section: req.body.section },
     { subject: req.body.subject }
-  ]},{$addToSet : { assesment: assess } },function(request,docs){
+  ]},{$addToSet : { assesment: assArr } },function(request,docs){
 		console.log(docs);
 		if(docs.n == 0 && docs.nModified == 0){
-			res.end("Class combination does not exist! Please add Student into a valid class");
+			res.end("Class combination does not exist! Please add Question into a valid class");
 		}
 		else if(docs.n == 1 && docs.nModified == 0){
-			res.end("Student Already added in this class.");
+			res.end("Duplicate Question!!!");
 		}
 		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-			res.end("Student successfully added.");
+			res.end("Question successfully added.");
 		}
 	});
  
@@ -253,6 +243,28 @@ Class.find( { $and: [
 		}
 		else{
 			res.end(JSON.stringify(docs[0].lessons));
+		} 
+		
+	});
+ 
+});
+
+app.get('/api/getAssign', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	
+Class.find( { $and: [
+    { standard : req.query.class }, 
+    { section: req.query.section },
+    { subject: req.query.subject }
+  ]},{ assesment : 1, _id: 0 },function(request,docs){
+		console.log(docs);
+		if(docs.length == 0){
+			res.end(JSON.stringify(docs.length));
+		}
+		else{
+			res.end(JSON.stringify(docs[0].assesment));
 		} 
 		
 	});
