@@ -63,38 +63,21 @@ $scope.getAssignment= function()
   }
 
 
-    $scope.recommend= function()
+    $scope.getResults= function()
 	{
-		var student=$scope.student;
-		var topic=$scope.topic;
-		var subject=$scope.subject;
-		var data={"student":student, "topic":topic, "subject":subject};
+		        $scope.msg = "";
+        $scope.msg1 = "";
+    var standard=$scope.standard;
+    var section=$scope.section;
+    var subject=$scope.subject;
+    
+    var data={"class":standard, "subject":subject, "section":section};
                 console.log(data);
-		var config = {
-                headers : 
-			{
-		            'Content-Type': 'application/json;'
-		        }
-            	}
-
-            $http.post('/api/student/recommend', data, config)
-            .success(function (data, status, headers, config) {
-                $scope.ServerResponse = data;
-		
-		 $window.location.href = $scope.ServerResponse.redirect;
-		
-		
-            })
-            .error(function (data, status, header, config) {
-                $scope.ServerResponse = "Data: " + data +
-                    "<hr />status: " + status +
-                    "<hr />headers: " + header +
-                    "<hr />config: " + config;
-			
-			document.getElementById("message").innerHTML="Error";
-			
-            });
-
+     $http.get('/api/getRes', { params: data }).success(function(res){
+        $scope.list = res;
+        console.log("res" + res);
+         // $scope.ok="ok";
+    })
 		
 	}
     
@@ -129,6 +112,26 @@ $scope.getAssignment= function()
         }
       }
     }
+    var standard=$scope.standard;
+    var section=$scope.section;
+    var subject=$scope.subject;
+    var sendData = {  "count" : $scope.correctCount +"/"+ $scope.questions.length , 
+                      "class":standard, "section":section, "subject":subject,
+                      "recommendations" : errors                      
+                    }
+
+                    console.log(sendData);
+    $http.post('/api/addResults', sendData).success(function(res){
+      $scope.msg = res;
+       // $scope.optionsArr = [];
+      // $scope.contents = [];
+      // data = "";
+      $scope.questions = [] ;
+    })
+
+
+
+
   }
 
 
