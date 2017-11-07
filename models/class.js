@@ -26,14 +26,14 @@ var classSchema = mongoose.Schema({
             ] ,
             assesment : [
                   {
+                        _id : false,
+                        lesson_id: {type : String},
                         question : {type : String},
-                        option1 : {type : String},
-                        option2 : {type : String},
-                        option3 : {type : String},
-                        option4 : {type : String},
-                        right_answer : {type : String},
-                        lesson_id: {type : String}
-
+                        options : [{
+                              answerText : {type : String},
+                              correct : {type : Boolean},
+                              _id : false
+                        }]
 
                   }
             ] 
