@@ -104,20 +104,28 @@ $scope.getAssignment= function()
  $scope.answers ={};
   $scope.correctCount = 0;
   $scope.showResult = function(){
+    var errors=[];
     $scope.correctCount = 0;
     var qLength = $scope.questions.length;
     for(var i=0;i<qLength;i++){
-      var answers = $scope.questions[i].answers;
+      var answers = $scope.questions[i].options;
+      console.log(answers);
       $scope.questions[i].userAnswerCorrect = false;
       $scope.questions[i].userAnswer = $scope.answers[i];
       for(var j=0;j<answers.length;j++){
-        answers[j].selected = "donno";
+       // answers[j].selected = "donno";
         if ($scope.questions[i].userAnswer === answers[j].answerText && answers[j].correct===true){
           $scope.questions[i].userAnswerCorrect = true;
           answers[j].selected = "true";
           $scope.correctCount++;
         }else if($scope.questions[i].userAnswer === answers[j].answerText && answers[j].correct===false){
           answers[j].selected = "false";
+          if (errors.indexOf($scope.questions[i].lesson_id) == -1) {
+              errors.push($scope.questions[i].lesson_id);
+          }
+          
+          console.log(errors);
+          console.log(errors.length);
         }
       }
     }
