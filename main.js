@@ -304,7 +304,7 @@ Result.find( { $and: [
     { standard : req.query.class }, 
     { section: req.query.section },
     { subject: req.query.subject }
-    // ,{ student_id: req.user._id }
+    ,{ student_id: req.user._id }
   ]},{ recommendations : 1, _id: 0 },function(request,docs){
 		console.log(docs);
 		if(docs.length == 0){
