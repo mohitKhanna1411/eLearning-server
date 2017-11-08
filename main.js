@@ -56,15 +56,15 @@ require('./routes/routes')(app, passport);
 
 app.get('/api/listTeacherIDs', function(req,res,next){
 	console.log("inside list t_ID");
-	Teacher.find( {},{_id: 1 } ,function(request,docs){
+	Teacher.find( {},{teacher_id : 1 , _id : 0} ,function(request,docs){
 		console.log(docs);
 		res.send(JSON.stringify(docs));
 	});
 });
 
 app.get('/api/listStudentIDs', function(req,res,next){
-	console.log("inside list t_ID");
-	Student.find( {},{_id: 1 } ,function(request,docs){
+	console.log("inside list s_ID");
+	Student.find( {},{student_id : 1 , _id : 0 } ,function(request,docs){
 		console.log(docs);
 		res.send(JSON.stringify(docs));
 	});
