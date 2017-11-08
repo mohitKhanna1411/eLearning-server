@@ -9,11 +9,11 @@
     })
     .when('/assesmentStudent', {
       templateUrl : '/views/assesmentStudent.html',
-      controller  : 'controllerLessons'
+      controller  : 'controllerStudent'
     })
     .when('/recommendationStudent', {
       templateUrl : '/views/recommendationStudent.html',
-      controller  : 'controllerRecommendation'
+      controller  : 'controllerStudent'
     });
     $locationProvider.html5Mode(true);
   });
@@ -21,7 +21,7 @@
 // creating mainController
   myApp.controller('controllerStudent', function($scope, $http) {
 
-
+     
       $scope.lessons= function()
 	{
         $scope.msg = "";
@@ -42,39 +42,25 @@
 		
 	
 
+$scope.ok = "not";
+$scope.getAssignment= function()
+  {
+        $scope.msg = "";
+        $scope.msg1 = "";
+    var standard=$scope.standard;
+    var section=$scope.section;
+    var subject=$scope.subject;
+    
+    var data={"class":standard, "subject":subject, "section":section};
+                console.log(data);
+     $http.get('/api/getAssign', { params: data }).success(function(res){
+        $scope.questions = res;
+        console.log(res);
+         $scope.ok="ok";
+    })
 
-    $scope.assesmentStudent= function()
-	{
-		var type=$scope.type;
-		//var data={"class":standard, "section":section, "subject":subject};
-                //console.log(data);
-		var config = {
-                headers : 
-			{
-		            'Content-Type': 'application/json;'
-		        }
-            	}
-
-            $http.post('/api/student/assess', type, config)
-            .success(function (data, status, headers, config) {
-                $scope.ServerResponse = data;
-		
-		 $window.location.href = $scope.ServerResponse.redirect;
-		
-		
-            })
-            .error(function (data, status, header, config) {
-                $scope.ServerResponse = "Data: " + data +
-                    "<hr />status: " + status +
-                    "<hr />headers: " + header +
-                    "<hr />config: " + config;
-			
-			document.getElementById("message").innerHTML="Error";
-			
-            });
-
-		
-	}
+    
+  }
 
 
     $scope.recommend= function()
@@ -113,4 +99,38 @@
 	}
     
     
+
+
+ $scope.answers ={};
+  $scope.correctCount = 0;
+  $scope.showResult = function(){
+    var errors=[];
+    $scope.correctCount = 0;
+    var qLength = $scope.questions.length;
+    for(var i=0;i<qLength;i++){
+      var answers = $scope.questions[i].options;
+      console.log(answers);
+      $scope.questions[i].userAnswerCorrect = false;
+      $scope.questions[i].userAnswer = $scope.answers[i];
+      for(var j=0;j<answers.length;j++){
+       // answers[j].selected = "donno";
+        if ($scope.questions[i].userAnswer === answers[j].answerText && answers[j].correct===true){
+          $scope.questions[i].userAnswerCorrect = true;
+          answers[j].selected = "true";
+          $scope.correctCount++;
+        }else if($scope.questions[i].userAnswer === answers[j].answerText && answers[j].correct===false){
+          answers[j].selected = "false";
+          if (errors.indexOf($scope.questions[i].lesson_id) == -1) {
+              errors.push($scope.questions[i].lesson_id);
+          }
+          
+          console.log(errors);
+          console.log(errors.length);
+        }
+      }
+    }
+  }
+
+
+
   });
