@@ -5,48 +5,49 @@
     $routeProvider
     .when('/reportParent', {
       templateUrl : '/views/reportParent.html',
-      controller  : 'controllerTeacher'
+      controller  : 'controllerParent'
     })
     .when('/recommendationParent', {
       templateUrl : '/views/recommendationParent.html',
-      controller  : 'controllerRecommendation'
+      controller  : 'controllerParent'
     });
     $locationProvider.html5Mode(true);
   });
 
 // creating mainController
   myApp.controller('controllerParent', function($scope, $http) {
-    $scope.assesmentparent= function()
-	{
-		var type=$scope.type;
-		//var data={"class":standard, "section":section, "subject":subject};
-                //console.log(data);
-		var config = {
-                headers : 
-			{
-		            'Content-Type': 'application/json;'
-		        }
-            	}
 
-            $http.post('/api/parent/assess', type, config)
-            .success(function (data, status, headers, config) {
-                $scope.ServerResponse = data;
-		
-		 $window.location.href = $scope.ServerResponse.redirect;
-		
-		
-            })
-            .error(function (data, status, header, config) {
-                $scope.ServerResponse = "Data: " + data +
-                    "<hr />status: " + status +
-                    "<hr />headers: " + header +
-                    "<hr />config: " + config;
-			
-			document.getElementById("message").innerHTML="Error";
-			
-            });
+  
+    $http.get('/api/getReport').success(function(res){
+    $scope.reports = res;
+    console.log($scope.reports);
+    if(res == "0"){
+      $scope.msg = "No report found";
+    }
+	  
+  })
 
-		
-	}
+
+    $scope.parentRecomm = function(){
+
+      $scope.msg = "";
+    $scope.msg1 = "";
+    var standard=$scope.standard;
+    var section=$scope.section;
+    var subject=$scope.subject;
     
-  });
+    var data={"class":standard, "subject":subject, "section":section};
+    console.log(data);
+
+    $http.get('/api/getRecomm',{ params: data }).success(function(res){
+    $scope.recommendations = res;
+    if(res == "0"){
+      $scope.msg1 = "No Data found. Wrong Class combination or student has not taken his/her assesment";
+    }
+    console.log($scope.recommendations);
+    
+  })
+
+}
+
+});

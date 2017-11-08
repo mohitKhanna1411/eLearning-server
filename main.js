@@ -160,7 +160,7 @@ app.post('/api/addResults', function(req,res,next){
 		if(err){
 			console.log(err);
 			if(err.code == 11000){
-				res.end("You have already taken this test. Please attempt a new one!")
+				res.end("This assesment is avaiable for practice only because you have already taken this practice.")
 			}
 			res.end("Error : " + err.code);
 		}
@@ -221,13 +221,27 @@ app.post('/api/teacher/deleteStudent', function(req,res,next){
 				res.end("Class combination does not exist! Please delete Student from a valid class");
 			}
 			else if(docs.n == 1 && docs.nModified == 0){
-				res.end("Student Already deleted in this class.");
+				res.end("Student Does not exist in this class");
 			}
 			else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
 				res.end("Student successfully deleted.");
 			}
 		});
 	
+});
+
+app.get('/api/getReport', function(req,res,next){
+	 // console.log("inside g et username    :"  + req.user.username);
+
+	Parent.find({username : req.user.username},{ student_id: 1, _id : 0},function(request,docs){
+		console.log("id  :  " + docs[0].student_id)
+		Result.find({ student_id: docs[0].student_id }, function(request,docu){
+				console.log("docu :  "+  docu);
+				res.end(JSON.stringify(docu));
+
+		});
+	});
+
 });
 
 
@@ -326,6 +340,31 @@ app.get('/api/getRes', function(req,res,next){
 	
 });
 
+app.get('/api/getRecomm', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	
+
+Parent.find({username : req.user.username},{ student_id: 1, _id : 0},function(request,docs){
+
+	Result.find( { $and: [
+		{ standard : req.query.class }, 
+		{ section: req.query.section },
+		{ subject: req.query.subject },
+		{ student_id: docs[0].student_id }
+		]},{ recommendations : 1, _id: 0 },function(request,docu){
+			console.log(docu);
+			if(docu.length == 0){
+				res.end(JSON.stringify(docu.length));
+			}
+			else{
+				res.end(JSON.stringify(docu[0].recommendations));
+			} 
+			
+		});
+	});
+});
 
 app.get('/api/teacher/getRes', function(req,res,next){
 	console.log("req   "+req.query.class);
