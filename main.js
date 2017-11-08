@@ -23,12 +23,13 @@ var Teacher= require('./models/teacher');
 var Student= require('./models/student');
 var Parent= require('./models/parent');
 var Class = require('./models/class');
+var Result = require('./models/result');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
 app.get('/', function(req, res){
 	app.use(express.static(path.join(__dirname)));
-    res.render(path.join(__dirname,'/index.ejs'));
+	res.render(path.join(__dirname,'/index.ejs'));
 });
 
 //initial route
@@ -73,22 +74,22 @@ app.post('/api/teacher/manageGrade', function(req,res,next){
 	console.log(req.body);
 	// console.log(Class);
 
- var newModel = new Class();
- newModel.standard = req.body.class;
- newModel.section = req.body.section;
- newModel.subject = req.body.subject;
+	var newModel = new Class();
+	newModel.standard = req.body.class;
+	newModel.section = req.body.section;
+	newModel.subject = req.body.subject;
 
- newModel.save(function(err,savedObject){
- 	if(err){
- 		console.log(err);
- 		if(err.code == 11000)
- 		res.end("Class already exists.")
- 	}
- 	else{
- 		console.log(savedObject);
- 		res.end("Class : "+savedObject.standard+"-"+savedObject.section+"-"+savedObject.subject+"  successfully created.")
- 	}
- });
+	newModel.save(function(err,savedObject){
+		if(err){
+			console.log(err);
+			if(err.code == 11000)
+				res.end("Class already exists.")
+		}
+		else{
+			console.log(savedObject);
+			res.end("Class : "+savedObject.standard+"-"+savedObject.section+"-"+savedObject.subject+"  successfully created.")
+		}
+	});
 });
 
 app.post('/api/teacher/addStudent', function(req,res,next){
@@ -97,23 +98,23 @@ app.post('/api/teacher/addStudent', function(req,res,next){
 	console.log(stu_id);
 
 
-Class.update( { $and: [
-    { standard : req.body.class }, 
-    { section: req.body.section },
-    { subject: req.body.subject }
-  ]},{$addToSet : { students : stu_id } },function(request,docs){
-		console.log(docs);
-		if(docs.n == 0 && docs.nModified == 0){
-			res.end("Class combination does not exist! Please add Student into a valid class");
-		}
-		else if(docs.n == 1 && docs.nModified == 0){
-			res.end("Student Already added in this class.");
-		}
-		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-			res.end("Student successfully added.");
-		}
-	});
- 
+	Class.update( { $and: [
+		{ standard : req.body.class }, 
+		{ section: req.body.section },
+		{ subject: req.body.subject }
+		]},{$addToSet : { students : stu_id } },function(request,docs){
+			console.log(docs);
+			if(docs.n == 0 && docs.nModified == 0){
+				res.end("Class combination does not exist! Please add Student into a valid class");
+			}
+			else if(docs.n == 1 && docs.nModified == 0){
+				res.end("Student Already added in this class.");
+			}
+			else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+				res.end("Student successfully added.");
+			}
+		});
+	
 });
 
 
@@ -121,32 +122,56 @@ Class.update( { $and: [
 
 app.post('/api/teacher/addQues', function(req,res,next){
 
-	 var assArr= {question:req.body.question, options:req.body.options,lesson_id:req.body.lesson_id};
-	 console.log("assArr" + assArr);
+	var assArr= {question:req.body.question, options:req.body.options,lesson_id:req.body.lesson_id};
+	console.log("assArr" + assArr);
 
-Class.update( { $and: [
-    { standard : req.body.class }, 
-    { section: req.body.section },
-    { subject: req.body.subject }
-  ]},{$addToSet : { assesment: assArr } },function(request,docs){
-		console.log(docs);
-		if(docs.n == 0 && docs.nModified == 0){
-			res.end("Class combination does not exist! Please add Question into a valid class");
-		}
-		else if(docs.n == 1 && docs.nModified == 0){
-			res.end("Duplicate Question!!!");
-		}
-		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-			res.end("Question successfully added.");
-		}
-	});
- 
+	Class.update( { $and: [
+		{ standard : req.body.class }, 
+		{ section: req.body.section },
+		{ subject: req.body.subject }
+		]},{$addToSet : { assesment: assArr } },function(request,docs){
+			console.log(docs);
+			if(docs.n == 0 && docs.nModified == 0){
+				res.end("Class combination does not exist! Please add Question into a valid class");
+			}
+			else if(docs.n == 1 && docs.nModified == 0){
+				res.end("Duplicate Question!!!");
+			}
+			else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+				res.end("Question successfully added.");
+			}
+		});
+	
 });
 
 
+app.post('/api/addResults', function(req,res,next){
 
+	console.log(req.body.recommendations);
 
+	var newRes = new Result();
+	newRes.standard = req.body.class;
+	newRes.section = req.body.section;
+	newRes.subject = req.body.subject;
+	newRes.student_id = req.user._id;
+	newRes.marks = req.body.count;
+	newRes.recommendations = req.body.recommendations;
+	newRes.save(function(err,savedObject){
+		if(err){
+			console.log(err);
+			if(err.code == 11000){
+				res.end("You have already taken this test. Please attempt a new one!")
+			}
+			res.end("Error : " + err.code);
+		}
+		else{
+			console.log(savedObject);
+			res.end("Test Results Saved successfully!");
+		}
+	});
 
+	
+});
 
 
 app.post('/api/teacher/addlessons', function(req,res,next){
@@ -161,10 +186,10 @@ app.post('/api/teacher/addlessons', function(req,res,next){
 // );
 
 Class.update( { $and: [
-    { standard : req.body.class }, 
-    { section: req.body.section },
-    { subject: req.body.subject }
-  ]},{$addToSet : { lessons : data } },function(request,docs){
+	{ standard : req.body.class }, 
+	{ section: req.body.section },
+	{ subject: req.body.subject }
+	]},{$addToSet : { lessons : data } },function(request,docs){
 		console.log(docs);
 		if(docs.n == 0 && docs.nModified == 0){
 			res.end("Class combination does not exist! Please add lesson into a valid class");
@@ -173,10 +198,10 @@ Class.update( { $and: [
 			res.end("Lesson Already added in this class.");
 		}
 		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-			res.end("Lesson successfully added.");
+			res.end("Lesson successfully added. You can add more lessons!");
 		}
 	});
- 
+
 });
 
 
@@ -186,23 +211,23 @@ app.post('/api/teacher/deleteStudent', function(req,res,next){
 	var stu_id = req.body.student ;
 	console.log(stu_id);
 
-Class.update( { $and: [
-    { standard : req.body.class }, 
-    { section: req.body.section },
-    { subject: req.body.subject }
-  ]}, { "$pull": { students: { Student_ID : stu_id } }}, { safe: true, multi:true },function(request,docs){
-		console.log(docs);
-		if(docs.n == 0 && docs.nModified == 0){
-			res.end("Class combination does not exist! Please delete Student from a valid class");
-		}
-		else if(docs.n == 1 && docs.nModified == 0){
-			res.end("Student Already deleted in this class.");
-		}
-		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-			res.end("Student successfully deleted.");
-		}
-	});
- 
+	Class.update( { $and: [
+		{ standard : req.body.class }, 
+		{ section: req.body.section },
+		{ subject: req.body.subject }
+		]}, { "$pull": { students: { Student_ID : stu_id } }}, { safe: true, multi:true },function(request,docs){
+			console.log(docs);
+			if(docs.n == 0 && docs.nModified == 0){
+				res.end("Class combination does not exist! Please delete Student from a valid class");
+			}
+			else if(docs.n == 1 && docs.nModified == 0){
+				res.end("Student Already deleted in this class.");
+			}
+			else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+				res.end("Student successfully deleted.");
+			}
+		});
+	
 });
 
 
@@ -239,21 +264,21 @@ app.get('/api/getlessons', function(req,res,next){
 	console.log("req   "+req.query.subject);
 	console.log("req   "+req.query.section);
 	
-Class.find( { $and: [
-    { standard : req.query.class }, 
-    { section: req.query.section },
-    { subject: req.query.subject }
-  ]},{ lessons : 1, _id: 0 },function(request,docs){
-		console.log(docs.length);
-		if(docs.length == 0){
-			res.end(JSON.stringify(docs.length));
-		}
-		else{
-			res.end(JSON.stringify(docs[0].lessons));
-		} 
-		
-	});
- 
+	Class.find( { $and: [
+		{ standard : req.query.class }, 
+		{ section: req.query.section },
+		{ subject: req.query.subject }
+		]},{ lessons : 1, _id: 0 },function(request,docs){
+			console.log(docs.length);
+			if(docs.length == 0){
+				res.end(JSON.stringify(docs.length));
+			}
+			else{
+				res.end(JSON.stringify(docs[0].lessons));
+			} 
+			
+		});
+	
 });
 
 app.get('/api/getAssign', function(req,res,next){
@@ -261,22 +286,46 @@ app.get('/api/getAssign', function(req,res,next){
 	console.log("req   "+req.query.subject);
 	console.log("req   "+req.query.section);
 	
-Class.find( { $and: [
-    { standard : req.query.class }, 
-    { section: req.query.section },
-    { subject: req.query.subject }
-  ]},{ assesment : 1, _id: 0 },function(request,docs){
-		console.log(docs);
-		if(docs.length == 0){
-			res.end(JSON.stringify(docs.length));
-		}
-		else{
-			res.end(JSON.stringify(docs[0].assesment));
-		} 
-		
-	});
- 
+	Class.find( { $and: [
+		{ standard : req.query.class }, 
+		{ section: req.query.section },
+		{ subject: req.query.subject }
+		]},{ assesment : 1, _id: 0 },function(request,docs){
+			console.log(docs);
+			if(docs.length == 0){
+				res.end(JSON.stringify(docs.length));
+			}
+			else{
+				res.end(JSON.stringify(docs[0].assesment));
+			} 
+			
+		});
+	
 });
+
+app.get('/api/getRes', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	
+	Result.find( { $and: [
+		{ standard : req.query.class }, 
+		{ section: req.query.section },
+		{ subject: req.query.subject }
+		,{ student_id: req.user._id }
+		]},{ recommendations : 1, marks: 1 , _id: 0 },function(request,docs){
+			console.log(docs);
+			if(docs.length == 0){
+				res.end(JSON.stringify(docs.length));
+			}
+			else{
+				res.end(JSON.stringify(docs[0]));
+			} 
+			
+		});
+	
+});
+
 
 app.listen(port,function()
 {
