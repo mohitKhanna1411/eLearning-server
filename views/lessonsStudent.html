@@ -12,13 +12,15 @@
 
                 <div class="panel-body">
                 	
-                    <form>
+                    <form ng-submit="lessons()">
 			<div class="row">
 
                         <div class="form-group">
 				<label for="role" class="col-md-4 control-label">Standard </label>
                 <div class="col-md-6">
 			 <select name="standard" ng-model="standard" class="form-control" required="">
+                                                  <option value="">Make a selection</option>
+
 			  <option value="1">Class 1</option>
 			  <option value="2">Class 2</option>
 			  <option value="3">Class 3</option>
@@ -42,6 +44,8 @@
 
                             <div class="col-md-6">
                                 <select name="section" ng-model="section" class="form-control" required="">
+                                  <option value="">Make a selection</option>
+
 			  <option value="A">Sec A</option>
 			  <option value="B">Sec B</option>
 			  <option value="C">Sec C</option></select>
@@ -56,6 +60,7 @@
 
                             <div class="col-md-6">
                                 <select name="subject" ng-model="subject" class="form-control" required="">
+                                  <option value="">Make a selection</option>
 			  <option value="maths">Maths</option>
 			  <option value="science">Science</option>
 			  <option value="english">English</option></select>
@@ -68,7 +73,7 @@
 							
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-success" ng-click="lessons()">
+                                <button type="submit" class="btn btn-success">
                                     Go
                                 </button>
                                      <div class="row">
@@ -102,6 +107,7 @@
     <thead>
       <tr>
         <th>S.NO</th>
+        <th>Lesson ID</th>
         <th>Content</th>
         <th>Reference Link</th>
       </tr>
@@ -109,6 +115,7 @@
     <tbody  ng-repeat = "list in list">
       <tr>
         <td>{{$index+1}}</td>
+        <td>{{list._id}}</td>
         <td>{{list.Content}}</td>
         <td>{{list.Ref_Link}}</td>
       </tr>
