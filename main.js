@@ -56,15 +56,15 @@ require('./routes/routes')(app, passport);
 
 app.get('/api/listTeacherIDs', function(req,res,next){
 	console.log("inside list t_ID");
-	Teacher.find( {},{_id: 1 } ,function(request,docs){
+	Teacher.find( {},{teacher_id : 1 , _id : 0} ,function(request,docs){
 		console.log(docs);
 		res.send(JSON.stringify(docs));
 	});
 });
 
 app.get('/api/listStudentIDs', function(req,res,next){
-	console.log("inside list t_ID");
-	Student.find( {},{_id: 1 } ,function(request,docs){
+	console.log("inside list s_ID");
+	Student.find( {},{student_id : 1 , _id : 0 } ,function(request,docs){
 		console.log(docs);
 		res.send(JSON.stringify(docs));
 	});
@@ -153,7 +153,7 @@ app.post('/api/addResults', function(req,res,next){
 	newRes.standard = req.body.class;
 	newRes.section = req.body.section;
 	newRes.subject = req.body.subject;
-	newRes.student_id = req.user._id;
+	newRes.student_id = req.user.student_id;
 	newRes.marks = req.body.count;
 	newRes.recommendations = req.body.recommendations;
 	newRes.save(function(err,savedObject){
@@ -282,12 +282,60 @@ app.get('/api/getlessons', function(req,res,next){
 		{ standard : req.query.class }, 
 		{ section: req.query.section },
 		{ subject: req.query.subject }
-		]},{ lessons : 1, _id: 0 },function(request,docs){
-			console.log(docs.length);
+		],students : {$elemMatch : { Student_ID : req.user.student_id } }
+		},{ lessons : 1, _id: 0 },function(request,docs){
+			console.log(docs);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
+				console.log("lessons else : "+ docs[0].lessons);
+				res.end(JSON.stringify(docs[0].lessons));
+			} 
+			
+		});
+	
+});
+
+app.get('/api/admin/getlessons', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	
+	Class.find( { $and: [
+		{ standard : req.query.class }, 
+		{ section: req.query.section },
+		{ subject: req.query.subject }
+		]},{ lessons : 1, _id: 0 },function(request,docs){
+			console.log(docs);
+			if(docs.length == 0){
+				res.end(JSON.stringify(docs.length));
+			}
+			else{
+				console.log("lessons else : "+ docs[0].lessons);
+				res.end(JSON.stringify(docs[0].lessons));
+			} 
+			
+		});
+	
+});
+
+app.get('/api/teacher/getlessons', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	
+	Class.find( { $and: [
+		{ standard : req.query.class }, 
+		{ section: req.query.section },
+		{ subject: req.query.subject }
+		]},{ lessons : 1, _id: 0 },function(request,docs){
+			console.log(docs);
+			if(docs.length == 0){
+				res.end(JSON.stringify(docs.length));
+			}
+			else{
+				console.log("lessons else : "+ docs[0].lessons);
 				res.end(JSON.stringify(docs[0].lessons));
 			} 
 			
@@ -304,7 +352,8 @@ app.get('/api/getAssign', function(req,res,next){
 		{ standard : req.query.class }, 
 		{ section: req.query.section },
 		{ subject: req.query.subject }
-		]},{ assesment : 1, _id: 0 },function(request,docs){
+		],students : { $elemMatch : { Student_ID : req.user.student_id } }
+		},{ assesment : 1, _id: 0 },function(request,docs){
 			console.log(docs);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
@@ -326,7 +375,7 @@ app.get('/api/getRes', function(req,res,next){
 		{ standard : req.query.class }, 
 		{ section: req.query.section },
 		{ subject: req.query.subject }
-		,{ student_id: req.user._id }
+		,{ student_id: req.user.student_id }
 		]},{ recommendations : 1, marks: 1 , _id: 0 },function(request,docs){
 			console.log(docs);
 			if(docs.length == 0){

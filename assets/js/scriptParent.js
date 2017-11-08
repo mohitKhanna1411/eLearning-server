@@ -42,7 +42,7 @@
     $http.get('/api/getRecomm',{ params: data }).success(function(res){
     $scope.recommendations = res;
     if(res == "0"){
-      $scope.msg1 = "No Data found. Wrong Class combination or student has not taken his/her assesment";
+      $scope.msg1 = "Student has not taken his/her assesment or is not enrolled in this class!";
     }
     console.log($scope.recommendations);
     

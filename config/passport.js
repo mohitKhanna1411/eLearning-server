@@ -103,10 +103,13 @@ module.exports = function(passport){
                 return done(null, false, req.flash('registerMessage','Username is already taken...' ));
             }else{
 
-                
+                Teacher.count({},function(err,count){
+                    console.log("teacher count : " + count);
                 var newUser = new Teacher();
                 newUser.username = username;
                 newUser.password = newUser.generateHash(password);
+                newUser.teacher_id = "TEA-00" + (count+1);
+                console.log("teacherid" + newUser.teacher_id);
                 newUser.qualification = req.body.qualification;
                 newUser.job_description = req.body.job_description;
                 newUser.teaching_experience = req.body.teaching_experience;
@@ -119,7 +122,9 @@ module.exports = function(passport){
                     if(err) throw err;
                     return done(null,newUser);
                 });
+            })//teacher.count
             }
+
         });
     }));
 
@@ -142,9 +147,14 @@ module.exports = function(passport){
             if (user) {
                 return done(null, false, req.flash('registerMessage','Username is already taken...' ));
             }else{
+                
+                Student.count({},function(err,count){
+                    console.log("student count : " + count);
                 var newUser = new Student();
                 newUser.username = username;
                 newUser.password = newUser.generateHash(password);
+                newUser.student_id = "STU -00" + (count+1);
+                console.log("studentid : " + newUser.student_id);
                 newUser.email = req.body.email;
                 newUser.grade = req.body.grade;
                 newUser.contact = req.body.contact;
@@ -158,6 +168,7 @@ module.exports = function(passport){
                     if(err) throw err;
                     return done(null,newUser);
                 });
+            })//student count
             }
         });
     }));
@@ -179,9 +190,13 @@ module.exports = function(passport){
             if (user) {
                 return done(null, false, req.flash('registerMessage','Username is already taken...' ));
             }else{
+                Parent.count({},function(err,count){
+                console.log("parent count : " + count);
                 var newUser = new Parent();
                 newUser.username = username;
                 newUser.password = newUser.generateHash(password);
+                newUser.parent_id = "PAR -00" + (count+1);
+                console.log("parentid : " + newUser.parent_id);
                 newUser.email = req.body.email;
                 newUser.qualification = req.body.qualification;
                 newUser.job_description = req.body.job_description;
@@ -194,6 +209,7 @@ module.exports = function(passport){
                     if(err) throw err;
                     return done(null,newUser);
                 });
+            })
             }
         });
     }));
