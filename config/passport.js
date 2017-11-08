@@ -18,20 +18,20 @@ module.exports = function(passport){
         console.log("deserial  " + user.username);
         
         if(user.role == "teacher"){
-        Teacher.findById(user._id, function(err, user) {
-            done(err, user);
-        });
-    }
-    if(user.role == "student"){
-        Student.findById(user._id, function(err, user) {
-            done(err, user);
-        });
-    }
-    if(user.role == "parent"){
-        Parent.findById(user._id, function(err, user) {
-            done(err, user);
-        });
-    }
+            Teacher.findById(user._id, function(err, user) {
+                done(err, user);
+            });
+        }
+        if(user.role == "student"){
+            Student.findById(user._id, function(err, user) {
+                done(err, user);
+            });
+        }
+        if(user.role == "parent"){
+            Parent.findById(user._id, function(err, user) {
+                done(err, user);
+            });
+        }
 
     });
 
@@ -42,8 +42,8 @@ module.exports = function(passport){
         passReqToCallback:true
     },
     function(req,username, password, done) {
-       console.log(req.body.role);
-		if(req.body.role=="teacher"){
+     console.log(req.body.role);
+     if(req.body.role=="teacher"){
         Teacher.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
             if (!user) {
@@ -58,7 +58,7 @@ module.exports = function(passport){
 
 
 
-        if(req.body.role=="parent"){
+    if(req.body.role=="parent"){
         Parent.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
             if (!user) {
@@ -72,7 +72,7 @@ module.exports = function(passport){
     }
 
 
-        if(req.body.role=="student"){
+    if(req.body.role=="student"){
         Student.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
             if (!user) {
@@ -86,12 +86,12 @@ module.exports = function(passport){
     }
     
 
-     }
-    ));
+}
+));
 
 
 
-passport.use('teacherRegister',new LocalStrategy({
+    passport.use('teacherRegister',new LocalStrategy({
         usernameField: 'username',
         passwordField: 'password',
         passReqToCallback:true
@@ -103,13 +103,13 @@ passport.use('teacherRegister',new LocalStrategy({
                 return done(null, false, req.flash('registerMessage','Username is already taken...' ));
             }else{
 
-                    
+                
                 var newUser = new Teacher();
                 newUser.username = username;
                 newUser.password = newUser.generateHash(password);
                 newUser.qualification = req.body.qualification;
                 newUser.job_description = req.body.job_description;
-		        newUser.teaching_experience = req.body.teaching_experience;
+                newUser.teaching_experience = req.body.teaching_experience;
                 newUser.email_id = req.body.email_id;
                 newUser.contact_number = req.body.contact_number;
                 newUser.address = req.body.address;
@@ -124,7 +124,7 @@ passport.use('teacherRegister',new LocalStrategy({
     }));
 
 
-passport.use('studentRegister',new LocalStrategy({
+    passport.use('studentRegister',new LocalStrategy({
         usernameField: 'username',
         passwordField: 'password',
         passReqToCallback:true
@@ -132,10 +132,10 @@ passport.use('studentRegister',new LocalStrategy({
     function(req,username, password,done) {
         console.log(req.body.grade);
         console.log(req.body.fav_subject);
-	console.log(req.body.email);
+        console.log(req.body.email);
         console.log(req.body.contact);
-	console.log(req.body.school);
-	console.log(req.body.aadhar);
+        console.log(req.body.school);
+        console.log(req.body.aadhar);
         console.log(req.body.teacherID.replace('string:',''));
         Student.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
@@ -163,7 +163,7 @@ passport.use('studentRegister',new LocalStrategy({
     }));
 
 
-   passport.use('parentRegister',new LocalStrategy({
+    passport.use('parentRegister',new LocalStrategy({
         usernameField: 'username',
         passwordField: 'password',
         passReqToCallback:true
