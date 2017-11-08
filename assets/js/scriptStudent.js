@@ -18,10 +18,17 @@ myApp.config(function($routeProvider, $locationProvider){
   $locationProvider.html5Mode(true);
 });
 
+myApp.filter('trusted', ['$sce', function ($sce) {
+    return function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
+}]);
+
+
 // creating mainController
 myApp.controller('controllerStudent', function($scope, $http) {
 
- 
+ $scope.ok = "not";
   $scope.lessons= function()
   {
     $scope.msg = "";
@@ -34,6 +41,13 @@ myApp.controller('controllerStudent', function($scope, $http) {
     console.log(data);
     $http.get('/api/getlessons', { params: data }).success(function(res){
      $scope.list = res;
+     if(res == "0"){
+            $scope.msg1 = "No lessons found or you are not enrolled in this class!";
+            $scope.ok = "not";
+        }else{
+            $scope.msg1 = res.length + " Number of lessons found.";
+            $scope.ok = "ok";
+          }
      console.log($scope.list);
    })
 
@@ -56,13 +70,23 @@ myApp.controller('controllerStudent', function($scope, $http) {
     $http.get('/api/getAssign', { params: data }).success(function(res){
       $scope.questions = res;
       console.log(res);
-      $scope.ok="ok";
+      if(res == "0"){
+            $scope.msg1 = "No assesment found or you are not enrolled in this class!";
+            $scope.ok = "not";
+        }else{
+            $scope.ok = "ok";
+            $scope.msg1 = res.length + " Number of questions found.";
+              if(res.length == 0){
+              $scope.ok = "not";
+              $scope.msg1 = "Assesment yet to be added. Please come again later!";    
+              }
+          }
     })
 
     
   }
 
-
+ $scope.ok = "not";
   $scope.getResults= function()
   {
     $scope.msg = "";
@@ -75,19 +99,26 @@ myApp.controller('controllerStudent', function($scope, $http) {
     console.log(data);
     $http.get('/api/getRes', { params: data }).success(function(res){
       $scope.list = res;
-        // console.log("res" + res);
-         // $scope.ok="ok";
+      console.log(res);
+        if(res == "0"){
+            $scope.msg1 = "No results found or you are not enrolled in this class!";
+            $scope.ok = "not";
+        }else{
+            // $scope.msg1 = res.length + " Number of lessons found.";
+            $scope.ok = "ok";
+          }
        })
     
   }
   
   
 
-
+  $scope.hide = false ;
   $scope.answers ={};
   $scope.correctCount = 0;
   $scope.showResult = function(){
     var errors=[];
+    $scope.hide = false ;
     $scope.correctCount = 0;
     var qLength = $scope.questions.length;
     for(var i=0;i<qLength;i++){
@@ -123,6 +154,7 @@ $scope.ql = qLength;
 console.log(sendData);
 $http.post('/api/addResults', sendData).success(function(res){
   $scope.msg = res;
+  $scope.hide = true;
        // $scope.optionsArr = [];
       // $scope.contents = [];
       // data = "";

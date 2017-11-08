@@ -22,6 +22,13 @@
     $locationProvider.html5Mode(true);
   });
 
+myApp.filter('trusted', ['$sce', function ($sce) {
+    return function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
+}]);
+
+
 // creating mainController
   myApp.controller('controllerAdmin', function($scope, $http) {
 
@@ -60,11 +67,11 @@ $scope.lessons= function()
     
     var data={"class":standard, "subject":subject, "section":section};
                 console.log(data);
-     $http.get('/api/getlessons', { params: data }).success(function(res){
+     $http.get('/api/admin/getlessons', { params: data }).success(function(res){
         $scope.list = res;
         console.log(res);
         if(res == "0"){
-            $scope.msg1 = "No lessons found in this class. Please Add one first!";
+            $scope.msg1 = "No Class found, Please create a class and add lessons!";
             $scope.ok = "not";
         }else{
             $scope.msg1 = res.length + " Number of lessons found.";

@@ -75,33 +75,26 @@
                             <div class="col-md-8 col-md-offset-4">
                                 <button type="submit" class="btn btn-success">
                                     Go
-                                </button>
-                                     <div class="row">
-            <div ng-if="msg1.length > 0" class="alert alert-info">
-                <strong><center>{{msg1}}</center></strong>
+                                 </button>
             </div>
-        </div>
-
-                     
-
-
-
-                            </div>
-                        </div>
-                    </div>
-                </br>
-<div class="row">
-            <div ng-if="list == 0" class="alert alert-info">
-                <strong><center>No lessons found. Please try with different class combination</center></strong>
-            </div>
-        </div>
-                    </form>
-                </div>
         </div>
     </div>
+                <div class="row">
+                    <div ng-if="msg1.length > 0" class="alert alert-info">
+                        <strong><center>{{msg1}}</center></strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</br>
+</form>
+</div>
+</div>
+</div>
 </div>
 
-<div class="container" ng-if="list.length > 0">
+<div class="container" ng-if="list.length > 0 && ok == 'ok'">
   <h2>Lessons Information</h2>
   <table class="table table-condensed">
     <thead>
@@ -110,18 +103,22 @@
         <th>Lesson ID</th>
         <th>Content</th>
         <th>Reference Link</th>
-      </tr>
-    </thead>
-    <tbody  ng-repeat = "list in list">
-      <tr>
-        <td>{{$index+1}}</td>
-        <td>{{list._id}}</td>
-        <td>{{list.Content}}</td>
-        <td>{{list.Ref_Link}}</td>
-      </tr>
-    </tbody>
-  </table>
+    </tr>
+</thead>
+<tbody  ng-repeat = "list in list">
+  <tr>
+    <td>{{$index+1}}</td>
+    <td>{{list._id}}</td>
+    <td>{{list.Content}}</td>
+     <td> <iframe width="420" height="315" src="{{list.Ref_Link | trusted}}"> </iframe></td>
+</tr>
+</tbody>
+</table>
 </div>
+
+
+
+
 
 </body>
 </html>
