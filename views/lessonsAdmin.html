@@ -91,7 +91,7 @@
 </div>
 </div>
 
-<div class="container" ng-if="list.length > 0">
+<div class="container" ng-if="list.length > 0 && ok == 'ok'">
   <h2>Lessons Information</h2>
   <table class="table table-condensed">
     <thead>
@@ -107,7 +107,7 @@
     <td>{{$index+1}}</td>
     <td>{{list._id}}</td>
     <td>{{list.Content}}</td>
-     <td> <iframe width="420" height="315" src="{{list.Ref_Link}}"> </iframe></td>
+     <td> <iframe width="420" height="315" src="{{list.Ref_Link | trusted}}"> </iframe></td>
 </tr>
 </tbody>
 </table>
