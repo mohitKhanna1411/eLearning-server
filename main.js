@@ -282,12 +282,37 @@ app.get('/api/getlessons', function(req,res,next){
 		{ standard : req.query.class }, 
 		{ section: req.query.section },
 		{ subject: req.query.subject }
-		]},{ lessons : 1, _id: 0 },function(request,docs){
-			console.log(docs.length);
+		],students : {$elemMatch : { Student_ID : req.user.student_id } }
+		},{ lessons : 1, _id: 0 },function(request,docs){
+			console.log(docs);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
+				console.log("lessons else : "+ docs[0].lessons);
+				res.end(JSON.stringify(docs[0].lessons));
+			} 
+			
+		});
+	
+});
+
+app.get('/api/admin/getlessons', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	
+	Class.find( { $and: [
+		{ standard : req.query.class }, 
+		{ section: req.query.section },
+		{ subject: req.query.subject }
+		]},{ lessons : 1, _id: 0 },function(request,docs){
+			console.log(docs);
+			if(docs.length == 0){
+				res.end(JSON.stringify(docs.length));
+			}
+			else{
+				console.log("lessons else : "+ docs[0].lessons);
 				res.end(JSON.stringify(docs[0].lessons));
 			} 
 			

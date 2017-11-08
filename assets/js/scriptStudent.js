@@ -28,7 +28,7 @@ myApp.filter('trusted', ['$sce', function ($sce) {
 // creating mainController
 myApp.controller('controllerStudent', function($scope, $http) {
 
- 
+ $scope.ok = "not";
   $scope.lessons= function()
   {
     $scope.msg = "";
@@ -41,6 +41,13 @@ myApp.controller('controllerStudent', function($scope, $http) {
     console.log(data);
     $http.get('/api/getlessons', { params: data }).success(function(res){
      $scope.list = res;
+     if(res == "0"){
+            $scope.msg1 = "No lessons found or you are not enrolled in this class!";
+            $scope.ok = "not";
+        }else{
+            $scope.msg1 = res.length + " Number of lessons found.";
+            $scope.ok = "ok";
+          }
      console.log($scope.list);
    })
 
