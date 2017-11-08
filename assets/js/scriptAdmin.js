@@ -62,11 +62,12 @@ $scope.lessons= function()
                 console.log(data);
      $http.get('/api/getlessons', { params: data }).success(function(res){
         $scope.list = res;
+        console.log(res);
         if(res == "0"){
             $scope.msg1 = "No lessons found in this class. Please Add one first!";
             $scope.ok = "not";
         }else{
-            $scope.msg1 = res.length + " Number of lessons found. Please Add Questions in Assignment for this class";
+            $scope.msg1 = res.length + " Number of lessons found.";
             $scope.ok = "ok";
           }
     })
