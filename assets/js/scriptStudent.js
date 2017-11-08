@@ -119,7 +119,7 @@ myApp.controller('controllerStudent', function($scope, $http) {
   "class":standard, "section":section, "subject":subject,
   "recommendations" : errors                      
 }
-
+$scope.ql = qLength;
 console.log(sendData);
 $http.post('/api/addResults', sendData).success(function(res){
   $scope.msg = res;
