@@ -73,6 +73,10 @@
               <button type="submit" class="btn btn-success" >
                 Go
               </button>
+            </div>
+          </div>
+        </div>
+      </br>
               <div class="row">
                 <div ng-if="msg1.length > 0" class="alert alert-info">
                   <strong><center>{{msg1}}</center></strong>
@@ -88,7 +92,7 @@
 </div>
 </div>
 </div>
-<div class="container" ng-if="msg.length == 0">
+<div class="container" ng-if="ok == 'ok'">
 
   <div class="col-md-8">
     <div class="panel panel-default">
@@ -104,7 +108,7 @@
     </div>
   </div>
 </div>
-<div class="container" ng-if="msg.length == 0">
+<div class="container" ng-if="ok == 'ok'">
  <div class="col-md-8">
   <div class="panel panel-default">
     <div class="panel-heading"><h3>Recommended Lesson IDs</h3></div>
