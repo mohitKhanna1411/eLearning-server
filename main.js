@@ -305,13 +305,13 @@ Result.find( { $and: [
     { section: req.query.section },
     { subject: req.query.subject }
     ,{ student_id: req.user._id }
-  ]},{ recommendations : 1, _id: 0 },function(request,docs){
+  ]},{ recommendations : 1, marks: 1 , _id: 0 },function(request,docs){
 		console.log(docs);
 		if(docs.length == 0){
 			res.end(JSON.stringify(docs.length));
 		}
 		else{
-			res.end(JSON.stringify(docs[0].recommendations));
+			res.end(JSON.stringify(docs[0]));
 		} 
 		
 	});

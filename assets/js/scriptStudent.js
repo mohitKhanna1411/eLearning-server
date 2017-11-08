@@ -75,7 +75,7 @@ $scope.getAssignment= function()
                 console.log(data);
      $http.get('/api/getRes', { params: data }).success(function(res){
         $scope.list = res;
-        console.log("res" + res);
+        // console.log("res" + res);
          // $scope.ok="ok";
     })
 		
@@ -115,7 +115,7 @@ $scope.getAssignment= function()
     var standard=$scope.standard;
     var section=$scope.section;
     var subject=$scope.subject;
-    var sendData = {  "count" : $scope.correctCount +"/"+ $scope.questions.length , 
+    var sendData = {  "count" : $scope.correctCount +" out of "+ $scope.questions.length , 
                       "class":standard, "section":section, "subject":subject,
                       "recommendations" : errors                      
                     }
