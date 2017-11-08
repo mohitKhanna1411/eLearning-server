@@ -19,8 +19,8 @@ myApp.config(function($routeProvider, $locationProvider){
     templateUrl : '/views/createAssesment.html',
     controller  : 'controllerTeacher'
   })
-  .when('/recommendationTeacher', {
-    templateUrl : '/views/recommendationTeacher.html',
+  .when('/teacherRecommend', {
+    templateUrl : '/views/teacherRecommend.html',
     controller  : 'controllerTeacher'
   });
   $locationProvider.html5Mode(true);
@@ -251,6 +251,39 @@ $scope.addAssesment= function(data)
 
                 
               }
+
+
+
+
+$scope.teacherRecommend= function()
+{
+  $scope.ok = "not";
+  $scope.msg = "";
+  $scope.msg1 = "";
+  var standard=$scope.standard;
+  var section=$scope.section;
+  var subject=$scope.subject;
+  var studentID=$scope.stuID;
+  
+  var data={"class":standard, "subject":subject, "section":section,"student_id":studentID};
+  console.log(data);
+  $http.get('/api/teacher/getRes', { params: data }).success(function(res){
+    $scope.recommend=res;
+   if(res == "0"){
+      $scope.msg1 = "No Recommendations/Assesments Found in this combination";
+      $scope.ok = "not";
+    }else{
+
+      $scope.ok = "ok";
+    }
+  
+  })
+  
+}
+
+
+
+
 
 
               
