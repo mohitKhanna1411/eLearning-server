@@ -33,13 +33,13 @@ myApp.config(function($routeProvider, $locationProvider){
 // creating mainController
 myApp.controller('controllerTeacher', function($scope, $http,$window) {
 
- $http.get('/api/listStudentIDs').success(function(res){
-  $scope.options = res;
-  console.log($scope.options[0]._id);
-})
+$http.get('/api/listStudentIDs').success(function(res){
+      $scope.options = res;
+      console.log($scope.options);
+    })
 $http.get('/api/getClasses').success(function(res){
       $scope.list4 = res;
-      console.log(res.students[0]);
+      console.log(res);
     })
 
 
@@ -261,7 +261,7 @@ $scope.addAssesment= function(data)
 
 
 
-
+$scope.stuID = "";
 $scope.teacherRecommend= function()
 {
   $scope.ok = "not";
@@ -271,11 +271,13 @@ $scope.teacherRecommend= function()
   var section=$scope.section;
   var subject=$scope.subject;
   var studentID=$scope.stuID;
+  console.log("id:  " + $scope.stuID); 
   
   var data={"class":standard, "subject":subject, "section":section,"student_id":studentID};
-  console.log(data);
+  console.log("data   " +data);
   $http.get('/api/teacher/getRes', { params: data }).success(function(res){
     $scope.recommend=res;
+    console.log(res);
    if(res == "0"){
       $scope.msg1 = "No Recommendations/Assesments Found in this combination";
       $scope.ok = "not";

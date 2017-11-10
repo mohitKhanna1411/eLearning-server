@@ -136,9 +136,15 @@ myApp.controller('controllerStudent', function($scope, $http) {
         $scope.correctCount++;
       }else if($scope.questions[i].userAnswer === answers[j].answerText && answers[j].correct===false){
         answers[j].selected = "false";
-        if (errors.indexOf($scope.questions[i].lesson_id) == -1) {
-          errors.push($scope.questions[i].lesson_id);
-        }
+        var obj = {
+          question : $scope.questions[i].question,
+          response : $scope.questions[i].userAnswer,
+          lesson_id : $scope.questions[i].lesson_id,
+          error_code: answers[j].error_code 
+                  };
+        
+      
+          errors.push(obj);
         
         console.log(errors);
         console.log(errors.length);

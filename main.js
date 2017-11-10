@@ -419,7 +419,7 @@ app.get('/api/getRes', function(req,res,next){
 	
 });
 
-app.get('/api/getRecomm', function(req,res,next){
+app.get('/api/parent/getRecomm', function(req,res,next){
 	console.log("req   "+req.query.class);
 	console.log("req   "+req.query.subject);
 	console.log("req   "+req.query.section);
@@ -449,6 +449,7 @@ app.get('/api/teacher/getRes', function(req,res,next){
 	console.log("req   "+req.query.class);
 	console.log("req   "+req.query.subject);
 	console.log("req   "+req.query.section);
+	console.log("req   "+req.query.student_id);
 	
 	Result.find( { $and: [
 		{ standard : req.query.class }, 
