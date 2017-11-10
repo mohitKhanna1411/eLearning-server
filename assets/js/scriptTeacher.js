@@ -77,7 +77,7 @@ $scope.lessons= function()
   
   var data={"class":standard, "subject":subject, "section":section};
   console.log(data);
-  $http.get('/api/getlessons', { params: data }).success(function(res){
+  $http.get('/api/teacher/getlessons', { params: data }).success(function(res){
     $scope.list1 = res;
     if(res == "0"){
       $scope.msg1 = "No lessons found in this class. Please Add one first!";

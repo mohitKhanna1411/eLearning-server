@@ -10,7 +10,7 @@ app.controller('stu', function($scope, $http) {
     console.log("controllerStudent");
     $http.get('/api/listTeacherIDs').success(function(res){
       $scope.options = res;
-      console.log($scope.options[0]._id);
+      console.log($scope.options);
     })
 });
 </script>
@@ -77,7 +77,7 @@ app.controller('stu', function($scope, $http) {
                             <div class="col-md-6">
                                 
             
-            <select class="form-control" name="teacherID" ng-model="myselect" ng-options="o._id as o._id for o in options"></select>
+            <select class="form-control" name="teacherID" ng-model="myselect" ng-options="o.teacher_id as o.teacher_id for o in options"></select>
                
                             </div>
                         </div>
