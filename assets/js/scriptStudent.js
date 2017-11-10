@@ -160,7 +160,7 @@ $http.post('/api/addResults', sendData).success(function(res){
        // $scope.optionsArr = [];
       // $scope.contents = [];
       // data = "";
-      $scope.questions = [] ;
+      // $scope.questions = [] ;
     })
 }
 });
