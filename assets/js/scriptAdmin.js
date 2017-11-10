@@ -18,6 +18,10 @@
     .when('/assesmentAdmin', {
       templateUrl : '/views/assesmentAdmin.html',
       controller  : 'controllerAdmin'
+    })
+    .when('/createLessonAdmin', {
+      templateUrl : '/views/createLessonAdmin.html',
+      controller  : 'controllerAdmin'
     });
     $locationProvider.html5Mode(true);
   });
@@ -49,7 +53,10 @@ myApp.filter('trusted', ['$sce', function ($sce) {
       console.log(res.students[0]);
     })
 
-
+    $http.get('/api/listStudentIDs').success(function(res){
+  $scope.options = res;
+  console.log($scope.options[0]._id);
+      })
 
 
 
@@ -121,5 +128,28 @@ $scope.lessons= function()
 
     
   }
+
+
+
+
+  $scope.addinglessons= function()
+              {
+                $scope.msg = "";
+                $scope.msg1 = "";
+                var standard=$scope.standard2;
+                var section=$scope.section2;
+                var subject=$scope.subject2;
+                var content=$scope.content;
+                var ref_link=$scope.ref_link;
+                var data={"class":standard, "subject":subject, "section":section,"content":content,"ref_link":ref_link};
+                console.log(data);
+                $http.post('/api/teacher/addlessons', data).success(function(res){
+                  $scope.msg1 = res;
+                  $scope.content = "";
+                  $scope.ref_link = "";
+                })
+
+                
+              }
 
   });
