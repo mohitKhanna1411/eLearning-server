@@ -1,17 +1,47 @@
+
 <html>
 <head>
-  <script src = "/assets/js/scriptTeacher.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+<script src = "/assets/js/scriptTeacher.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 </head>
-<body style="background:#eef1f6;" ng-app="myApp" ng-controller ="controllerTeacher">
-  <div class="container" style ="margin-top: 0.5cm;">
+<body style="background:#eef1f6;" ng-app="my_app" ng-controller ="controllerTeacher">
+
+<div class="container" style ="margin-top: 0.5cm;">
+  <h2>Classes Information</h2>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>S.NO</th>
+        <th>Standard</th>
+        <th>Subject</th>
+        <th>Section</th>
+      
+
+      </tr>
+    </thead>
+    <tbody  ng-repeat = "list4 in list4">
+      <tr>
+        <td>{{$index+1}}</td>
+        <td>{{list4.standard}}</td>
+        <td>{{list4.subject}}</td>
+        <td>{{list4.section}}</td>
+        
+      </tr>
+    </tbody>
+  </table>
+</div>
+   
+
+
+
+<div class="container" style ="margin-top: 0.5cm;">
     <div class="col-md-8">
       <div class="panel panel-default">
-        <div class="panel-heading"><h3>Select Class and Student to view Recommendations</h3></div>
+        <div class="panel-heading"><h3>Select Class Combination to View Students</h3></div>
 
         <div class="panel-body">
 
-          <form ng-submit = "teacherRecommend()">
+          <form ng-submit = "viewStudents()">
             <div class="row">
 
               <div class="form-group">
@@ -50,7 +80,7 @@
             </div>
           </div>
         </br>
-         <div class="row">
+        <div class="row">
 
           <div class="form-group">
             <label for="subject" class="col-md-4 control-label">Subject</label>
@@ -66,18 +96,6 @@
           </div>
 
         </br>
-         <div class="row">
-
-          <div class="form-group">
-            <label for="Section" class="col-md-4 control-label">Select Student ID</label>
-
-           <div class="col-md-6">
-            <select class="form-control" ng-model="stuID" ng-options="o._id as o._id for o in options" required=""></select>
-        </div>
-            </div>
-          </div>
-        </br>
-       
         <div class="row">
 
           <div class="form-group">
@@ -104,28 +122,25 @@
 
 
 <div class="container" style ="margin-top: 0.5cm;" ng-if = "ok == 'ok'">
-  <div class="col-md-8">
-    <div class="panel panel-default">
-      <div class="panel-heading"><h3>Results and Recommendations</h3></div>
+  <h2>Student Information in corresponding class</h2>
+  <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>S.NO</th>
+        <th>Student ID</th>
+    
 
-      <div class="panel-body">
-
-        <p> Marks : {{recommend.marks}}</p></br>
-        <p> Need improvement in following lessons</p></br>
-        
-        <table class="table table-condensed">
-         <tbody  ng-repeat = "rec in recommend.recommendations">
+      </tr>
+    </thead>
+    <tbody  ng-repeat = "list2 in list2">
       <tr>
         <td>{{$index+1}}</td>
-        <td>{{rec}}</td>
+        <td>{{list2.Student_ID}}</td>
+    
       </tr>
     </tbody>
   </table>
 </div>
-</div>
-</div>
-</div>
-
 
 
 

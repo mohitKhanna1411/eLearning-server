@@ -18,6 +18,15 @@ myApp.config(function($routeProvider, $locationProvider){
   $locationProvider.html5Mode(true);
 });
 
+
+myApp.filter('trusted', ['$sce', function ($sce) {
+    return function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
+}]);
+
+
+
 // creating mainController
 myApp.controller('controllerStudent', function($scope, $http) {
 
