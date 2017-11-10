@@ -18,7 +18,9 @@ var resultSchema = mongoose.Schema({
                   type : String
             },
             recommendations : [
-                  {
+                  { 
+                        question : {type : String},
+                        response : {type : String},
                         lesson_id : {type : String},
                         error_code : {type : String},
                         _id : false

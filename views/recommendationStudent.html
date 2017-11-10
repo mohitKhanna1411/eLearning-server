@@ -111,7 +111,7 @@
 <div class="container" ng-if="ok == 'ok'">
  <div class="col-md-8">
   <div class="panel panel-default">
-    <div class="panel-heading"><h3>Recommended Lesson IDs</h3></div>
+    <div class="panel-heading"><h3>Recommendation</h3></div>
 
     <div class="panel-body">
 
@@ -119,13 +119,19 @@
         <thead>
           <tr>
             <th>S.NO</th>
-            <th>Lesson ID</th>
+            <th> Question</th>
+            <th> Your Response</th>
+            <th>Error Code</th>
+            <th> Recommended Lesson ID</th>
           </tr>
         </thead>
         <tbody  ng-repeat = "list in list.recommendations">
           <tr>
             <td>{{$index+1}}</td>
-            <td>{{list}}</td>
+            <td>{{list.question}}</td>
+            <td>{{list.response}}</td>
+            <td>{{list.error_code}}</td>
+            <td>{{list.lesson_id }}</td>
           </tr>
         </tbody>
       </table>
