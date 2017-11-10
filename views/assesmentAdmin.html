@@ -93,6 +93,65 @@
 <div class="container" style ="margin-top: 0.5cm;" ng-if = "ok == 'ok'">
   <div class="col-md-8">
     <div class="panel panel-default">
+      <div class="panel-heading"><h3>Enter Error codes</h3></div>
+
+      <div class="panel-body">
+
+          <div class="row">
+
+            <div class="form-group">
+              <label for="subject" class="col-md-4 control-label">Error Code 1</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" ng-model="errorArr[0]" required="">
+                
+              </div>
+            </div>
+          </div>
+
+        <div class="row">
+
+            <div class="form-group">
+              <label for="subject" class="col-md-4 control-label">Error Code 2</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" ng-model="errorArr[1]" required="">
+                
+              </div>
+            </div>
+          </div>
+
+        <div class="row">
+
+            <div class="form-group">
+              <label for="subject" class="col-md-4 control-label">Error Code 3</label>
+                
+              <div class="col-md-6">
+                <input type="text" class="form-control" ng-model="errorArr[2]" required="">
+              </div>
+            </div>
+          </div>
+
+        <div class="row">
+
+            <div class="form-group">
+              <label for="subject" class="col-md-4 control-label">Error Code 4</label>
+              <div class="col-md-6">
+                <input type="text" class="form-control" ng-model="errorArr[3]" disabled>
+                
+              </div>
+            </div>
+          </div>
+
+
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="container" style ="margin-top: 0.5cm;" ng-if = "ok == 'ok'">
+  <div class="col-md-8">
+    <div class="panel panel-default">
       <div class="panel-heading"><h3>Create Assignment by Adding Questions</h3></div>
 
       <div class="panel-body">
@@ -131,11 +190,17 @@
      <div class="row">
 
       <div class="form-group">
-        <label for="option1" class="col-md-4 control-label">Option1</label>
+        <label for="option1" class="col-md-2 control-label">Option 1</label>
 
-        <div class="col-md-6">
+        <div class="col-md-5">
          <input type="text" class="form-control" ng-model="optionsArr[0]" required="">   
        </div>
+
+        <div class="col-md-5">
+<select name="right_answer" ng-model="codeArr[0]" class="form-control" required="">
+        <option ng-repeat = "errorArr in errorArr">{{errorArr}}</option>
+      </select>       </div>
+
      </div>
    </div>
 
@@ -143,11 +208,15 @@
  <div class="row">
 
   <div class="form-group">
-    <label for="option2" class="col-md-4 control-label">Option2</label>
-    <div class="col-md-6">
+    <label for="option2" class="col-md-2 control-label">Option 2</label>
+    <div class="col-md-5">
+         <input type="text" class="form-control" ng-model="optionsArr[1]" required="">   
+       </div>
 
-     <input type="text" class="form-control" ng-model="optionsArr[1]" required="">
-   </div>
+        <div class="col-md-5">
+<select name="right_answer" ng-model="codeArr[1]" class="form-control" required="">
+        <option ng-repeat = "errorArr in errorArr">{{errorArr}}</option>
+      </select>       </div>
  </div>
 </div>
 
@@ -155,22 +224,32 @@
 <div class="row">
 
   <div class="form-group">
-    <label for="option3" class="col-md-4 control-label">Option3</label>
-    <div class="col-md-6">
+    <label for="option3" class="col-md-2 control-label">Option 3</label>
+    <div class="col-md-5">
+         <input type="text" class="form-control" ng-model="optionsArr[2]" required="">   
+       </div>
 
-     <input type="text" class="form-control" ng-model="optionsArr[2]" required="">
-   </div>
+        <div class="col-md-5">
+         <select name="right_answer" ng-model="codeArr[2]" class="form-control" required="">
+        <option ng-repeat = "errorArr in errorArr">{{errorArr}}</option>
+      </select> 
+       </div>
  </div>
 </div>
 </br>             
 <div class="row">
 
   <div class="form-group">
-    <label for="option4" class="col-md-4 control-label">Option4</label>
-    <div class="col-md-6">
+    <label for="option4" class="col-md-2 control-label">Option 4</label>
+    <div class="col-md-5">
+         <input type="text" class="form-control" ng-model="optionsArr[3]" required="">   
+       </div>
 
-     <input type="text" class="form-control" ng-model="optionsArr[3]" required="">
-   </div>
+        <div class="col-md-5">
+         <select name="right_answer" ng-model="codeArr[3]" class="form-control" required="">
+        <option ng-repeat = "errorArr in errorArr">{{errorArr}}</option>
+      </select>   
+       </div>
  </div>
 </div>
 
@@ -179,7 +258,7 @@
 <div class="row">
 
   <div class="form-group">
-    <label for="subject" class="col-md-4 control-label">Right Answer</label>
+    <label for="subject" class="col-md-2 control-label">Right Answer</label>
 
     <div class="col-md-6">
       <select name="right_answer" ng-model="data.right_answer" class="form-control" required="">
