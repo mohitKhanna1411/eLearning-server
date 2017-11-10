@@ -117,6 +117,7 @@
         <td>{{$index+1}}</td>
         <td>{{list._id}}</td>
         <td>{{list.Content}}</td>
+        <td><iframe width="560" height="315" src="{{list.Ref_Link|trusted}}" frameborder="0" allowfullscreen></iframe></td>
         
       </tr>
    
@@ -124,7 +125,7 @@
       
     </tbody>
   </table>
-  <iframe width="560" height="315" src="{{list.Ref_Link|trusted}}" frameborder="0" allowfullscreen></iframe>
+  
 </div>
 
 </body>
