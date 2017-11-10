@@ -134,8 +134,10 @@ $scope.addAssesment= function(data)
           $scope.errorArr = [];
           $scope.errorArr[3] = "Right Answer";
           $scope.contents = [];
-          $scpe.codeArr = [];
-          data = "";
+          $scope.codeArr = [];
+          data.right_answer = "";
+          data.question = "";
+          data.lesson_id = "";
         })
 
 
