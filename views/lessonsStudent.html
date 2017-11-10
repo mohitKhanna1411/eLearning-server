@@ -99,21 +99,26 @@
   <table class="table table-condensed">
     <thead>
       <tr>
-        <th>S.NO</th>
-        <th>Lesson ID</th>
-        <th>Content</th>
-        <th>Reference Link</th>
-    </tr>
-</thead>
-<tbody  ng-repeat = "list in list">
-  <tr>
-    <td>{{$index+1}}</td>
-    <td>{{list._id}}</td>
-    <td>{{list.Content}}</td>
-     <td></td>
-</tr>
-</tbody>
-</table>
+        <th class="col-md-1">S.NO</th>
+        <th class="col-md-1">Lesson ID</th>
+        <th class="col-md-6">Content</th>
+        <th class="col-md-4">Reference Video</th>
+
+      </tr>
+    </thead>
+    <tbody  ng-repeat = "list in list">
+      <tr>
+        <td>{{$index+1}}</td>
+        <td>{{list._id}}</td>
+        <td>{{list.Content}}</td>
+        <td><iframe width="560" height="315" src="{{list.Ref_Link|trusted}}" frameborder="0" allowfullscreen></iframe></td>
+        
+      </tr>
+   
+     
+      
+    </tbody>
+  </table>
 </div>
 
 </body>

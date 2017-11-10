@@ -19,6 +19,10 @@ myApp.config(function($routeProvider, $locationProvider){
     templateUrl : '/views/createAssesment.html',
     controller  : 'controllerTeacher'
   })
+   .when('/viewStudents', {
+    templateUrl : '/views/viewStudents.html',
+    controller  : 'controllerTeacher'
+  })
   .when('/teacherRecommend', {
     templateUrl : '/views/teacherRecommend.html',
     controller  : 'controllerTeacher'
@@ -33,7 +37,10 @@ myApp.controller('controllerTeacher', function($scope, $http,$window) {
   $scope.options = res;
   console.log($scope.options[0]._id);
 })
-
+$http.get('/api/getClasses').success(function(res){
+      $scope.list4 = res;
+      console.log(res.students[0]);
+    })
 
 
  $scope.msg1 = ""
@@ -280,6 +287,27 @@ $scope.teacherRecommend= function()
   })
   
 }
+
+
+$scope.viewStudents= function()
+  {
+    $scope.ok = "not";
+    $scope.msg = "";
+    $scope.msg1 = "";
+    var standard=$scope.standard;
+    var section=$scope.section;
+    var subject=$scope.subject;
+    
+    var data={"class":standard, "subject":subject, "section":section};
+    console.log(data);
+    $http.get('/api/getClassStudents', { params: data }).success(function(res){
+     $scope.list2= res;
+     console.log($scope.list2);
+     $scope.ok = "ok";
+   })
+
+    
+  }
 
 
 
