@@ -39,7 +39,7 @@
     var data={"class":standard, "subject":subject, "section":section};
     console.log(data);
 
-    $http.get('/api/getRecomm',{ params: data }).success(function(res){
+    $http.get('/api/parent/getRecomm',{ params: data }).success(function(res){
     $scope.recommendations = res;
     if(res == "0"){
       $scope.msg1 = "Student has not taken his/her assesment or is not enrolled in this class!";
