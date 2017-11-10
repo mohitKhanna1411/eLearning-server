@@ -306,12 +306,12 @@ app.get('/api/getClassStudents', function(req,res,next){
 		{ section: req.query.section },
 		{ subject: req.query.subject }
 		]},{ students : 1, _id: 0 },function(request,docs){
-			console.log(docs);
+			console.log(docs[0].students);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				res.end(JSON.stringify(docs[0].lessons));
+				res.end(JSON.stringify(docs[0].students));
 			} 
 			
 		});
