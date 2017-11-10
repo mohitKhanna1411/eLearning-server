@@ -19,7 +19,9 @@ var resultSchema = mongoose.Schema({
             },
             recommendations : [
                   {
-                        type : String
+                        lesson_id : {type : String},
+                        error_code : {type : String},
+                        _id : false
                   }
             ] 
 });
