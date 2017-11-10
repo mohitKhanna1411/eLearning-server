@@ -3,13 +3,19 @@ var bcrypt = require('bcrypt-nodejs');
 var parentSchema = mongoose.Schema({
     username:{
         type: String,
-        unique:true
+        unique:true,
+        required: true
     },
     password:{
         type: String
     },
     role:{
         type: String
+    },
+    parent_id:{
+        type: String,
+        unique:true,
+        required: true
     },
     email:{
         type: String
