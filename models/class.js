@@ -20,19 +20,27 @@ var classSchema = mongoose.Schema({
             ],
             lessons : [
                   {
+                        Title :  {type : String},
                         Content : {type : String},
                         Ref_Link : {type : String}
+                  }
+            ] ,
+            error_codes: [
+                  {
+                        error_code : {type : String},
+                        lesson_title : {type : String}
                   }
             ] ,
             assesment : [
                   {
                         _id : false,
-                        lesson_id: {type : String},
+                        lesson_title: {type : String},
                         question : {type : String},
                         options : [{
                               answerText : {type : String},
                               correct : {type : Boolean},
                               error_code : {type : String},
+                              lesson_name : {type : String},
                               _id : false
                         }]
 
