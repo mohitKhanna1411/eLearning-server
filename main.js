@@ -120,9 +120,9 @@ app.post('/api/teacher/addStudent', function(req,res,next){
 
 
 
-app.post('/api/teacher/addQues', function(req,res,next){
+app.post('/api/admin/addQues', function(req,res,next){
 
-	var assArr= {question:req.body.question, options:req.body.options,lesson_id:req.body.lesson_id};
+	var assArr= {question:req.body.question, options:req.body.options};
 	console.log("assArr" + assArr);
 
 	Class.update( { $and: [
@@ -176,7 +176,7 @@ app.post('/api/addResults', function(req,res,next){
 
 app.post('/api/teacher/addlessons', function(req,res,next){
 	console.log(req.body);
-	var data = { Content: req.body.content,Ref_Link: req.body.ref_link };
+	var data = { Title:req.body.title,Content: req.body.content,Ref_Link: req.body.ref_link };
 	console.log(data);
 	// console.log(Class);
 // Class.update(
@@ -203,6 +203,38 @@ Class.update( { $and: [
 	});
 
 });
+
+
+app.post('/api/admin/addErrorCodes', function(req,res,next){
+	console.log(req.body);
+	var data = { error_code:req.body.error_code,lesson_title: req.body.title};
+	console.log(data);
+	// console.log(Class);
+// Class.update(
+//     { _id: person._id }, 
+//     { $push: { friends: friend } },
+//     done
+// );
+
+Class.update( { $and: [
+	{ standard : req.body.class }, 
+	{ section: req.body.section },
+	{ subject: req.body.subject }
+	]},{$addToSet : { error_codes : data } },function(request,docs){
+		console.log(docs);
+		if(docs.n == 0 && docs.nModified == 0){
+			res.end("Combination does not exist! Please add error code into a valid class");
+		}
+		else if(docs.n == 1 && docs.nModified == 0){
+			res.end("Error Code Already added in this class.");
+		}
+		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+			res.end("Error Code successfully added. You can add more Errors!");
+		}
+	});
+
+});
+
 
 
 
@@ -233,19 +265,19 @@ app.post('/api/teacher/deleteStudent', function(req,res,next){
 app.get('/api/getReport', function(req,res,next){
 	 // console.log("inside g et username    :"  + req.user.username);
 
-	Parent.find({username : req.user.username},{ student_id: 1, _id : 0},function(request,docs){
-		console.log("id  :  " + docs[0].student_id)
-		Result.find({ student_id: docs[0].student_id }, function(request,docu){
-				console.log("docu :  "+  docu);
-				res.end(JSON.stringify(docu));
+	 Parent.find({username : req.user.username},{ student_id: 1, _id : 0},function(request,docs){
+	 	console.log("id  :  " + docs[0].student_id)
+	 	Result.find({ student_id: docs[0].student_id }, function(request,docu){
+	 		console.log("docu :  "+  docu);
+	 		res.end(JSON.stringify(docu));
 
-		});
+	 	});
+	 });
+
 	});
 
-});
 
-
- app.get('/api/getClasses', function(req,res,next){
+app.get('/api/getClasses', function(req,res,next){
 	console.log("inside get");
 	Class.find( {},function(request,docs){
 		res.send(JSON.stringify(docs));
@@ -273,7 +305,9 @@ app.get('/api/getTeachers', function(req,res,next){
 	});
 });
 
-app.get('/api/getlessons', function(req,res,next){
+
+
+app.get('/api/getErrorCodes', function(req,res,next){
 	console.log("req   "+req.query.class);
 	console.log("req   "+req.query.subject);
 	console.log("req   "+req.query.section);
@@ -282,20 +316,46 @@ app.get('/api/getlessons', function(req,res,next){
 		{ standard : req.query.class }, 
 		{ section: req.query.section },
 		{ subject: req.query.subject }
-		],students : {$elemMatch : { Student_ID : req.user.student_id } }
-		},{ lessons : 1, _id: 0 },function(request,docs){
+		] },{ error_codes : 1, _id: 0 },function(request,docs){
 			console.log(docs);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				console.log("lessons else : "+ docs[0].lessons);
-				res.end(JSON.stringify(docs[0].lessons));
+				console.log("error_codes else : "+ docs[0].error_codes);
+				res.end(JSON.stringify(docs[0].error_codes));
 			} 
 			
 		});
 	
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.get('/api/admin/getlessons', function(req,res,next){
 	console.log("req   "+req.query.class);
@@ -337,10 +397,8 @@ app.get('/api/teacher/getlessons', function(req,res,next){
 			else{
 				console.log("lessons else : "+ docs[0].lessons);
 				res.end(JSON.stringify(docs[0].lessons));
-			} 
-			
+			} 		
 		});
-	
 });
 
 
@@ -383,16 +441,16 @@ app.get('/api/getAssign', function(req,res,next){
 		{ section: req.query.section },
 		{ subject: req.query.subject }
 		],students : { $elemMatch : { Student_ID : req.user.student_id } }
-		},{ assesment : 1, _id: 0 },function(request,docs){
-			console.log(docs);
-			if(docs.length == 0){
-				res.end(JSON.stringify(docs.length));
-			}
-			else{
-				res.end(JSON.stringify(docs[0].assesment));
-			} 
-			
-		});
+	},{ assesment : 1, _id: 0 },function(request,docs){
+		console.log(docs);
+		if(docs.length == 0){
+			res.end(JSON.stringify(docs.length));
+		}
+		else{
+			res.end(JSON.stringify(docs[0].assesment));
+		} 
+		
+	});
 	
 });
 
@@ -425,23 +483,23 @@ app.get('/api/parent/getRecomm', function(req,res,next){
 	console.log("req   "+req.query.section);
 	
 
-Parent.find({username : req.user.username},{ student_id: 1, _id : 0},function(request,docs){
+	Parent.find({username : req.user.username},{ student_id: 1, _id : 0},function(request,docs){
 
-	Result.find( { $and: [
-		{ standard : req.query.class }, 
-		{ section: req.query.section },
-		{ subject: req.query.subject },
-		{ student_id: docs[0].student_id }
-		]},{ recommendations : 1, _id: 0 },function(request,docu){
-			console.log(docu);
-			if(docu.length == 0){
-				res.end(JSON.stringify(docu.length));
-			}
-			else{
-				res.end(JSON.stringify(docu[0].recommendations));
-			} 
-			
-		});
+		Result.find( { $and: [
+			{ standard : req.query.class }, 
+			{ section: req.query.section },
+			{ subject: req.query.subject },
+			{ student_id: docs[0].student_id }
+			]},{ recommendations : 1, _id: 0 },function(request,docu){
+				console.log(docu);
+				if(docu.length == 0){
+					res.end(JSON.stringify(docu.length));
+				}
+				else{
+					res.end(JSON.stringify(docu[0].recommendations));
+				} 
+				
+			});
 	});
 });
 
