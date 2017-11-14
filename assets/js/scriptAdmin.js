@@ -26,7 +26,10 @@ myApp.config(function($routeProvider, $locationProvider){
   .when('/createLessonAdmin', {
     templateUrl : '/views/createLessonAdmin.html',
     controller  : 'controllerAdmin'
-  });
+  })
+  .otherwise({
+        redirectTo: '/dashboardAdmin'
+    });
   $locationProvider.html5Mode(true);
 });
 
