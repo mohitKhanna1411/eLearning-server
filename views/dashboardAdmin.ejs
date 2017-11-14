@@ -13,7 +13,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular-route.js"></script>
     <script src="../assets/js/scriptAdmin.js"></script>
-    <base href="/">
+    <base href="/dashboardAdmin">
     <!-- Bootstrap core CSS     -->
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
 
@@ -34,7 +34,7 @@
     <link href="../assets/css/themify-icons.css" rel="stylesheet">
 
 </head>
-<body ng-controller="controllerAdmin">
+<body  ng-controller="controllerAdmin">
 
 <div class="wrapper">
     <div class="sidebar" data-background-color="white" data-active-color="danger">
@@ -52,7 +52,7 @@
             </div>
 
             <ul class="nav">
-                <li class="active">
+                <li>
                     <a href="/viewUsers">
                         <i class="ti-panel"></i>
                         <p>View Users</p>
@@ -70,6 +70,13 @@
                         <p>Create Lesson</p>
                     </a>
                 </li>
+                  <li>
+                    <a href="/createErrorCodes">
+                        <i class="ti-text"></i>
+                        <p>Create Error Codes</p>
+                    </a>
+                </li>
+
                 <li>
                     <a href="/viewClasses">
                         <i class="ti-view-list-alt"></i>
@@ -86,10 +93,30 @@
         </div>
     </div>
 
-    <div class="main-panel" ng-view autoscroll="true">
+    <div class="main-panel" >
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        
+                        <li>
+                            <a href="/" target="_self">
+                                <i class="ti-power-off"></i>
+                                <p>Logout</p>
+                            </a>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+        <div class ="content" ng-view autoscroll="true">
+            
+        </div>
         
     </div>
-       
+       </div>
 </body>
 
     <!--   Core JS Files   -->

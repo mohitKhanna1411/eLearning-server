@@ -97,7 +97,8 @@
     <thead>
       <tr>
         <th>S.NO</th>
-        <th>Lesson ID</th>
+        <th>Title</th>
+        
         <th>Content</th>
         <th>Reference Link</th>
     </tr>
@@ -105,7 +106,7 @@
 <tbody  ng-repeat = "list in list">
   <tr>
     <td>{{$index+1}}</td>
-    <td>{{list._id}}</td>
+    <td>{{list.Title}}</td>   
     <td>{{list.Content}}</td>
      <td> <iframe width="420" height="315" src="{{list.Ref_Link | trusted}}"> </iframe></td>
 </tr>
