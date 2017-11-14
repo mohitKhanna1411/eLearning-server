@@ -19,7 +19,7 @@
                 <label for="role" class="col-md-4 control-label">Standard </label>
                 <div class="col-md-6">
                  <select name="standard" ng-model="standard" class="form-control" required>
-                      <option value="">Make a selection</option>
+                  <option value="">Make a selection</option>
                   <option value="1">Class 1</option>
                   <option value="2">Class 2</option>
                   <option value="3">Class 3</option>
@@ -43,7 +43,7 @@
 
             <div class="col-md-6">
               <select name="section" ng-model="section" class="form-control" required>
-                      <option value="">Make a selection</option>
+                <option value="">Make a selection</option>
                 <option value="A">Sec A</option>
                 <option value="B">Sec B</option>
                 <option value="C">Sec C</option></select>
@@ -58,7 +58,7 @@
 
             <div class="col-md-6">
               <select name="subject" ng-model="subject" class="form-control" required>
-                    <option value="">Make a selection</option>
+                <option value="">Make a selection</option>
                 <option value="maths">Maths</option>
                 <option value="science">Science</option>
                 <option value="english">English</option></select>
@@ -99,15 +99,15 @@
       <div class="panel-body">
 
         <form ng-submit="addAssesment(data)">
-      
+          
         </br>
 
 
         <div class="row">
 
           <div class="form-group">
-            <label for="question" class="col-md-4 control-label">Add Question </label>
-            <div class="col-md-6">
+            <label for="question" class="col-md-2 control-label">Add Question </label>
+            <div class="col-md-10">
              <textarea class="form-control" rows="3" ng-model="data.question" required=""></textarea>
            </div>
          </div>
@@ -123,28 +123,28 @@
          <input type="text" class="form-control" ng-model="optionsArr[0]" required="">   
        </div>
 
-        <div class="col-md-5">
- 
-      <select ng-model="codeArr[0]" ng-options="err.lesson_title as err.error_code for err in err">
-</select>   
-       </div>
+       <div class="col-md-5">
+         
+        <select class="form-control" ng-model="codeArr[0]" ng-options="err.lesson_title as err.error_code for err in err">
+        </select>   
+      </div>
 
-     </div>
-   </div>
+    </div>
+  </div>
 
- </br>
- <div class="row">
+</br>
+<div class="row">
 
   <div class="form-group">
     <label for="option2" class="col-md-2 control-label">Option 2</label>
     <div class="col-md-5">
-         <input type="text" class="form-control" ng-model="optionsArr[1]" required="">   
-       </div>
+     <input type="text" class="form-control" ng-model="optionsArr[1]" required="">   
+   </div>
 
-        <div class="col-md-5">
-<select ng-model="codeArr[1]" ng-options="err.lesson_title as err.error_code for err in err">
-</select>        </div>
- </div>
+   <div class="col-md-5">
+    <select ng-model="codeArr[1]" class="form-control" ng-options="err.lesson_title as err.error_code for err in err">
+    </select>        </div>
+  </div>
 </div>
 
 </br>
@@ -153,14 +153,14 @@
   <div class="form-group">
     <label for="option3" class="col-md-2 control-label">Option 3</label>
     <div class="col-md-5">
-         <input type="text" class="form-control" ng-model="optionsArr[2]" required="">   
-       </div>
+     <input type="text" class="form-control" ng-model="optionsArr[2]" required="">   
+   </div>
 
-        <div class="col-md-5">
-        <select ng-model="codeArr[2]" ng-options="err.lesson_title as err.error_code for err in err">
-</select> 
-       </div>
- </div>
+   <div class="col-md-5">
+    <select class="form-control" ng-model="codeArr[2]" ng-options="err.lesson_title as err.error_code for err in err">
+    </select> 
+  </div>
+</div>
 </div>
 </br>             
 <div class="row">
@@ -168,14 +168,14 @@
   <div class="form-group">
     <label for="option4" class="col-md-2 control-label">Option 4</label>
     <div class="col-md-5">
-         <input type="text" class="form-control" ng-model="optionsArr[3]" required="">   
-       </div>
+     <input type="text" class="form-control" ng-model="optionsArr[3]" required="">   
+   </div>
 
-        <div class="col-md-5">
-        <select ng-model="codeArr[3]" ng-options="err.lesson_title as err.error_code for err in err">
-</select>  
-       </div>
- </div>
+   <div class="col-md-5">
+    <select class="form-control" ng-model="codeArr[3]" ng-options="err.lesson_title as err.error_code for err in err">
+    </select>  
+  </div>
+</div>
 </div>
 
 </br>
@@ -185,7 +185,7 @@
   <div class="form-group">
     <label for="subject" class="col-md-2 control-label">Right Answer</label>
 
-    <div class="col-md-6">
+    <div class="col-md-5">
       <select name="right_answer" ng-model="data.right_answer" class="form-control" required="">
         <option ng-repeat = "optionsArr in optionsArr">{{optionsArr}}</option>
       </select>
