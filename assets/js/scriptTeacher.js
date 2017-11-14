@@ -22,7 +22,7 @@ myApp.config(function($routeProvider, $locationProvider){
    .when('/viewStudents', {
     templateUrl : '/views/viewStudents.html',
     controller  : 'controllerTeacher'
-  })
+  })l
   .when('/teacherRecommend', {
     templateUrl : '/views/teacherRecommend.html',
     controller  : 'controllerTeacher'

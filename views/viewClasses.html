@@ -1,56 +1,56 @@
 
 <html>
 <head>
-<!-- <script src = "/assets/js/scriptTeacher.js"></script> -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+  <!-- <script src = "/assets/js/scriptTeacher.js"></script> -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 </head>
-<body style="background:#eef1f6;" ng-app="my_app" ng-controller ="controllerAdmin">
+<body style="background:#eef1f6;" ng-app="myApp" ng-controller ="controllerAdmin">
 
-<div class="container">
-  <h2>Classes Information</h2>
-  <table class="table table-condensed">
-    <thead>
-      <tr>
-        <th>S.NO</th>
-        <th>Standard</th>
-        <th>Subject</th>
-        <th>Section</th>
-        <!-- <th>Student IDS</th> -->
+  <div class="container">
+    <h2>Classes Information</h2>
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>S.NO</th>
+          <th>Standard</th>
+          <th>Subject</th>
+          <th>Section</th>
+          <!-- <th>Student IDS</th> -->
 
-      </tr>
-    </thead>
-    <tbody  ng-repeat = "list4 in list4">
-      <tr>
-        <td>{{$index+1}}</td>
-        <td>{{list4.standard}}</td>
-        <td>{{list4.section}}</td>
-        <td>{{list4.subject}}</td>
-        <td>
-          
+        </tr>
+      </thead>
+      <tbody  ng-repeat = "list4 in list4">
+        <tr>
+          <td>{{$index+1}}</td>
+          <td>{{list4.standard}}</td>
+          <td>{{list4.section}}</td>
+          <td>{{list4.subject}}</td>
+          <td>
+            
 
-          <table class="table table-condensed">
-    <thead>
-      <tr>
-        <th>S.NO</th>
-        <th>Student IDs</th>
+            <table class="table table-condensed">
+              <thead>
+                <tr>
+                  <th>S.NO</th>
+                  <th>Student IDs</th>
 
-      </tr>
-    </thead>
-    <tbody  ng-repeat = "stu in list4.students">
-      <tr>
-        <td>{{$index + 1}}</td>
-        <td>{{stu.Student_ID}}</td>
-     
-      </tr>
-    </tbody>
-  </table>
+                </tr>
+              </thead>
+              <tbody  ng-repeat = "stu in list4.students">
+                <tr>
+                  <td>{{$index + 1}}</td>
+                  <td>{{stu.Student_ID}}</td>
+                  
+                </tr>
+              </tbody>
+            </table>
 
 
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
 </body>
 </html>
