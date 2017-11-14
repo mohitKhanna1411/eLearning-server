@@ -22,13 +22,21 @@ myApp.config(function($routeProvider, $locationProvider){
    .when('/viewStudents', {
     templateUrl : '/views/viewStudents.html',
     controller  : 'controllerTeacher'
-  })
+  })l
   .when('/teacherRecommend', {
     templateUrl : '/views/teacherRecommend.html',
     controller  : 'controllerTeacher'
   });
   $locationProvider.html5Mode(true);
 });
+
+myApp.filter('trusted', ['$sce', function ($sce) {
+    return function(url) {
+        return $sce.trustAsResourceUrl(url);
+    };
+}]);
+
+
 
 // creating mainController
 myApp.controller('controllerTeacher', function($scope, $http,$window) {
@@ -79,11 +87,12 @@ $scope.lessons= function()
   console.log(data);
   $http.get('/api/teacher/getlessons', { params: data }).success(function(res){
     $scope.list1 = res;
+    console.log("res"   + $scope.list1);
     if(res == "0"){
-      $scope.msg1 = "No lessons found in this class. Please Add one first!";
+      $scope.msg1 = "No lessons found in this class.";
       $scope.ok = "not";
     }else{
-      $scope.msg1 = res.length + " Number of lessons found. Please Add Questions in Assignment for this class";
+      $scope.msg1 = res.length + " Number of lessons found.";
       $scope.ok = "ok";
     }
   })
@@ -203,25 +212,25 @@ $scope.addAssesment= function(data)
 
 
 
-              $scope.addinglessons= function()
-              {
-                $scope.msg = "";
-                $scope.msg1 = "";
-                var standard=$scope.standard2;
-                var section=$scope.section2;
-                var subject=$scope.subject2;
-                var content=$scope.content;
-                var ref_link=$scope.ref_link;
-                var data={"class":standard, "subject":subject, "section":section,"content":content,"ref_link":ref_link};
-                console.log(data);
-                $http.post('/api/teacher/addlessons', data).success(function(res){
-                  $scope.msg1 = res;
-                  $scope.content = "";
-                  $scope.ref_link = "";
-                })
+              // $scope.addinglessons= function()
+              // {
+              //   $scope.msg = "";
+              //   $scope.msg1 = "";
+              //   var standard=$scope.standard2;
+              //   var section=$scope.section2;
+              //   var subject=$scope.subject2;
+              //   var content=$scope.content;
+              //   var ref_link=$scope.ref_link;
+              //   var data={"class":standard, "subject":subject, "section":section,"content":content,"ref_link":ref_link};
+              //   console.log(data);
+              //   $http.post('/api/teacher/addlessons', data).success(function(res){
+              //     $scope.msg1 = res;
+              //     $scope.content = "";
+              //     $scope.ref_link = "";
+              //   })
 
                 
-              }
+              // }
 
 
               $scope.recommend= function()

@@ -140,7 +140,7 @@
 
         <div class="form-group">
             <label for="subject" class="col-md-4 control-label">Subject</label>
-
+            
             <div class="col-md-6">
                 <select ng-model="subject1" class="form-control" required="">
                   <option value="">Make a selection</option>
@@ -159,7 +159,9 @@
         <label for="qualification" class="col-md-4 control-label">Select Student ID</label>
 
         <div class="col-md-6">
-            <select class="form-control" ng-model="studentID" ng-options="o.student_id as o.student_id for o in options" required=""></select>
+            <select class="form-control" ng-model="studentID" ng-options="o.student_id as o.student_id for o in options" required="">
+              <option value="">Make a selection</option>
+            </select>
         </div>
     </div>
 </div>

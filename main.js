@@ -238,36 +238,6 @@ Class.update( { $and: [
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.post('/api/teacher/deleteStudent', function(req,res,next){
 	console.log(req.body);
 	var stu_id = req.body.student ;
@@ -295,19 +265,19 @@ app.post('/api/teacher/deleteStudent', function(req,res,next){
 app.get('/api/getReport', function(req,res,next){
 	 // console.log("inside g et username    :"  + req.user.username);
 
-	Parent.find({username : req.user.username},{ student_id: 1, _id : 0},function(request,docs){
-		console.log("id  :  " + docs[0].student_id)
-		Result.find({ student_id: docs[0].student_id }, function(request,docu){
-				console.log("docu :  "+  docu);
-				res.end(JSON.stringify(docu));
+	 Parent.find({username : req.user.username},{ student_id: 1, _id : 0},function(request,docs){
+	 	console.log("id  :  " + docs[0].student_id)
+	 	Result.find({ student_id: docs[0].student_id }, function(request,docu){
+	 		console.log("docu :  "+  docu);
+	 		res.end(JSON.stringify(docu));
 
-		});
+	 	});
+	 });
+
 	});
 
-});
 
-
- app.get('/api/getClasses', function(req,res,next){
+app.get('/api/getClasses', function(req,res,next){
 	console.log("inside get");
 	Class.find( {},function(request,docs){
 		res.send(JSON.stringify(docs));
@@ -427,10 +397,8 @@ app.get('/api/teacher/getlessons', function(req,res,next){
 			else{
 				console.log("lessons else : "+ docs[0].lessons);
 				res.end(JSON.stringify(docs[0].lessons));
-			} 
-			
+			} 		
 		});
-	
 });
 
 
@@ -473,16 +441,16 @@ app.get('/api/getAssign', function(req,res,next){
 		{ section: req.query.section },
 		{ subject: req.query.subject }
 		],students : { $elemMatch : { Student_ID : req.user.student_id } }
-		},{ assesment : 1, _id: 0 },function(request,docs){
-			console.log(docs);
-			if(docs.length == 0){
-				res.end(JSON.stringify(docs.length));
-			}
-			else{
-				res.end(JSON.stringify(docs[0].assesment));
-			} 
-			
-		});
+	},{ assesment : 1, _id: 0 },function(request,docs){
+		console.log(docs);
+		if(docs.length == 0){
+			res.end(JSON.stringify(docs.length));
+		}
+		else{
+			res.end(JSON.stringify(docs[0].assesment));
+		} 
+		
+	});
 	
 });
 
@@ -515,23 +483,23 @@ app.get('/api/parent/getRecomm', function(req,res,next){
 	console.log("req   "+req.query.section);
 	
 
-Parent.find({username : req.user.username},{ student_id: 1, _id : 0},function(request,docs){
+	Parent.find({username : req.user.username},{ student_id: 1, _id : 0},function(request,docs){
 
-	Result.find( { $and: [
-		{ standard : req.query.class }, 
-		{ section: req.query.section },
-		{ subject: req.query.subject },
-		{ student_id: docs[0].student_id }
-		]},{ recommendations : 1, _id: 0 },function(request,docu){
-			console.log(docu);
-			if(docu.length == 0){
-				res.end(JSON.stringify(docu.length));
-			}
-			else{
-				res.end(JSON.stringify(docu[0].recommendations));
-			} 
-			
-		});
+		Result.find( { $and: [
+			{ standard : req.query.class }, 
+			{ section: req.query.section },
+			{ subject: req.query.subject },
+			{ student_id: docs[0].student_id }
+			]},{ recommendations : 1, _id: 0 },function(request,docu){
+				console.log(docu);
+				if(docu.length == 0){
+					res.end(JSON.stringify(docu.length));
+				}
+				else{
+					res.end(JSON.stringify(docu[0].recommendations));
+				} 
+				
+			});
 	});
 });
 
