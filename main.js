@@ -238,36 +238,6 @@ Class.update( { $and: [
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.post('/api/teacher/deleteStudent', function(req,res,next){
 	console.log(req.body);
 	var stu_id = req.body.student ;
@@ -399,10 +369,8 @@ app.get('/api/teacher/getlessons', function(req,res,next){
 			else{
 				console.log("lessons else : "+ docs[0].lessons);
 				res.end(JSON.stringify(docs[0].lessons));
-			} 
-			
+			} 		
 		});
-	
 });
 
 

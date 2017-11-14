@@ -15,7 +15,7 @@
         <th>Standard</th>
         <th>Subject</th>
         <th>Section</th>
-      
+        <!-- <th>Student IDS</th> -->
 
       </tr>
     </thead>
@@ -25,6 +25,28 @@
         <td>{{list4.standard}}</td>
         <td>{{list4.section}}</td>
         <td>{{list4.subject}}</td>
+        <td>
+          
+
+          <table class="table table-condensed">
+    <thead>
+      <tr>
+        <th>S.NO</th>
+        <th>Student IDs</th>
+
+      </tr>
+    </thead>
+    <tbody  ng-repeat = "stu in list4.students">
+      <tr>
+        <td>{{$index + 1}}</td>
+        <td>{{stu.Student_ID}}</td>
+     
+      </tr>
+    </tbody>
+  </table>
+
+
+        </td>
       </tr>
     </tbody>
   </table>
