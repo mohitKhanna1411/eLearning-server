@@ -139,10 +139,10 @@ $scope.showResult = function(){
         var obj = {
           question : $scope.questions[i].question,
           response : $scope.questions[i].userAnswer,
-          lesson_id : $scope.questions[i].lesson_id,
-          error_code: answers[j].error_code 
-        };
-        
+          error_lesson_title : answers[j].error_lesson_title
+                  };
+
+         
         
         errors.push(obj);
         
