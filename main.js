@@ -120,9 +120,9 @@ app.post('/api/teacher/addStudent', function(req,res,next){
 
 
 
-app.post('/api/teacher/addQues', function(req,res,next){
+app.post('/api/admin/addQues', function(req,res,next){
 
-	var assArr= {question:req.body.question, options:req.body.options,lesson_id:req.body.lesson_id};
+	var assArr= {question:req.body.question, options:req.body.options};
 	console.log("assArr" + assArr);
 
 	Class.update( { $and: [
@@ -229,7 +229,7 @@ Class.update( { $and: [
 			res.end("Error Code Already added in this class.");
 		}
 		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-			res.end("Error Code successfully added. You can add more Error Codes!");
+			res.end("Error Code successfully added. You can add more Errors!");
 		}
 	});
 
@@ -305,7 +305,9 @@ app.get('/api/getTeachers', function(req,res,next){
 	});
 });
 
-app.get('/api/getlessons', function(req,res,next){
+
+
+app.get('/api/getErrorCodes', function(req,res,next){
 	console.log("req   "+req.query.class);
 	console.log("req   "+req.query.subject);
 	console.log("req   "+req.query.section);
@@ -314,20 +316,46 @@ app.get('/api/getlessons', function(req,res,next){
 		{ standard : req.query.class }, 
 		{ section: req.query.section },
 		{ subject: req.query.subject }
-		],students : {$elemMatch : { Student_ID : req.user.student_id } }
-		},{ lessons : 1, _id: 0 },function(request,docs){
+		] },{ error_codes : 1, _id: 0 },function(request,docs){
 			console.log(docs);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				console.log("lessons else : "+ docs[0].lessons);
-				res.end(JSON.stringify(docs[0].lessons));
+				console.log("error_codes else : "+ docs[0].error_codes);
+				res.end(JSON.stringify(docs[0].error_codes));
 			} 
 			
 		});
 	
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.get('/api/admin/getlessons', function(req,res,next){
 	console.log("req   "+req.query.class);

@@ -34,13 +34,11 @@ var classSchema = mongoose.Schema({
             assesment : [
                   {
                         _id : false,
-                        lesson_title: {type : String},
                         question : {type : String},
                         options : [{
                               answerText : {type : String},
                               correct : {type : Boolean},
-                              error_code : {type : String},
-                              lesson_name : {type : String},
+                              error_lesson_title : {type : String},
                               _id : false
                         }]
 

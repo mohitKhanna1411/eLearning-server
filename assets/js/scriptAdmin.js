@@ -118,13 +118,13 @@ $scope.addAssesment= function(data)
             $scope.contents.push({
               answerText: $scope.optionsArr[i],
               correct: true,
-              error_code : $scope.codeArr[i]
+              error_lesson_title: $scope.codeArr[i]
             });
           }else{
             $scope.contents.push({
               answerText: $scope.optionsArr[i],
               correct: false,
-              error_code : $scope.codeArr[i]
+              error_lesson_title: $scope.codeArr[i]
             });
           }
 
@@ -133,9 +133,9 @@ $scope.addAssesment= function(data)
 
         var sendData={ "question": data.question, "class": $scope.standard, 
         "subject": $scope.subject, "section": $scope.section , 
-        "options": $scope.contents , "lesson_id": data.lesson_id };
+        "options": $scope.contents};
         console.log(sendData);
-        $http.post('/api/teacher/addQues', sendData).success(function(res){
+        $http.post('/api/admin/addQues', sendData).success(function(res){
           $scope.msg = res;
           $scope.optionsArr = [];
           $scope.errorArr = [];
@@ -178,20 +178,20 @@ $scope.addAssesment= function(data)
 
 
 
-$scope.addErrorCodes= function()
+$scope.addingErrorCodes= function(error_c , title)
       {
         $scope.msg = "";
         $scope.msg1 = "";
         var standard=$scope.standard;
         var section=$scope.section;
         var subject=$scope.subject;
-        var error_code=$scope.error_c;
-        var title=$scope.title;
+        console.log(error_c);
+        console.log(title);
         
-        var data={"class":standard, "subject":subject, "section":section,"error_code":error_code,"title":title};
+        var data={"class":standard, "subject":subject, "section":section,"error_code":error_c,"title":title};
         console.log(data);
         $http.post('/api/admin/addErrorCodes', data).success(function(res){
-          $scope.msg1 = res;
+          $scope.msg = res;
           $scope.error_c = "";
           $scope.title = "";
         })
@@ -202,7 +202,31 @@ $scope.addErrorCodes= function()
 
 
 
+$scope.ok = "not";
+ $scope.findErrorCodes= function()
+ {
+  $scope.ok = "not";
+  $scope.msg = "";
+  $scope.msg1 = "";
+  var standard=$scope.standard;
+  var section=$scope.section;
+  var subject=$scope.subject;
 
+  var data={"class":standard, "subject":subject, "section":section};
+  console.log(data);
+  $http.get('/api/getErrorCodes', { params: data }).success(function(res){
+    $scope.err = res;
+    console.log(res);
+    if(res == "0"){
+      $scope.msg1 = "No Error Codes found in this class, Please create error codes for this class combination!";
+      $scope.ok = "not";
+    }else{
+      $scope.msg1 = res.length + "Error Codes Found! You can create your assesment now";
+      $scope.ok = "ok";
+    }
+  })
+
+}
 
 
 
