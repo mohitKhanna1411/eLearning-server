@@ -55,7 +55,7 @@ myApp.controller('controllerAdmin', function($scope, $http) {
 
  $http.get('/api/listStudentIDs').success(function(res){
   $scope.options = res;
-  console.log($scope.options[0]._id);
+  // console.log($scope.options[0]._id);
 })
 
 
