@@ -28,8 +28,8 @@ myApp.config(function($routeProvider, $locationProvider){
     controller  : 'controllerAdmin'
   })
   .otherwise({
-        redirectTo: '/dashboardAdmin'
-    });
+    redirectTo: '/dashboardAdmin'
+  });
   $locationProvider.html5Mode(true);
 });
 
@@ -169,16 +169,13 @@ $scope.addAssesment= function(data)
           $scope.msg1 = res;
           $scope.content = "";
           $scope.ref_link = "";
+          $scope.lesson_title ="";
         })
 
 
       }
 
-
-
-
-
-$scope.addingErrorCodes= function(error_c , title)
+      $scope.addingErrorCodes= function(error_c , title)
       {
         $scope.msg = "";
         $scope.msg1 = "";
@@ -199,36 +196,30 @@ $scope.addingErrorCodes= function(error_c , title)
 
       }
 
-
-
-
-$scope.ok = "not";
- $scope.findErrorCodes= function()
- {
-  $scope.ok = "not";
-  $scope.msg = "";
-  $scope.msg1 = "";
-  var standard=$scope.standard;
-  var section=$scope.section;
-  var subject=$scope.subject;
-
-  var data={"class":standard, "subject":subject, "section":section};
-  console.log(data);
-  $http.get('/api/getErrorCodes', { params: data }).success(function(res){
-    $scope.err = res;
-    console.log(res);
-    if(res == "0"){
-      $scope.msg1 = "No Error Codes found in this class, Please create error codes for this class combination!";
       $scope.ok = "not";
-    }else{
-      $scope.msg1 = res.length + "Error Codes Found! You can create your assesment now";
-      $scope.ok = "ok";
-    }
-  })
+      $scope.findErrorCodes= function()
+      {
+        $scope.ok = "not";
+        $scope.msg = "";
+        $scope.msg1 = "";
+        var standard=$scope.standard;
+        var section=$scope.section;
+        var subject=$scope.subject;
 
-}
+        var data={"class":standard, "subject":subject, "section":section};
+        console.log(data);
+        $http.get('/api/getErrorCodes', { params: data }).success(function(res){
+          $scope.err = res;
+          console.log(res);
+          if(res == "0"){
+            $scope.msg1 = "No Error Codes found in this class, Please create error codes for this class combination!";
+            $scope.ok = "not";
+          }else{
+            $scope.msg1 = res.length + "Error Codes Found! You can create your assesment now";
+            $scope.ok = "ok";
+          }
+        })
 
-
-
+      }
 
     });
