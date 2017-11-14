@@ -53,11 +53,11 @@ myApp.controller('controllerAdmin', function($scope, $http) {
 
  $http.get('/api/getParents').success(function(res){
   $scope.list3 = res;
-  console.log(res);
+  // console.log(res);
 })
  $http.get('/api/getClasses').success(function(res){
   $scope.list4 = res;
-  console.log(res.students[0]);
+  console.log("classes"  + res[0].students);
 })
 
  $http.get('/api/listStudentIDs').success(function(res){
