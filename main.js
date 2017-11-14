@@ -176,7 +176,7 @@ app.post('/api/addResults', function(req,res,next){
 
 app.post('/api/teacher/addlessons', function(req,res,next){
 	console.log(req.body);
-	var data = { Content: req.body.content,Ref_Link: req.body.ref_link };
+	var data = { Title:req.body.title,Content: req.body.content,Ref_Link: req.body.ref_link };
 	console.log(data);
 	// console.log(Class);
 // Class.update(
@@ -203,6 +203,68 @@ Class.update( { $and: [
 	});
 
 });
+
+
+app.post('/api/admin/addErrorCodes', function(req,res,next){
+	console.log(req.body);
+	var data = { error_code:req.body.error_code,lesson_title: req.body.title};
+	console.log(data);
+	// console.log(Class);
+// Class.update(
+//     { _id: person._id }, 
+//     { $push: { friends: friend } },
+//     done
+// );
+
+Class.update( { $and: [
+	{ standard : req.body.class }, 
+	{ section: req.body.section },
+	{ subject: req.body.subject }
+	]},{$addToSet : { error_codes : data } },function(request,docs){
+		console.log(docs);
+		if(docs.n == 0 && docs.nModified == 0){
+			res.end("Combination does not exist! Please add error code into a valid class");
+		}
+		else if(docs.n == 1 && docs.nModified == 0){
+			res.end("Error Code Already added in this class.");
+		}
+		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+			res.end("Error Code successfully added. You can add more Error Codes!");
+		}
+	});
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

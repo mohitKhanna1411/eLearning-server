@@ -19,6 +19,10 @@ myApp.config(function($routeProvider, $locationProvider){
     templateUrl : '/views/assesmentAdmin.html',
     controller  : 'controllerAdmin'
   })
+  .when('/createErrorCodes', {
+    templateUrl : '/views/createErrorCodes.html',
+    controller  : 'controllerAdmin'
+  })
   .when('/createLessonAdmin', {
     templateUrl : '/views/createLessonAdmin.html',
     controller  : 'controllerAdmin'
@@ -154,8 +158,9 @@ $scope.addAssesment= function(data)
         var section=$scope.section2;
         var subject=$scope.subject2;
         var content=$scope.content;
+        var title=$scope.lesson_title;
         var ref_link=$scope.ref_link;
-        var data={"class":standard, "subject":subject, "section":section,"content":content,"ref_link":ref_link};
+        var data={"class":standard, "subject":subject, "section":section,"title":title,"content":content,"ref_link":ref_link};
         console.log(data);
         $http.post('/api/teacher/addlessons', data).success(function(res){
           $scope.msg1 = res;
@@ -165,5 +170,38 @@ $scope.addAssesment= function(data)
 
 
       }
+
+
+
+
+
+$scope.addErrorCodes= function()
+      {
+        $scope.msg = "";
+        $scope.msg1 = "";
+        var standard=$scope.standard;
+        var section=$scope.section;
+        var subject=$scope.subject;
+        var error_code=$scope.error_c;
+        var title=$scope.title;
+        
+        var data={"class":standard, "subject":subject, "section":section,"error_code":error_code,"title":title};
+        console.log(data);
+        $http.post('/api/admin/addErrorCodes', data).success(function(res){
+          $scope.msg1 = res;
+          $scope.error_c = "";
+          $scope.title = "";
+        })
+
+
+      }
+
+
+
+
+
+
+
+
 
     });
