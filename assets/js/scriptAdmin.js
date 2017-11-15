@@ -1,5 +1,5 @@
 // creating the module
-var myApp = angular.module('myApp', ['ngRoute']);
+var myApp = angular.module('myApp', ['ngRoute' , 'ngFileUpload']);
 // configuring routes
 myApp.config(function($routeProvider, $locationProvider){
   $routeProvider
@@ -49,7 +49,7 @@ myApp.filter('trusted', ['$sce', function ($sce) {
 
 
 // creating mainController
-myApp.controller('controllerAdmin', function($scope, $http) {
+myApp.controller('controllerAdmin', function(Upload,$window,$scope, $http) {
 
  $http.get('/api/getStudents').success(function(res){
   $scope.list1 = res;
@@ -158,11 +158,18 @@ $scope.addAssesment= function(data)
 
       }
 
+$scope.syncVideo= function(){
+  $scope.ref_link = "";
+}
+$scope.syncLink= function(){
+  $scope.file = "";
+}
 
 
-
-      $scope.addinglessons= function()
+    $scope.addinglessons= function(file)
       {
+              $scope.progressPercentage = 0;
+               $scope.progress = "";
         $scope.msg = "";
         $scope.msg1 = "";
         var standard=$scope.standard2;
@@ -171,14 +178,30 @@ $scope.addAssesment= function(data)
         var content=$scope.content;
         var title=$scope.lesson_title;
         var ref_link=$scope.ref_link;
-        var data={"class":standard, "subject":subject, "section":section,"title":title,"content":content,"ref_link":ref_link};
+        var data={"class":standard, "subject":subject, "section":section,
+        "title":title,"content":content,"ref_link":ref_link, "file" : file};
         console.log(data);
-        $http.post('/api/teacher/addlessons', data).success(function(res){
-          $scope.msg1 = res;
-          $scope.content = "";
-          $scope.ref_link = "";
-          $scope.lesson_title ="";
-        })
+        Upload.upload({
+          url   : '/api/teacher/addlessons', 
+          data  : data //pass file as data, should be user ng-model
+        }).then(function (resp) { //upload function returns a promise
+            $scope.msg1 = resp.data;
+            $scope.content = "";
+            $scope.ref_link = "";
+            $scope.lesson_title ="";
+            $scope.file = "";
+
+        }, function (resp) {
+            $scope.msg1 = 'Error status: ' + resp.status;
+            $scope.content = "";
+            $scope.ref_link = "";
+            $scope.lesson_title ="";
+
+        }, function (evt) { 
+            $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            $scope.progress = 'uploading progress: ' + $scope.progressPercentage + '%'; // capture upload progress
+        });
+
 
 
       }
