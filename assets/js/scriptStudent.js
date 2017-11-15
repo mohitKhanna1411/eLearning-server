@@ -41,7 +41,7 @@ myApp.controller('controllerStudent', function($scope, $http) {
   
   var data={"class":standard, "subject":subject, "section":section};
   console.log(data);
-  $http.get('/api/getlessons', { params: data }).success(function(res){
+  $http.get('/api/student/getlessons', { params: data }).success(function(res){
    $scope.list = res;
    if(res == "0"){
     $scope.msg1 = "No lessons found or you are not enrolled in this class!";
