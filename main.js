@@ -12,6 +12,7 @@ var passport = require('passport');
 var config = require('./config/database');
 var port = process.env.PORT || 8080;
 var multer	=	require('multer');
+var json2csv = require('json2csv');
 mongoose.Promise = global.Promise;
 mongoose.connect(config.db,{
 	useMongoClient : true
@@ -536,6 +537,112 @@ app.get('/api/teacher/getRes', function(req,res,next){
 		});
 	
 });
+
+
+app.get('/api/student/getCSV', function(req,res,next){
+
+  Student.find({},function(request,docs){
+    res.setHeader('Content-disposition', 'attachment; filename=StudentRecords.csv');
+  res.set('Content-Type', 'text/csv');
+      // console.log(docs);
+              var fields = ['S.NO.', 'Username','Student ID', 'Email ID','Address', 'Teacher ID', 'School','Grade', 'Fav Subject', 'Aadhar Number', 'Contact Number'];
+               var csvArr =[];
+          for(var i=0;i<docs.length;i++){
+   csvArr.push(
+  {
+    "S.NO.": i+1,
+    "Username": docs[i].username,
+    "Student ID" : docs[i].student_id,
+    "Email ID": docs[i].email,
+    "Address": docs[i].address,
+    "Teacher ID": docs[i].teacher_id,
+    "School": docs[i].school,
+    "Grade": docs[i].grade,
+    "Fav Subject": docs[i].fav_subject,
+    "Aadhar Number": docs[i].aadhar,
+    "Contact Number": docs[i].contact
+  }
+);
+          }//for loop
+          // console.log("created array  :  " + csvArr)
+
+var csvFile = json2csv({ data: csvArr, fields: fields });
+   
+   res.send(csvFile);
+
+}); 
+  });
+
+
+
+app.get('/api/teacher/getCSV', function(req,res,next){
+
+  Teacher.find({},function(request,docs){
+    res.setHeader('Content-disposition', 'attachment; filename=TeacherRecords.csv');
+  res.set('Content-Type', 'text/csv');
+      // console.log(docs);
+              var fields = ['S.NO.', 'Username', 'Teacher ID','Email ID', 'Address', 'Qualification','Job Description', 'Teaching Exp', 'Aadhar Number', 'Contact Number'];
+               var csvArr =[];
+          for(var i=0;i<docs.length;i++){
+   csvArr.push(
+  {
+    "S.NO.": i+1,
+    "Username": docs[i].username,
+    "Teacher ID": docs[i].teacher_id,
+    "Email ID": docs[i].email_id,
+    "Address": docs[i].address,
+    "Qualification": docs[i].qualification,
+    "Job Description": docs[i].job_description,
+    "Teaching Exp": docs[i].teaching_experience,
+    "Aadhar Number": docs[i].aadhar_no,
+    "Contact Number": docs[i].contact_number
+  }
+);
+          }//for loop
+          // console.log("created array  :  " + csvArr)
+
+var csvFile = json2csv({ data: csvArr, fields: fields });
+   
+   res.send(csvFile);
+
+}); 
+  });
+
+
+
+app.get('/api/parent/getCSV', function(req,res,next){
+
+  Parent.find( {},function(request,docs){
+    res.setHeader('Content-disposition', 'attachment; filename=ParentRecords.csv');
+  res.set('Content-Type', 'text/csv');
+      // console.log(docs);
+              var fields = ['S.NO.', 'Username', 'Parent ID','Email ID', 'Address', 'Job Description','Qualification', 'Student ID', 'Aadhar Number', 'Contact Number'];
+               var csvArr =[];
+          for(var i=0;i<docs.length;i++){
+   csvArr.push(
+  {
+    "S.NO.": i+1,
+    "Username": docs[i].username,
+    "Parent ID": docs[i].parent_id,
+    "Email ID": docs[i].email,
+    "Address": docs[i].address,
+    "Job Description": docs[i].job_description,
+    "Qualification": docs[i].qualification,
+    "Student ID": docs[i].student_id,
+    "Aadhar Number": docs[i].aadhar,
+    "Contact Number": docs[i].contact
+  }
+);
+          }//for loop
+          // console.log("created array  :  " + csvArr)
+
+var csvFile = json2csv({ data: csvArr, fields: fields });
+   
+   res.send(csvFile);
+
+}); 
+  });
+
 
 
 
