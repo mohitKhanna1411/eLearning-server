@@ -98,11 +98,10 @@
   <table class="table table-condensed">
     <thead>
       <tr>
-        <th class="col-md-1">S.NO</th>
-        <th class="col-md-1">Lesson Title</th>
-        <th class="col-md-6">Content</th>
-        <th class="col-md-4">Reference Video</th>
-
+        <th>S.NO</th>
+        <th>Lesson Title</th>
+        <th>Content</th>
+        <th>Reference Video</th>
     </tr>
 </thead>
 <tbody  ng-repeat = "list in list">
@@ -110,7 +109,12 @@
     <td>{{$index+1}}</td>
     <td>{{list.Title}}</td>
     <td>{{list.Content}}</td>
-    <td><iframe width="560" height="315" src="{{list.Ref_Link|trusted}}" frameborder="0" allowfullscreen></iframe></td>
+
+    <td ng-if="list.Ref_Link.length > 0"><iframe width="320" height="240" src="{{list.Ref_Link|trusted}}" frameborder="0" allowfullscreen></iframe></td>
+    
+    <td ng-if="list.Ref_Video.length > 0"><video width="320" height="240" controls>
+    <source src="{{list.Ref_Video}}" type="video/mp4">
+    </video></td>
     
 </tr>
 

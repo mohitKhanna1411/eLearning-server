@@ -12,6 +12,7 @@ var passport = require('passport');
 var config = require('./config/database');
 var port = process.env.PORT || 8080;
 var multer	=	require('multer');
+var json2csv = require('json2csv');
 mongoose.Promise = global.Promise;
 mongoose.connect(config.db,{
 	useMongoClient : true
@@ -172,18 +173,27 @@ app.post('/api/addResults', function(req,res,next){
 
 	
 });
+var storage	=	multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './uploads');
+  },
+  filename: function (req, file, callback) {
+  	 console.log("filename========");
+  	 console.log(file);
+    callback(null, 'ourPortal-' + file.originalname.replace(/\..+$/, '') + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
 
+var upload = multer({ storage : storage }).single('file');
 
 app.post('/api/teacher/addlessons', function(req,res,next){
+	upload(req,res,function(err) {
+		console.log("post==============")
 	console.log(req.body);
-	var data = { Title:req.body.title,Content: req.body.content,Ref_Link: req.body.ref_link };
-	console.log(data);
-	// console.log(Class);
-// Class.update(
-//     { _id: person._id }, 
-//     { $push: { friends: friend } },
-//     done
-// );
+	console.log(req.file.path);
+	var data = { Title:req.body.title,Content: req.body.content,Ref_Link: req.body.ref_link, Ref_Video : "./" + req.file.path };
+	 
+
 
 Class.update( { $and: [
 	{ standard : req.body.class }, 
@@ -201,7 +211,7 @@ Class.update( { $and: [
 			res.end("Lesson successfully added. You can add more lessons!");
 		}
 	});
-
+});
 });
 
 
@@ -333,28 +343,29 @@ app.get('/api/getErrorCodes', function(req,res,next){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.get('/api/student/getlessons', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	
+	Class.find( { $and: [
+		{ standard : req.query.class }, 
+		{ section: req.query.section },
+		{ subject: req.query.subject }
+		],students : {$elemMatch : { Student_ID : req.user.student_id } }
+		},{ lessons : 1, _id: 0 },function(request,docs){
+			console.log(docs);
+			if(docs.length == 0){
+				res.end(JSON.stringify(docs.length));
+			}
+			else{
+				console.log("lessons else : "+ docs[0].lessons);
+				res.end(JSON.stringify(docs[0].lessons));
+			} 
+			
+		});
+	
+});
 
 
 app.get('/api/admin/getlessons', function(req,res,next){
@@ -526,6 +537,112 @@ app.get('/api/teacher/getRes', function(req,res,next){
 		});
 	
 });
+
+
+app.get('/api/student/getCSV', function(req,res,next){
+
+  Student.find({},function(request,docs){
+    res.setHeader('Content-disposition', 'attachment; filename=StudentRecords.csv');
+  res.set('Content-Type', 'text/csv');
+      // console.log(docs);
+              var fields = ['S.NO.', 'Username','Student ID', 'Email ID','Address', 'Teacher ID', 'School','Grade', 'Fav Subject', 'Aadhar Number', 'Contact Number'];
+               var csvArr =[];
+          for(var i=0;i<docs.length;i++){
+   csvArr.push(
+  {
+    "S.NO.": i+1,
+    "Username": docs[i].username,
+    "Student ID" : docs[i].student_id,
+    "Email ID": docs[i].email,
+    "Address": docs[i].address,
+    "Teacher ID": docs[i].teacher_id,
+    "School": docs[i].school,
+    "Grade": docs[i].grade,
+    "Fav Subject": docs[i].fav_subject,
+    "Aadhar Number": docs[i].aadhar,
+    "Contact Number": docs[i].contact
+  }
+);
+          }//for loop
+          // console.log("created array  :  " + csvArr)
+
+var csvFile = json2csv({ data: csvArr, fields: fields });
+   
+   res.send(csvFile);
+
+}); 
+  });
+
+
+
+app.get('/api/teacher/getCSV', function(req,res,next){
+
+  Teacher.find({},function(request,docs){
+    res.setHeader('Content-disposition', 'attachment; filename=TeacherRecords.csv');
+  res.set('Content-Type', 'text/csv');
+      // console.log(docs);
+              var fields = ['S.NO.', 'Username', 'Teacher ID','Email ID', 'Address', 'Qualification','Job Description', 'Teaching Exp', 'Aadhar Number', 'Contact Number'];
+               var csvArr =[];
+          for(var i=0;i<docs.length;i++){
+   csvArr.push(
+  {
+    "S.NO.": i+1,
+    "Username": docs[i].username,
+    "Teacher ID": docs[i].teacher_id,
+    "Email ID": docs[i].email_id,
+    "Address": docs[i].address,
+    "Qualification": docs[i].qualification,
+    "Job Description": docs[i].job_description,
+    "Teaching Exp": docs[i].teaching_experience,
+    "Aadhar Number": docs[i].aadhar_no,
+    "Contact Number": docs[i].contact_number
+  }
+);
+          }//for loop
+          // console.log("created array  :  " + csvArr)
+
+var csvFile = json2csv({ data: csvArr, fields: fields });
+   
+   res.send(csvFile);
+
+}); 
+  });
+
+
+
+app.get('/api/parent/getCSV', function(req,res,next){
+
+  Parent.find( {},function(request,docs){
+    res.setHeader('Content-disposition', 'attachment; filename=ParentRecords.csv');
+  res.set('Content-Type', 'text/csv');
+      // console.log(docs);
+              var fields = ['S.NO.', 'Username', 'Parent ID','Email ID', 'Address', 'Job Description','Qualification', 'Student ID', 'Aadhar Number', 'Contact Number'];
+               var csvArr =[];
+          for(var i=0;i<docs.length;i++){
+   csvArr.push(
+  {
+    "S.NO.": i+1,
+    "Username": docs[i].username,
+    "Parent ID": docs[i].parent_id,
+    "Email ID": docs[i].email,
+    "Address": docs[i].address,
+    "Job Description": docs[i].job_description,
+    "Qualification": docs[i].qualification,
+    "Student ID": docs[i].student_id,
+    "Aadhar Number": docs[i].aadhar,
+    "Contact Number": docs[i].contact
+  }
+);
+          }//for loop
+          // console.log("created array  :  " + csvArr)
+
+var csvFile = json2csv({ data: csvArr, fields: fields });
+   
+   res.send(csvFile);
+
+}); 
+  });
+
 
 
 
