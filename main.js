@@ -172,18 +172,27 @@ app.post('/api/addResults', function(req,res,next){
 
 	
 });
+var storage	=	multer.diskStorage({
+  destination: function (req, file, callback) {
+    callback(null, './uploads');
+  },
+  filename: function (req, file, callback) {
+  	 console.log("filename========");
+  	 console.log(file);
+    callback(null, 'ourPortal-' + file.originalname.replace(/\..+$/, '') + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
 
+var upload = multer({ storage : storage }).single('file');
 
 app.post('/api/teacher/addlessons', function(req,res,next){
+	upload(req,res,function(err) {
+		console.log("post==============")
 	console.log(req.body);
-	var data = { Title:req.body.title,Content: req.body.content,Ref_Link: req.body.ref_link };
-	console.log(data);
-	// console.log(Class);
-// Class.update(
-//     { _id: person._id }, 
-//     { $push: { friends: friend } },
-//     done
-// );
+	console.log(req.file.path);
+	var data = { Title:req.body.title,Content: req.body.content,Ref_Link: req.body.ref_link, Ref_Video : "./" + req.file.path };
+	 
+
 
 Class.update( { $and: [
 	{ standard : req.body.class }, 
@@ -201,7 +210,7 @@ Class.update( { $and: [
 			res.end("Lesson successfully added. You can add more lessons!");
 		}
 	});
-
+});
 });
 
 
@@ -333,28 +342,29 @@ app.get('/api/getErrorCodes', function(req,res,next){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+app.get('/api/student/getlessons', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	
+	Class.find( { $and: [
+		{ standard : req.query.class }, 
+		{ section: req.query.section },
+		{ subject: req.query.subject }
+		],students : {$elemMatch : { Student_ID : req.user.student_id } }
+		},{ lessons : 1, _id: 0 },function(request,docs){
+			console.log(docs);
+			if(docs.length == 0){
+				res.end(JSON.stringify(docs.length));
+			}
+			else{
+				console.log("lessons else : "+ docs[0].lessons);
+				res.end(JSON.stringify(docs[0].lessons));
+			} 
+			
+		});
+	
+});
 
 
 app.get('/api/admin/getlessons', function(req,res,next){

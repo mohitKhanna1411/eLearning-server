@@ -23,6 +23,7 @@ var classSchema = mongoose.Schema({
             Title :  {type : String},
             Content : {type : String},
             Ref_Link : {type : String},
+            Ref_Video : {type : String},
             _id : false
       }
       ] ,
