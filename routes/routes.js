@@ -66,19 +66,19 @@ module.exports = function(app,passport){
     }));
 
     app.get('/dashboardTeacher',isLoggedIn, function(req, res){
-        res.render('dashboardTeacher.ejs'); 
+        res.render('dashboardTeacher.ejs',{user : req.user}); 
     });
 
     app.get('/dashboardStudent',isLoggedIn, function(req, res){
-        res.render('dashboardStudent.ejs'); 
+        res.render('dashboardStudent.ejs',{user : req.user}); 
     });
 
     app.get('/dashboardParent',isLoggedIn, function(req, res){
-        res.render('dashboardParent.ejs'); 
+        res.render('dashboardParent.ejs',{user : req.user}); 
     });
 
     app.get('/dashboardAdmin', function(req, res){
-        res.render('dashboardAdmin.ejs'); 
+        res.render('dashboardAdmin.ejs',{user : req.user}); 
     });
 
     app.get('/logout', function(req,res){
