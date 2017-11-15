@@ -1,3 +1,4 @@
+
 <html>
 <head>
   <script src = "/assets/js/scriptTeacher.js"></script>
@@ -115,19 +116,20 @@
         <p> Attention Needed in </p></br>
         
         <table class="table table-condensed">
-         <tbody  ng-repeat = "rec in recommend.recommendations">
+        <thead>
          <tr>
          <th>S.No</th>
          <th>Question </th>
          <th> Student's Response </th>
-         <th> Error Code </th>
-         <th> Lesson </th>
-      <tr>
+         <th>Recommended Lesson</th>
+       
+      <tr></thead>
+         <tbody  ng-repeat = "rec in recommend.recommendations">
+        
         <td>{{$index+1}}</td>
         <td>{{rec.question}}</td>
-        <td>{{rec.response}}</td>
-        <td>{{rec.error_code}}</td>
-        <td>{{rec.lesson_id}}</td>
+        <td>{{rec.response}}</td>   
+        <td>{{rec.error_lesson_title}}</td>
       </tr>
     </tbody>
   </table>

@@ -27,6 +27,14 @@ myApp.config(function($routeProvider, $locationProvider){
     templateUrl : '/views/createLessonAdmin.html',
     controller  : 'controllerAdmin'
   })
+  .when('/showErrorCodes', {
+    templateUrl : '/views/showErrorCodes.html',
+    controller  : 'controllerAdmin'
+  })
+  .when('/recommendationAdmin', {
+    templateUrl : '/views/recommendationAdmin.html',
+    controller  : 'controllerAdmin'
+  })
   .otherwise({
     redirectTo: '/dashboardAdmin'
   });
@@ -233,16 +241,54 @@ $scope.syncLink= function(){
         console.log(data);
         $http.get('/api/getErrorCodes', { params: data }).success(function(res){
           $scope.err = res;
+          var right="Right Answer";
+          var obj = {
+          error_code : right,
+          lesson_title : right
+                  };
+            $scope.err.push(obj);
           console.log(res);
           if(res == "0"){
             $scope.msg1 = "No Error Codes found in this class, Please create error codes for this class combination!";
             $scope.ok = "not";
           }else{
-            $scope.msg1 = res.length + "Error Codes Found! You can create your assesment now";
+            $scope.msg1 = res.length + " Error Codes Found! You can create your assesment now";
             $scope.ok = "ok";
           }
         })
 
       }
+
+    $scope.stuID = "";
+$scope.adminRecommend= function()
+{
+  $scope.ok = "not";
+  $scope.msg = "";
+  $scope.msg1 = "";
+  var standard=$scope.standard;
+  var section=$scope.section;
+  var subject=$scope.subject;
+  var studentID=$scope.stuID;
+  console.log("id:  " + $scope.stuID); 
+  
+  var data={"class":standard, "subject":subject, "section":section,"student_id":studentID};
+  console.log("data   " +data);
+  $http.get('/api/teacher/getRes', { params: data }).success(function(res){
+    $scope.recommend=res;
+    console.log(res);
+   if(res == "0"){
+      $scope.msg1 = "No Recommendations/Assesments Found in this combination";
+      $scope.ok = "not";
+    }else{
+
+      $scope.ok = "ok";
+    }
+  
+  })
+  
+}
+
+
+
 
     });
