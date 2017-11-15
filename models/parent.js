@@ -9,6 +9,12 @@ var parentSchema = mongoose.Schema({
     password:{
         type: String
     },
+    resetPasswordToken:{
+        type : String
+    },
+    resetPasswordExpires: {
+        type : Date
+    },
     role:{
         type: String
     },
@@ -18,7 +24,9 @@ var parentSchema = mongoose.Schema({
         required: true
     },
     email:{
-        type: String
+        type: String,
+        unique: true,
+        required: true
     }, 
 	job_description:{
         type: String

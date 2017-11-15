@@ -9,6 +9,12 @@ var teacherSchema = mongoose.Schema({
     password:{
         type: String
     },
+    resetPasswordToken:{
+        type : String
+    },
+    resetPasswordExpires: {
+        type : Date
+    },
     role:{
         type: String
     },
@@ -18,7 +24,9 @@ var teacherSchema = mongoose.Schema({
         required: true
     },
     email_id:{
-        type: String
+        type: String,
+        unique: true,
+        required: true
     },
 	address:{
         type: String
