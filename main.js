@@ -71,6 +71,17 @@ app.get('/api/listStudentIDs', function(req,res,next){
 	});
 });
 
+
+app.get('/api/listParentIDs', function(req,res,next){
+	console.log("inside list s_ID");
+	Parent.find( {},{parent_id : 1 , _id : 0 } ,function(request,docs){
+		console.log(docs);
+		res.send(JSON.stringify(docs));
+	});
+});
+
+
+
 app.post('/api/teacher/manageGrade', function(req,res,next){
 	console.log(req.body);
 	// console.log(Class);
@@ -607,6 +618,57 @@ var csvFile = json2csv({ data: csvArr, fields: fields });
 
 }); 
   });
+
+
+
+app.post('/api/admin/deleteStudent', function(req,res,next){
+	console.log(req.body);
+	var stu_id = req.body.student_id ;
+	console.log(stu_id);
+    Student.remove({ student_id: stu_id }, function(err) {
+    if (!err) {
+            res='Student Removed';
+    }
+    else {
+            res = 'Student could not be removed. Please try again later!';
+    }
+});
+	
+});
+
+app.post('/api/admin/deleteTeacher', function(req,res,next){
+	console.log(req.body);
+	var tea_id = req.body.teacher_id ;
+	console.log(tea_id);
+    Student.remove({teacher_id: tea_id }, function(err) {
+    if (!err) {
+            res='Teacher Removed';
+    }
+    else {
+            res = 'Teacher could not be removed. Please try again later!';
+    }
+});
+	
+});
+
+
+app.post('/api/admin/deleteParent', function(req,res,next){
+	console.log(req.body);
+	var par_id = req.body.parent_id ;
+	console.log(par_id);
+    Student.remove({parent_id: par_id }, function(err) {
+    if (!err) {
+            res='Parent Removed';
+    }
+    else {
+            res = 'Parent could not be removed. Please try again later!';
+    }
+});
+	
+});
+
+
+
 
 
 
