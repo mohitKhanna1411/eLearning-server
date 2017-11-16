@@ -142,8 +142,10 @@ $scope.showResult = function(){
           response : $scope.questions[i].userAnswer,
           error_lesson_title : answers[j].error_lesson_title
                   };
-
-         error_lesson.push(answers[j].error_lesson_title);
+          var obj1={
+            lesson_title :answers[j].error_lesson_title
+          };
+         error_lesson.push(obj1);
         
         errors.push(obj);
         

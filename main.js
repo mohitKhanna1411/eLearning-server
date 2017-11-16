@@ -88,9 +88,13 @@ app.post('/api/teacher/manageGrade', function(req,res,next){
 	// console.log(Class);
 
 	var newModel = new Class();
+	var newRec=new Recommend();
 	newModel.standard = req.body.class;
 	newModel.section = req.body.section;
 	newModel.subject = req.body.subject;
+	newRec.standard = req.body.class;
+	newRec.section = req.body.section;
+	newRec.subject = req.body.subject;
 
 	newModel.save(function(err,savedObject){
 		if(err){
@@ -103,6 +107,24 @@ app.post('/api/teacher/manageGrade', function(req,res,next){
 			res.end("Class : "+savedObject.standard+"-"+savedObject.section+"-"+savedObject.subject+"  successfully created.")
 		}
 	});
+
+     
+   newRec.save(function(err,savedObject){
+		if(err){
+			console.log(err);
+			if(err.code == 11000){
+				
+			}
+			res.end("Error : " + err.code);
+		}
+		else{
+			console.log(savedObject);
+			
+		}
+	});
+
+
+
 });
 
 app.post('/api/teacher/addStudent', function(req,res,next){
@@ -170,10 +192,6 @@ app.post('/api/addResults', function(req,res,next){
 	newRes.student_id = req.user.student_id;
 	newRes.marks = req.body.count;
 	newRes.recommendations = req.body.recommendations;
-	newRec.standard = req.body.class;
-	newRec.section = req.body.section;
-	newRec.subject = req.body.subject;
-	newRec.lessons = req.body.lessons;
 	newRes.save(function(err,savedObject){
 		if(err){
 			console.log(err);
@@ -189,19 +207,20 @@ app.post('/api/addResults', function(req,res,next){
 	});
 
 
-   newRec.save(function(err,savedObject){
-		if(err){
+   Recommend.update( { $and: [
+		{ standard : req.body.class }, 
+		{ section: req.body.section },
+		{ subject: req.body.subject }
+		]},{$addToSet : { lessons: req.body.lessons } },function(request,docs,err,savedObject){
+			console.log(docs);
+			if(err){
 			console.log(err);
-			if(err.code == 11000){
-				
-			}
-			res.end("Error : " + err.code);
+			res.end("Error : " + err);
 		}
 		else{
 			console.log(savedObject);
-			
 		}
-	});
+		});
 
 
 

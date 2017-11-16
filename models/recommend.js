@@ -10,10 +10,10 @@ var recommendSchema = mongoose.Schema({
             subject:{ 
                   type: String
             },
-            lessons : 
+            lessons :[ 
                   { 
-                        type : String
-                  }
+                        lesson_title: {type : String}
+                  }]
             
 });
 
