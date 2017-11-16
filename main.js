@@ -25,6 +25,10 @@ var Student= require('./models/student');
 var Parent= require('./models/parent');
 var Class = require('./models/class');
 var Result = require('./models/result');
+
+var Recommend = require('./models/recommend');
+
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -71,14 +75,31 @@ app.get('/api/listStudentIDs', function(req,res,next){
 	});
 });
 
+
+app.get('/api/listParentIDs', function(req,res,next){
+	console.log("inside list s_ID");
+	Parent.find( {},{parent_id : 1 , _id : 0 } ,function(request,docs){
+		console.log(docs);
+		res.send(JSON.stringify(docs));
+	});
+});
+
+
+
 app.post('/api/teacher/manageGrade', function(req,res,next){
 	console.log(req.body);
 	// console.log(Class);
 
 	var newModel = new Class();
+
+	var newRec=new Recommend();
 	newModel.standard = req.body.class;
 	newModel.section = req.body.section;
 	newModel.subject = req.body.subject;
+	newRec.standard = req.body.class;
+	newRec.section = req.body.section;
+	newRec.subject = req.body.subject;
+
 
 	newModel.save(function(err,savedObject){
 		if(err){
@@ -91,6 +112,22 @@ app.post('/api/teacher/manageGrade', function(req,res,next){
 			res.end("Class : "+savedObject.standard+"-"+savedObject.section+"-"+savedObject.subject+"  successfully created.")
 		}
 	});
+
+     
+   newRec.save(function(err,savedObject){
+		if(err){
+			console.log(err);
+			if(err.code == 11000){
+				
+			}
+			res.end("Error : " + err.code);
+		}
+		else{
+			console.log(savedObject);
+			
+		}
+	});
+
 });
 
 app.post('/api/teacher/addStudent', function(req,res,next){
@@ -151,6 +188,9 @@ app.post('/api/addResults', function(req,res,next){
 	console.log(req.body.recommendations);
 
 	var newRes = new Result();
+
+	var newRec=new Recommend();
+
 	newRes.standard = req.body.class;
 	newRes.section = req.body.section;
 	newRes.subject = req.body.subject;
@@ -171,6 +211,24 @@ app.post('/api/addResults', function(req,res,next){
 		}
 	});
 
+
+
+   Recommend.update( { $and: [
+		{ standard : req.body.class }, 
+		{ section: req.body.section },
+		{ subject: req.body.subject }
+		]},{$addToSet : { lessons: req.body.lessons } },function(request,docs,err,savedObject){
+			console.log(docs);
+			if(err){
+			console.log(err);
+			res.end("Error : " + err);
+		}
+		else{
+			console.log(savedObject);
+		}
+		});
+
+
 	
 });
 var storage	=	multer.diskStorage({
@@ -190,8 +248,17 @@ app.post('/api/teacher/addlessons', function(req,res,next){
 	upload(req,res,function(err) {
 		console.log("post==============")
 	console.log(req.body);
-	console.log(req.file.path);
-	var data = { Title:req.body.title,Content: req.body.content,Ref_Link: req.body.ref_link, Ref_Video : "./" + req.file.path };
+	console.log(req.file);
+	if(typeof req.file !== 'undefined' && req.file !== null ){
+		console.log("here=======");
+		console.log(req.file);
+		var filePath = "./" + req.file.path;
+	}else{
+		var filePath = "";
+	}
+	// console.log(req.file.path);
+	var data = { Title:req.body.title,Content: req.body.content,Ref_Link: req.body.ref_link, Ref_Video : filePath };
+
 	 
 
 
@@ -607,6 +674,63 @@ var csvFile = json2csv({ data: csvArr, fields: fields });
 
 }); 
   });
+
+
+
+app.post('/api/admin/deleteStudent', function(req,res,next){
+	console.log(req.body);
+	var stu_id = req.body.student_id ;
+	console.log(stu_id);
+    Student.remove({ student_id: stu_id }, function(err) {
+    if (!err) {
+
+            res.end('Student Removed');
+    }
+    else {
+            res.end('Student could not be removed. Please try again later!');
+
+    }
+});
+	
+});
+
+app.post('/api/admin/deleteTeacher', function(req,res,next){
+	console.log(req.body);
+	var tea_id = req.body.teacher_id ;
+	console.log(tea_id);
+
+    Teacher.remove( { teacher_id: tea_id }, function(err) {
+    if (!err) {
+            res.end('Teacher Removed');
+    }
+    else {
+            res.end('Teacher could not be removed. Please try again later!');
+
+    }
+});
+	
+});
+
+
+app.post('/api/admin/deleteParent', function(req,res,next){
+	console.log(req.body);
+	var par_id = req.body.parent_id ;
+	console.log(par_id);
+
+    Parent.remove( { parent_id: par_id }, function(err) {
+    if (!err) {
+            res.end('Parent Removed');
+    }
+    else {
+            res.end('Parent could not be removed. Please try again later!');
+
+    }
+});
+	
+});
+
+
+
 
 
 
