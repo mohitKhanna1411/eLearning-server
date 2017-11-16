@@ -12,7 +12,8 @@ var recommendSchema = mongoose.Schema({
             },
             lessons :[ 
                   { 
-                        lesson_title: {type : String}
+                        lesson_title: {type : String},
+                        _id : false
                   }]
             
 });
