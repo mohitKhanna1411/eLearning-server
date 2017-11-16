@@ -120,6 +120,7 @@ $scope.answers ={};
 $scope.correctCount = 0;
 $scope.showResult = function(){
   var errors=[];
+  var error_lesson=[];
   $scope.hide = false ;
   $scope.correctCount = 0;
   var qLength = $scope.questions.length;
@@ -142,7 +143,7 @@ $scope.showResult = function(){
           error_lesson_title : answers[j].error_lesson_title
                   };
 
-         
+         error_lesson.push(answers[j].error_lesson_title);
         
         errors.push(obj);
         
@@ -156,7 +157,7 @@ $scope.showResult = function(){
   var subject=$scope.subject;
   var sendData = {  "count" : $scope.correctCount +" out of "+ $scope.questions.length , 
   "class":standard, "section":section, "subject":subject,
-  "recommendations" : errors                      
+  "recommendations" : errors ,"lessons": error_lesson                 
 }
 $scope.ql = qLength;
 console.log(sendData);

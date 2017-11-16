@@ -25,6 +25,7 @@ var Student= require('./models/student');
 var Parent= require('./models/parent');
 var Class = require('./models/class');
 var Result = require('./models/result');
+var Recommend = require('./models/recommend');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 
@@ -162,12 +163,17 @@ app.post('/api/addResults', function(req,res,next){
 	console.log(req.body.recommendations);
 
 	var newRes = new Result();
+	var newRec=new Recommend();
 	newRes.standard = req.body.class;
 	newRes.section = req.body.section;
 	newRes.subject = req.body.subject;
 	newRes.student_id = req.user.student_id;
 	newRes.marks = req.body.count;
 	newRes.recommendations = req.body.recommendations;
+	newRec.standard = req.body.class;
+	newRec.section = req.body.section;
+	newRec.subject = req.body.subject;
+	newRec.lessons = req.body.lessons;
 	newRes.save(function(err,savedObject){
 		if(err){
 			console.log(err);
@@ -181,6 +187,26 @@ app.post('/api/addResults', function(req,res,next){
 			res.end("Test Results Saved successfully!");
 		}
 	});
+
+
+   newRec.save(function(err,savedObject){
+		if(err){
+			console.log(err);
+			if(err.code == 11000){
+				
+			}
+			res.end("Error : " + err.code);
+		}
+		else{
+			console.log(savedObject);
+			
+		}
+	});
+
+
+
+
+
 
 	
 });
@@ -201,8 +227,16 @@ app.post('/api/teacher/addlessons', function(req,res,next){
 	upload(req,res,function(err) {
 		console.log("post==============")
 	console.log(req.body);
-	console.log(req.file.path);
-	var data = { Title:req.body.title,Content: req.body.content,Ref_Link: req.body.ref_link, Ref_Video : "./" + req.file.path };
+	console.log(req.file);
+	if(typeof req.file !== 'undefined' && req.file !== null ){
+		console.log("here=======");
+		console.log(req.file);
+		var filePath = "./" + req.file.path;
+	}else{
+		var filePath = "";
+	}
+	// console.log(req.file.path);
+	var data = { Title:req.body.title,Content: req.body.content,Ref_Link: req.body.ref_link, Ref_Video : filePath };
 	 
 
 
