@@ -23,6 +23,10 @@ myApp.config(function($routeProvider, $locationProvider){
     templateUrl : '/views/viewStudents.html',
     controller  : 'controllerTeacher'
   })
+   .when('/overallRecommend', {
+    templateUrl : '/views/overallRecommend.html',
+    controller  : 'controllerTeacher'
+  })
   .when('/teacherRecommend', {
     templateUrl : '/views/teacherRecommend.html',
     controller  : 'controllerTeacher'
@@ -319,6 +323,102 @@ $scope.viewStudents= function()
 
     
   }
+
+
+
+
+$scope.ok = "not";
+$scope.overallRecommend= function()
+{
+  $scope.ok = "not";
+  $scope.msg = "";
+  $scope.msg1 = "";
+  var standard=$scope.standard;
+  var section=$scope.section;
+  var subject=$scope.subject;
+  
+  var data={"class":standard, "subject":subject, "section":section};
+  console.log(data);
+  $http.get('/api/getOverallRecommend', { params: data }).success(function(res){
+    $scope.summary = res;
+   
+    if(res == "0"){
+      $scope.msg1 = "No lessons found.";
+      $scope.ok = "not";
+    }else{
+      $scope.msg1 = " Result Found";
+      $scope.ok = "ok";
+
+      var overall = [];
+     // angular.forEach($scope.summary, function(element) {
+     //   overall.push(element);
+     //   });
+
+     for(var i = 0 ; i < $scope.summary.length ; i++){
+      for(var j = 0 ; j < Object.keys($scope.summary[i]).length ; j++){
+        // console.log($scope.summary[i][j].lesson_title);
+        overall.push($scope.summary[i][j].lesson_title);
+
+      }
+     }
+
+    console.log("overall  " + overall);
+    // console.log("summ  "   + $scope.summary);
+
+
+
+
+    function foo(arr) {
+    var a = [], b = [], prev;
+    
+    arr.sort();
+    for ( var i = 0; i < arr.length; i++ ) {
+        if ( arr[i] !== prev ) {
+            a.push(arr[i]);
+            b.push(1);
+        } else {
+            b[b.length-1]++;
+        }
+        prev = arr[i];
+    }
+    
+    return [a, b];
+}
+      $scope.list2=[];
+
+     var result = foo(overall);
+     for ( var i = 0; i < result[0].length; i++ ) {
+      
+      $scope.list2.push({
+        les_title : result[0][i],
+        num_rec :result[1][i]
+      });
+
+      }//for loop
+
+
+
+
+    }//else
+  })
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
