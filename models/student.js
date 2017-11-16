@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
+var passportLocalMongoose = require("passport-local-mongoose");
+
 var studentSchema = mongoose.Schema({
     username:{
         type: String,
@@ -51,6 +53,9 @@ var studentSchema = mongoose.Schema({
     }
   
 });
+
+studentSchema.plugin(passportLocalMongoose)
+
 
 studentSchema.methods.generateHash = function(password){
     return bcrypt.hashSync(password,bcrypt.genSaltSync(8),null);

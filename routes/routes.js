@@ -37,10 +37,10 @@ module.exports = function(app,passport){
 
   });
 
-    app.get('/register', function(req, res){
-    //res.json({message: req.flash('registerMessage')});
-    res.render('register.ejs');    
-});
+//     app.get('/register', function(req, res){
+//     //res.json({message: req.flash('registerMessage')});
+//     res.render('register.ejs');    
+// });
 
     app.get('/studentRegister', function(req, res){
     //res.json({message: req.flash('registerMessage')});
@@ -101,7 +101,7 @@ module.exports = function(app,passport){
 
 // forgot password
 app.get('/forgot', function(req, res) {
-  res.render('forgot');
+  res.render('forgot',{success : req.flash('success') , error : req.flash('error')});
 });
 
 app.post('/forgot', function(req, res, next) {
@@ -258,7 +258,7 @@ app.get('/reset/student/:token', function(req, res) {
       req.flash('error', 'Password reset token is invalid or has expired.');
       return res.redirect('/forgot');
     }
-    res.render('resetStudent.ejs', {token: req.params.token});
+    res.render('resetStudent.ejs', {token: req.params.token , success : req.flash('success') , error : req.flash('error')});
   });
 });
 
@@ -269,7 +269,7 @@ app.get('/reset/teacher/:token', function(req, res) {
       req.flash('error', 'Password reset token is invalid or has expired.');
       return res.redirect('/forgot');
     }
-    res.render('resetTeacher.ejs', {token: req.params.token});
+    res.render('resetTeacher.ejs', {token: req.params.token , success : req.flash('success') , error : req.flash('error')});
   });
 });
 
@@ -280,7 +280,7 @@ app.get('/reset/parent/:token', function(req, res) {
       req.flash('error', 'Password reset token is invalid or has expired.');
       return res.redirect('/forgot');
     }
-    res.render('resetParent.ejs', {token: req.params.token});
+    res.render('resetParent.ejs', {token: req.params.token , success : req.flash('success') , error : req.flash('error')});
   });
 });
 
@@ -319,7 +319,7 @@ app.post('/reset/teacher/:token', function(req, res) {
       });
       var mailOptions = {
         to: user.email,
-        from: 'learntocodeinfo@mail.com',
+        from: 'sksmartysabhya@mail.com',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email_id + ' has just been changed.\n'
@@ -330,16 +330,12 @@ app.post('/reset/teacher/:token', function(req, res) {
       });
     }
   ], function(err) {
-    res.redirect('/login');
+    res.redirect('/dashboardTeacher');
   });
 });
 
 
 app.post('/reset/student/:token', function(req, res) {
-                            var newUser = new Student();
-
-            console.log(newUser.generateHash(req.body.password));
-
   async.waterfall([
     function(done) {
       Student.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
@@ -355,7 +351,11 @@ app.post('/reset/student/:token', function(req, res) {
             user.resetPasswordExpires = undefined;
 
             user.save(function(err) {
+                console.log("save========");
+                console.log(err);
               req.logIn(user, function(err) {
+                console.log("logIn=======")
+                console.log(err);
                 done(err, user);
               });
             });
@@ -376,7 +376,7 @@ app.post('/reset/student/:token', function(req, res) {
       });
       var mailOptions = {
         to: user.email,
-        from: 'learntocodeinfo@mail.com',
+        from: 'sksmartysabhya@mail.com',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
@@ -387,7 +387,8 @@ app.post('/reset/student/:token', function(req, res) {
       });
     }
   ], function(err) {
-    res.redirect('/login');
+    console.log(err);
+    res.redirect('/dashboardStudent');
   });
 });
 
@@ -426,7 +427,7 @@ app.post('/reset/parent/:token', function(req, res) {
       });
       var mailOptions = {
         to: user.email,
-        from: 'learntocodeinfo@mail.com',
+        from: 'sksmartysabhya@mail.com',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
@@ -437,7 +438,7 @@ app.post('/reset/parent/:token', function(req, res) {
       });
     }
   ], function(err) {
-    res.redirect('/login');
+    res.redirect('/dashboardParent');
   });
 });
 
