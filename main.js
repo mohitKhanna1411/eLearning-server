@@ -661,10 +661,10 @@ app.post('/api/admin/deleteStudent', function(req,res,next){
 	console.log(stu_id);
     Student.remove({ student_id: stu_id }, function(err) {
     if (!err) {
-            res='Student Removed';
+            res.end('Student Removed');
     }
     else {
-            res = 'Student could not be removed. Please try again later!';
+            res.end('Student could not be removed. Please try again later!');
     }
 });
 	
@@ -674,12 +674,12 @@ app.post('/api/admin/deleteTeacher', function(req,res,next){
 	console.log(req.body);
 	var tea_id = req.body.teacher_id ;
 	console.log(tea_id);
-    Student.remove({teacher_id: tea_id }, function(err) {
+    Teacher.remove( { teacher_id: tea_id }, function(err) {
     if (!err) {
-            res='Teacher Removed';
+            res.end('Teacher Removed');
     }
     else {
-            res = 'Teacher could not be removed. Please try again later!';
+            res.end('Teacher could not be removed. Please try again later!');
     }
 });
 	
@@ -690,12 +690,12 @@ app.post('/api/admin/deleteParent', function(req,res,next){
 	console.log(req.body);
 	var par_id = req.body.parent_id ;
 	console.log(par_id);
-    Student.remove({parent_id: par_id }, function(err) {
+    Parent.remove( { parent_id: par_id }, function(err) {
     if (!err) {
-            res='Parent Removed';
+            res.end('Parent Removed');
     }
     else {
-            res = 'Parent could not be removed. Please try again later!';
+            res.end('Parent could not be removed. Please try again later!');
     }
 });
 	
