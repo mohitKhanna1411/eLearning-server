@@ -1,5 +1,7 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt-nodejs');
+var passportLocalMongoose = require("passport-local-mongoose");
+
 var teacherSchema = mongoose.Schema({
     username:{
         type: String,
@@ -8,6 +10,12 @@ var teacherSchema = mongoose.Schema({
     },
     password:{
         type: String
+    },
+    resetPasswordToken:{
+        type : String
+    },
+    resetPasswordExpires: {
+        type : Date
     },
     role:{
         type: String
@@ -18,7 +26,9 @@ var teacherSchema = mongoose.Schema({
         required: true
     },
     email_id:{
-        type: String
+        type: String,
+        unique: true,
+        required: true
     },
 	address:{
         type: String
@@ -39,6 +49,9 @@ var teacherSchema = mongoose.Schema({
         type: Number
     }
 });
+
+teacherSchema.plugin(passportLocalMongoose)
+
 
 teacherSchema.methods.generateHash = function(password){
     return bcrypt.hashSync(password,bcrypt.genSaltSync(8),null);

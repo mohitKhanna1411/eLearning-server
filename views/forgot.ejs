@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en" >
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+</head>
+<body>
+    <div class="container" style ="margin-top: 3cm;">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading"><h3>Reset Password</h3></div>
+
+                <div class="panel-body">
+                         <% if(error && error.length > 0) { %>
+       <div class="alert alert-danger"><p><%=error %></p></div>
+     <% } %>
+     
+     <% if(success && success.length > 0) { %>
+       <div class="alert alert-success"><p><%= success %></p></div>
+     <% } %>
+
+                    <form action="/forgot" method="POST">
+                        <div class="row">
+
+                            <div class="form-group">
+                                <label for="role" class="col-md-4 control-label">Reset As </label>
+                                <input type="radio" name="role" value="student" required=""> Student
+                                <input type="radio" name="role" value="teacher"> Teacher
+                                <input type="radio" name="role" value="parent"> Parent
+                            </div>
+                        </div>
+                    </br>
+                    <div class="row">
+
+                        <div class="form-group">
+                            <label for="email" class="col-md-4 control-label">Email ID</label>
+
+                            <div class="col-md-6">
+                                <input type="email" name="email" autofocus class="form-control" required="">
+                            </div>
+                        </div>
+                    </div>
+                </br>
+
+            </br>
+            <div class="row">
+
+                <div class="form-group">
+                    <div class="col-md-8 col-md-offset-4">
+                        <input type="submit" class="btn btn-primary" value="Reset Password">
+
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+</div>
+</div>
+</body>
+</html>
+
