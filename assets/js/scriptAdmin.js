@@ -305,12 +305,15 @@ $scope.deleteStudent= function()
       {
         $scope.msg = "";
         $scope.msg1 = "";
+
         $scope.msg2 = "";
+
         var studentID=$scope.stu_id;
         var data={"student_id":studentID};
         console.log(data);
         $http.post('/api/admin/deleteStudent', data).success(function(res){
           $scope.msg = res;
+
           $scope.msg1 = "";
         $scope.msg2 = "";
           $scope.stu_id = "";
@@ -324,14 +327,18 @@ $scope.deleteTeacher= function()
       {
         $scope.msg = "";
         $scope.msg1 = "";
+
         $scope.msg2 = "";
+
         var teacherID=$scope.tea_id;
         var data={"teacher_id":teacherID};
         console.log(data);
         $http.post('/api/admin/deleteTeacher', data).success(function(res){
+
           $scope.msg1 = res;
           $scope.msg = "";
         $scope.msg2 = "";
+
           $scope.tea_id = "";
         })
 
@@ -343,14 +350,18 @@ $scope.deleteTeacher= function()
       {
         $scope.msg = "";
         $scope.msg1 = "";
+
         $scope.msg2 = "";
+
         var parentID=$scope.par_id;
         var data={"parent_id":parentID};
         console.log(data);
         $http.post('/api/admin/deleteParent', data).success(function(res){
+
           $scope.msg2 = res;
           $scope.msg1 = "";
         $scope.msg = "";
+
           $scope.par_id = "";
         })
 
