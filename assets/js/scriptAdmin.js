@@ -252,19 +252,23 @@ $scope.syncLink= function(){
         console.log(data);
         $http.get('/api/getErrorCodes', { params: data }).success(function(res){
           $scope.err = res;
-          var right="Right Answer";
+     
+         
+          console.log(res);
+          if(res == "0"){
+            $scope.msg1 = "No Error Codes found in this class, Please create error codes for this class combination!";
+            $scope.ok = "not";
+          }else{
+              var right="Right Answer";
           var obj = {
           error_code : right,
           lesson_title : right
                   };
             $scope.err.push(obj);
           console.log(res);
-          if(res == "0"){
-            $scope.msg1 = "No Error Codes found in this class, Please create error codes for this class combination!";
-            $scope.ok = "not";
-          }else{
             $scope.msg1 = res.length + " Error Codes Found! You can create your assesment now";
             $scope.ok = "ok";
+
           }
         })
 
