@@ -37,13 +37,11 @@ module.exports = function(app,passport){
 
   });
 
-//     app.get('/register', function(req, res){
-//     //res.json({message: req.flash('registerMessage')});
-//     res.render('register.ejs');    
-// });
+    app.get('/register', function(req, res){
+    res.render('register.ejs');    
+});
 
     app.get('/studentRegister', function(req, res){
-    //res.json({message: req.flash('registerMessage')});
     res.render('studentRegister.ejs',{message: req.flash('registerMessage')});    
 });
 
