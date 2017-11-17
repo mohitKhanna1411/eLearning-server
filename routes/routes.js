@@ -18,6 +18,10 @@ module.exports = function(app,passport){
         res.render('login.ejs',{message: req.flash('loginMessage')});
     });
 
+    app.get('/admin', function(req, res){
+        res.render('loginAdmin.ejs');    
+    });
+
     app.post('/login', passport.authenticate('login',{
 
         failureRedirect : '/login',
