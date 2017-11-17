@@ -367,22 +367,7 @@ $scope.deleteTeacher= function()
         $scope.msg = "";
 
           $scope.par_id = "";
-        })
-
-        
+        })        
       }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     });

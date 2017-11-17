@@ -2,10 +2,29 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Login</title>
+<title>Admin Login</title>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+<script>
+var app = angular.module('myApp', []);
+app.controller('admin', function($scope, $http, $window) {
+    console.log("inside admin login ctrl");
+     $scope.adminLogin = function(){
+        console.log($scope.adminUsername);
+        console.log($scope.adminPassword);
+
+        if($scope.adminUsername == "admin" && $scope.adminPassword == "admin@123"){
+                $window.location.href = "/dashboardAdmin";
+        }
+        else{
+            $scope.msg = "Incorrect Admin Username/Password";
+        }
+
+      }
+});
+</script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 </head>
-<body>
+<body ng-app="myApp" ng-controller ="admin">
 
 
 <div class="container" style ="margin-top: 3cm;">
@@ -14,31 +33,19 @@
                 <div class="panel-heading"><h3>Login Here</h3></div>
 
                 <div class="panel-body">
-                	<% if(message.length>0){ %>
-								<div class="alert alert-danger"><%= message %></div>
-					<% } %>
-                    <form action="/login" method="post">
-
-
-
-			<div class="row">
-
-                        <div class="form-group">
-				<label for="role" class="col-md-4 control-label">Login As </label>
-                  <input type="radio" name="role" value="student" required=""> Student
-				  <input type="radio" name="role" value="teacher"> Teacher
-				  <input type="radio" name="role" value="parent"> Parent
+                    <form ng-submit="adminLogin()">
+                        <div class="row">
+                            <div ng-if="msg.length > 0" class="alert alert-danger">
+                        <strong><center>{{msg}}</center></strong>
+                            </div>
                         </div>
-                    </div>
-                </br>
-
+                    </br>
                     	    <div class="row">
-
                         <div class="form-group">
-                            <label for="username" class="col-md-4 control-label">Username</label>
+                            <label for="username" class="col-md-4 control-label"> Admin Username</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="username" required="" autofocus>
+                                <input type="text" class="form-control" ng-model="adminUsername" required="" autofocus>
                             </div>
                         </div>
                     </div>
@@ -46,33 +53,25 @@
                         <div class="row">
 
                         <div class="form-group">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+                            <label for="password" class="col-md-4 control-label">Admin Password</label>
 
                             <div class="col-md-6">
-                                <input type="password" class="form-control" name="password" required="">
+                                <input type="password" class="form-control" ng-model="adminPassword" required="">
                             </div>
                         </div>
                     </div>
 	                       
                     </br>
 						<div class="row">
-							
                         <div class="form-group">
                             <div class="col-md-8 col-md-offset-4">
                                 <button type="submit" class="btn btn-success">
                                     Login
                                 </button>
 
-                            	<a class="btn btn-link" href="/forgot">
-                                    Forgot Password?
+                            	<a class="btn btn-link" href="/">
+                                    Exit
                                 </a>
-
-                                <a class="btn btn-link" href="/admin">
-                                    Admin Login
-                                </a>
-
-
-
                             </div>
                         </div>
                     </div>
