@@ -201,7 +201,7 @@ app.post('/api/addResults', function(req,res,next){
 		if(err){
 			console.log(err);
 			if(err.code == 11000){
-				res.end("This assesment is avaiable for practice only because you have already taken this practice.")
+				res.end("This assesment is avaiable for practice only because you have already taken this Test.")
 			}
 			res.end("Error : " + err.code);
 		}
@@ -603,14 +603,16 @@ app.get('/api/parent/getRecomm', function(req,res,next){
 	console.log("req   "+req.query.section);
 	
 
-	Parent.find({username : req.user.username},{ student_id: 1, _id : 0},function(request,docs){
-
+	Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
+				console.log("docs====");
+				console.log(docs);
 		Result.find( { $and: [
 			{ standard : req.query.class }, 
 			{ section: req.query.section },
 			{ subject: req.query.subject },
 			{ student_id: docs[0].student_id }
-			]},{ recommendations : 1, _id: 0 },function(request,docu){
+			]},{ recommendations : 1 },function(request,docu){
+				console.log("docu===");
 				console.log(docu);
 				if(docu.length == 0){
 					res.end(JSON.stringify(docu.length));

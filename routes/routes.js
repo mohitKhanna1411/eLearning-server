@@ -175,13 +175,13 @@ app.post('/forgot', function(req, res, next) {
       var smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
         auth: {
-          user: 'sksmartysabhya@gmail.com',
-          pass: '12345sabu'
+          user: '',
+          pass: ''
         }
       });
       var mailOptions = {
         to: user.email,
-        from: 'sksmartysabhya@gmail.com',
+        from: '',
         subject: 'Node.js Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -200,13 +200,13 @@ app.post('/forgot', function(req, res, next) {
       var smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
         auth: {
-          user: 'sksmartysabhya@gmail.com',
-          pass: '12345sabu'
+          user: '',
+          pass: ''
         }
       });
       var mailOptions = {
         to: user.email_id,
-        from: 'sksmartysabhya@gmail.com',
+        from: '',
         subject: 'Node.js Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -226,13 +226,13 @@ app.post('/forgot', function(req, res, next) {
       var smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
         auth: {
-          user: 'sksmartysabhya@gmail.com',
-          pass: '12345sabu'
+          user: '',
+          pass: ''
         }
       });
       var mailOptions = {
         to: user.email,
-        from: 'sksmartysabhya@gmail.com',
+        from: '',
         subject: 'Node.js Password Reset',
         text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -315,13 +315,13 @@ app.post('/reset/teacher/:token', function(req, res) {
       var smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
         auth: {
-          user: 'sksmartysabhya@gmail.com',
-          pass: '12345sabu'
+          user: '',
+          pass: ''
         }
       });
       var mailOptions = {
         to: user.email,
-        from: 'sksmartysabhya@mail.com',
+        from: '',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email_id + ' has just been changed.\n'
@@ -372,13 +372,13 @@ app.post('/reset/student/:token', function(req, res) {
       var smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
         auth: {
-          user: 'sksmartysabhya@gmail.com',
-          pass: '12345sabu'
+          user: '',
+          pass: ''
         }
       });
       var mailOptions = {
         to: user.email,
-        from: 'sksmartysabhya@mail.com',
+        from: '',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
@@ -423,13 +423,13 @@ app.post('/reset/parent/:token', function(req, res) {
       var smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
         auth: {
-          user: 'sksmartysabhya@gmail.com',
-          pass: '12345sabu'
+          user: '',
+          pass: ''
         }
       });
       var mailOptions = {
         to: user.email,
-        from: 'sksmartysabhya@mail.com',
+        from: '',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
           'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
@@ -443,26 +443,6 @@ app.post('/reset/parent/:token', function(req, res) {
     res.redirect('/dashboardParent');
   });
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 };
 //checking logged in user
