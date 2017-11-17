@@ -77,7 +77,7 @@ app.get('/api/listStudentIDs', function(req,res,next){
 
 
 app.get('/api/listParentIDs', function(req,res,next){
-	console.log("inside list s_ID");
+	console.log("inside list p_ID");
 	Parent.find( {},{parent_id : 1} ,function(request,docs){
 		console.log(docs);
 		res.send(JSON.stringify(docs));
@@ -342,7 +342,7 @@ app.post('/api/teacher/deleteStudent', function(req,res,next){
 app.get('/api/getReport', function(req,res,next){
 	 // console.log("inside g et username    :"  + req.user.username);
 
-	 Parent.find({username : req.user.username},{ student_id: 1, _id : 0},function(request,docs){
+	 Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
 	 	console.log("id  :  " + docs[0].student_id)
 	 	Result.find({ student_id: docs[0].student_id }, function(request,docu){
 	 		console.log("docu :  "+  docu);
