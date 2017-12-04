@@ -27,26 +27,38 @@ var classSchema = mongoose.Schema({
             _id : false
       }
       ] ,
-      error_codes: [
+      remedial_lessons : [
       {
-            error_code : {type : String},
-            lesson_title : {type : String},
+            remedial_title :  {type : String},
+            remedial_content : {type : String},
+            remedial_ref_link : {type : String},
+            remedial_ref_video : {type : String},
             _id : false
       }
       ] ,
-      assesment : [
+      error_codes: [
       {
-            _id : false,
-            question : {type : String},
-            options : [{
-                  answerText : {type : String},
-                  correct : {type : Boolean},
-                  error_lesson_title : {type : String},
-                  _id : false
-            }]
-
+            error_code : {type : String},
+            remedial_title : {type : String},
+            _id : false
       }
-      ] 
+      ] ,
+      assesments : [{
+            _id : false,
+            assesment_name : {type : String},
+            lesson_title : {type : String},
+            questions : [{
+                        _id : false,
+                        questionText : {type : String},
+                        options : [{
+                              answerText : {type : String},
+                              correct : {type : Boolean},
+                              error_lesson_title : {type : String},
+                              _id : false
+                        }] //options
+                  }]//questions
+      }]//assesments
+                   
 });
 
 classSchema.index({ standard: 1, section: 1, subject: 1}, { unique: true });
