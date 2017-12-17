@@ -75,12 +75,14 @@ app.factory('readFileData', function() {
             console.log(json[0][0].replace(/^"(.*)"$/, '$1'));
             // return json;
             for(i=0;i<lines.length;i++){
+                
+                var data1=[];
                 data1.questionText=json[i][0];
-                var obj=[];
+                // var obj=[];
                  var k=5;
                  for(j=1;j<5;j++){
                     if(json[i][k].replace(/^"(.*)"$/, '$1')==="ERT"){
-                        obj.push({
+                        data1.push({
                             answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
                             correct : true,
                             error_lesson_title : "ERT"
@@ -89,7 +91,7 @@ app.factory('readFileData', function() {
 
                     }
                     else{
-                          obj.push({
+                          data1.push({
                          answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
                          correct : false,
                          error_lesson_title : json[i][k]
@@ -98,7 +100,7 @@ app.factory('readFileData', function() {
                     }//else
                     k++;
                  } // j loop closed
-                 data1.push(obj);
+                 // data1.push(obj);
                  dataFinal.push(data1);
             }   // i loop closed         
             console.log(dataFinal);	
