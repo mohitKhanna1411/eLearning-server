@@ -47,7 +47,7 @@ app.factory('readFileData', function() {
             var lines = [];
             var json = {};
 
-            for (var i = 1; i < record.length; i++) {
+            for (var i = 0; i < record.length; i++) {
                 var data = record[i].split(',');
                 if (data.length == headers.length) {
                     var tarr = [];
@@ -68,11 +68,40 @@ app.factory('readFileData', function() {
             // stringified = stringified;
             // var jsonObject = JSON.parse(stringified);
             // console.log(jsonObject[2][0].replace(/^"(.*)"$/, '$1'));
-            console.log(json);
+            var data1=[];
+            var dataFinal =[];
+            console.log(lines.length);
+            console.log(headers.length);
             console.log(json[0][0].replace(/^"(.*)"$/, '$1'));
-            return json;
-            
-            	
+            // return json;
+            for(i=0;i<lines.length;i++){
+                data1.questionText=json[i][0];
+                var obj=[];
+                 var k=5;
+                 for(j=1;j<5;j++){
+                    if(json[i][k].replace(/^"(.*)"$/, '$1')==="ERT"){
+                        obj.push({
+                            answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
+                            correct : true,
+                            error_lesson_title : "ERT"
+
+                        });
+
+                    }
+                    else{
+                          obj.push({
+                         answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
+                         correct : false,
+                         error_lesson_title : json[i][k]
+                          });
+
+                    }//else
+                    k++;
+                 } // j loop closed
+                 data1.push(obj);
+                 dataFinal.push(data1);
+            }   // i loop closed         
+            console.log(dataFinal);	
         }
     };
 });

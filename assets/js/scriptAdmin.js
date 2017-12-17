@@ -127,7 +127,7 @@ $scope.contents = [];
 var data ={};
 
 $scope.addAssesment= function(data)
-{
+{ 
   $scope.msg = "";
   console.log("RA " + data.right_answer);
   console.log("op : " + $scope.optionsArr);
