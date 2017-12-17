@@ -242,41 +242,41 @@ $scope.syncLink= function(){
 
       }
 
-      $scope.ok = "not";
-      $scope.findErrorCodes= function()
-      {
-        $scope.ok = "not";
-        $scope.msg = "";
-        $scope.msg1 = "";
-        var standard=$scope.standard;
-        var section=$scope.section;
-        var subject=$scope.subject;
+      // $scope.ok = "not";
+      // $scope.findErrorCodes= function()
+      // {
+      //   $scope.ok = "not";
+      //   $scope.msg = "";
+      //   $scope.msg1 = "";
+      //   var standard=$scope.standard;
+      //   var section=$scope.section;
+      //   var subject=$scope.subject;
 
-        var data={"class":standard, "subject":subject, "section":section};
-        console.log(data);
-        $http.get('/api/getErrorCodes', { params: data }).success(function(res){
-          $scope.err = res;
+      //   var data={"class":standard, "subject":subject, "section":section};
+      //   console.log(data);
+      //   $http.get('/api/getErrorCodes', { params: data }).success(function(res){
+      //     $scope.err = res;
      
          
-          console.log(res);
-          if(res == "0"){
-            $scope.msg1 = "No Error Codes found in this class, Please create error codes for this class combination!";
-            $scope.ok = "not";
-          }else{
-              var right="Right Answer";
-          var obj = {
-          error_code : right,
-          lesson_title : right
-                  };
-            $scope.err.push(obj);
-          console.log(res);
-            $scope.msg1 = res.length + " Error Codes Found! You can create your assesment now";
-            $scope.ok = "ok";
+      //     console.log(res);
+      //     if(res == "0"){
+      //       $scope.msg1 = "No Error Codes found in this class, Please create error codes for this class combination!";
+      //       $scope.ok = "not";
+      //     }else{
+      //         var right="Right Answer";
+      //     var obj = {
+      //     error_code : right,
+      //     lesson_title : right
+      //             };
+      //       $scope.err.push(obj);
+      //     console.log(res);
+      //       $scope.msg1 = res.length + " Error Codes Found! You can create your assesment now";
+      //       $scope.ok = "ok";
 
-          }
-        })
+      //     }
+      //   })
 
-      }
+      // }
 
     $scope.stuID = "";
 $scope.adminRecommend= function()
