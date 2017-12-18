@@ -2,6 +2,7 @@
 <html>
 <head>
   <script src = "/assets/js/scriptAdmin.js"></script>
+  
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 </head>
 <body style="background:#eef1f6;" ng-app="myApp" ng-controller ="controllerAdmin">
@@ -98,14 +99,14 @@
 
       <div class="panel-body">
 
-        <form ng-submit="addAssesment(data)">
+        <form ng-submit="uploadFile()">
           <div class="row">
 
             <div class="form-group">
               <label for="lesson" class="col-md-4 control-label">Select Lesson Title</label>
 
               <div class="col-md-6">
-                <select name="lesson" ng-model="title" class="form-control" required="">
+                <select name="lesson" ng-model="les_title" class="form-control" required="">
                       <option value="">Make a selection</option>
                   <option ng-repeat = "list in list">{{list.Title}}</option>
                 </select>
@@ -131,6 +132,7 @@
             <label for="error_code" class="col-md-4 control-label">Upload CSV file</label>
             <div class="col-md-6">
              <input type="file" data-file-reader-directive="fileContent" accept=".csv" name="file" class="form-control"/>
+             <input type='button' value="Upload" ng-click="fileReaderDirective">
            </div>
          </div>
        </div>

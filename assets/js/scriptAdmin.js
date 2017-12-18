@@ -56,8 +56,127 @@ myApp.filter('trusted', ['$sce', function ($sce) {
 }]);
 
 
+
+
+
+myApp.directive('fileReaderDirective', function() {
+    return {
+        restrict: "A",
+        scope: {
+            fileReaderDirective: "=",
+        },
+        link: function(scope, element) {
+            $(element).on('change', function(changeEvent) {
+                var files = changeEvent.target.files;
+                if (files.length) {
+                    var r = new FileReader();
+                    r.onload = function(e) {
+                        var contents = e.target.result;
+                        scope.$apply(function() {
+                            scope.fileReaderDirective = contents;
+                        });
+                    };
+                    r.readAsText(files[0]);
+                }
+            });
+        }
+    };
+});
+
+
+
+
+
+myApp.factory('readFileData',['$http', function($http) {
+    return {
+        processData: function(csv_data) {
+            var record = csv_data.split(/\r\n|\n/);
+            var headers = record[0].split(',');
+            var lines = [];
+            var json = {};
+
+            for (var i = 0; i < record.length; i++) {
+                var data = record[i].split(',');
+                if (data.length == headers.length) {
+                    var tarr = [];
+                    for (var j = 0; j < headers.length; j++) {
+                        tarr.push(data[j]);
+                    }
+                    lines.push(tarr);
+                    //lines=lines.replace('\\','');
+                }
+            }
+            
+            for (var k = 0; k < lines.length; ++k){
+              json[k] = lines[k];
+            }
+          
+            // var stringified = JSON.stringify(json);
+            // stringified = stringified.replace('"\\": ""');
+            // stringified = stringified;
+            // var jsonObject = JSON.parse(stringified);
+            // console.log(jsonObject[2][0].replace(/^"(.*)"$/, '$1'));
+            var data1=[];
+            var dataFinal =[];
+            console.log(lines.length);
+            console.log(headers.length);
+            console.log(json[0][0].replace(/^"(.*)"$/, '$1'));
+            // return json;
+            for(i=0;i<lines.length;i++){
+                
+                var data1=[];
+                data1.questionText=json[i][0];
+                // var obj=[];
+                 var k=5;
+                 for(j=1;j<5;j++){
+                    if(json[i][k].replace(/^"(.*)"$/, '$1')==="ERT"){
+                        data1.push({
+                            answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
+                            correct : true,
+                            error_lesson_title : "ERT"
+
+                        });
+
+                    }
+                    else{
+                          obj.push({
+                         answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
+                         correct : false,
+                         error_lesson_title : json[i][k]
+                          });
+
+                    }//else
+                    k++;
+                 } // j loop closed
+                 data1.push(obj);
+                 dataFinal.push(data1);
+            }   // i loop closed         
+            console.log(dataFinal);
+            var sendData={ "assesment_name" :$scope.assesment_name, "lesson_title": $scope.les_title, "questions":dataFinal} ;
+            console.log(sendData);
+        }
+    };
+}]);
+
+
+
+
+
+
+
 // creating mainController
-myApp.controller('controllerAdmin', function(Upload,$window,$scope, $http) {
+myApp.controller('controllerAdmin',['Upload','$window','$scope','$http',
+  'readFileData', function(Upload,$window,$scope, $http,readFileData) {
+      $scope.fileDataObj = {};
+ $scope.uploadFile = function() {
+      if ($scope.fileContent) {
+        $scope.fileDataObj = readFileData.processData($scope.fileContent);
+      
+        $scope.fileData = JSON.stringify($scope.fileDataObj);
+      }
+    }
+
+
 
  $http.get('/api/getStudents').success(function(res){
   $scope.list1 = res;
@@ -88,6 +207,9 @@ $http.get('/api/listParentIDs').success(function(res){
   $scope.options2 = res;
   // console.log($scope.options[0]._id);
 })
+
+
+
 
 
 
@@ -455,6 +577,4 @@ $scope.overallRecommend= function()
 }
 
 
-
-
-    });
+    }]);

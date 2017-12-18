@@ -100,7 +100,7 @@ app.factory('readFileData', function() {
                     }//else
                     k++;
                  } // j loop closed
-                 // data1.push(obj);
+                 
                  dataFinal.push(data1);
             }   // i loop closed         
             console.log(dataFinal);	
