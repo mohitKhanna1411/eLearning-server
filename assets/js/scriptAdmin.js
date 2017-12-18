@@ -11,6 +11,10 @@ myApp.config(function($routeProvider, $locationProvider){
     templateUrl : '/views/lessonsAdmin.html',
     controller  : 'controllerAdmin'
   })
+  .when('/remedialLessonsAdmin', {
+    templateUrl : '/views/remedialLessonsAdmin.html',
+    controller  : 'controllerAdmin'
+  })
   .when('/viewClasses', {
     templateUrl : '/views/viewClasses.html',
     controller  : 'controllerAdmin'
@@ -25,6 +29,10 @@ myApp.config(function($routeProvider, $locationProvider){
   })
   .when('/createLessonAdmin', {
     templateUrl : '/views/createLessonAdmin.html',
+    controller  : 'controllerAdmin'
+  })
+  .when('/createRemedialLessonAdmin', {
+    templateUrl : '/views/createRemedialLessonAdmin.html',
     controller  : 'controllerAdmin'
   })
   .when('/showErrorCodes', {
@@ -137,7 +145,7 @@ myApp.factory('readFileData',['$http', function($http) {
 
                     }
                     else{
-                          data1.push({
+                          obj.push({
                          answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
                          correct : false,
                          error_lesson_title : json[i][k].replace(/^"(.*)"$/, '$1')
@@ -147,7 +155,7 @@ myApp.factory('readFileData',['$http', function($http) {
                     k++;
                  } // j loop closed
                   data1.push({
-                    options : data1
+                    options : obj
                   });
                  dataFinal.push(data1);
             }   // i loop closed         
@@ -274,7 +282,34 @@ $http.get('/api/listParentIDs').success(function(res){
 
 }
 
+ 
+ $scope.remedialLessons= function()
+ {
+  $scope.ok = "not";
+  $scope.msg = "";
+  $scope.msg1 = "";
+  var standard=$scope.standard;
+  var section=$scope.section;
+  var subject=$scope.subject;
 
+  var data={"class":standard, "subject":subject, "section":section};
+  console.log(data);
+  $http.get('/api/admin/getremedialLessons', { params: data }).success(function(res){
+    $scope.list = res;
+    console.log(res);
+    if(res == "0"){
+      $scope.msg1 = "No Class found, Please create a class and add remedial lessons!";
+      $scope.ok = "not";
+    }if(res.length == 0){
+      $scope.msg1 = "No remedial lessons found!, Please add lessons to continue";
+      $scope.ok = "not";
+    }else{
+      $scope.msg1 = " Number of Remedial lessons found : " + res.length ;
+      $scope.ok = "ok";
+    }
+  })
+
+}
 // $scope.optionsArr = [];
 // $scope.errorArr = [];
 // $scope.errorArr[3] = "Right Answer";
@@ -354,6 +389,46 @@ $scope.syncLink= function(){
         console.log(data);
         Upload.upload({
           url   : '/api/teacher/addlessons', 
+          data  : data //pass file as data, should be user ng-model
+        }).then(function (resp) { //upload function returns a promise
+            $scope.msg1 = resp.data;
+            $scope.content = "";
+            $scope.ref_link = "";
+            $scope.lesson_title ="";
+            $scope.file = "";
+
+        }, function (resp) {
+            $scope.msg1 = 'Error status: ' + resp.status;
+            $scope.content = "";
+            $scope.ref_link = "";
+            $scope.lesson_title ="";
+
+        }, function (evt) { 
+            $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            $scope.progress = 'uploading progress: ' + $scope.progressPercentage + '%'; // capture upload progress
+        });
+
+
+
+      }
+
+    $scope.addingRemedialLessons= function(file)
+      {
+              $scope.progressPercentage = 0;
+               $scope.progress = "";
+        $scope.msg = "";
+        $scope.msg1 = "";
+        var standard=$scope.standard2;
+        var section=$scope.section2;
+        var subject=$scope.subject2;
+        var content=$scope.content;
+        var title=$scope.lesson_title;
+        var ref_link=$scope.ref_link;
+        var data={"class":standard, "subject":subject, "section":section,
+        "title":title,"content":content,"ref_link":ref_link, "file" : file};
+        console.log(data);
+        Upload.upload({
+          url   : '/api/admin/addRemedialLessons', 
           data  : data //pass file as data, should be user ng-model
         }).then(function (resp) { //upload function returns a promise
             $scope.msg1 = resp.data;

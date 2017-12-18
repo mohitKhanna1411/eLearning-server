@@ -306,6 +306,43 @@ Class.update( { $and: [
 });
 });
 
+app.post('/api/admin/addRemedialLessons', function(req,res,next){
+	upload(req,res,function(err) {
+		console.log("post====")
+	console.log(req.body);
+	console.log(req.file);
+	if(typeof req.file !== 'undefined' && req.file !== null ){
+		console.log("here===");
+		console.log(req.file);
+		var filePath = "./" + req.file.path;
+	}else{
+		var filePath = "";
+	}
+	// console.log(req.file.path);
+	var data = { 	remedial_title : req.body.title,
+					remedial_content : req.body.content,
+					remedial_ref_link : req.body.ref_link,
+	 				remedial_ref_video : filePath 
+	 			};
+
+Class.update( { $and: [
+	{ standard : req.body.class }, 
+	{ section: req.body.section },
+	{ subject: req.body.subject }
+	]},{$addToSet : { remedial_lessons : data } },function(request,docs){
+		console.log(docs);
+		if(docs.n == 0 && docs.nModified == 0){
+			res.end("Class combination does not exist! Please add remedial lesson into a valid class");
+		}
+		else if(docs.n == 1 && docs.nModified == 0){
+			res.end("Remedial Lesson Already added in this class.");
+		}
+		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+			res.end("Remedial Lesson successfully added. You can add more lessons!");
+		}
+	});
+});
+});
 
 app.post('/api/admin/addErrorCodes', function(req,res,next){
 	console.log(req.body);
@@ -525,6 +562,8 @@ app.get('/api/admin/getlessons', function(req,res,next){
 	
 });
 
+
+
 app.get('/api/teacher/getlessons', function(req,res,next){
 	console.log("req   "+req.query.class);
 	console.log("req   "+req.query.subject);
@@ -546,6 +585,28 @@ app.get('/api/teacher/getlessons', function(req,res,next){
 		});
 });
 
+app.get('/api/admin/getremedialLessons', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	
+	Class.find( { $and: [
+		{ standard : req.query.class }, 
+		{ section: req.query.section },
+		{ subject: req.query.subject }
+		]},{ remedial_lessons : 1, _id: 0 },function(request,docs){
+			console.log(docs);
+			if(docs.length == 0){
+				res.end(JSON.stringify(docs.length));
+			}
+			else{
+				console.log("remedial_lessons else : "+ docs[0].remedial_lessons);
+				res.end(JSON.stringify(docs[0].remedial_lessons));
+			} 
+			
+		});
+	
+});
 
 app.get('/api/getClassStudents', function(req,res,next){
 	console.log("req   "+req.query.class);
