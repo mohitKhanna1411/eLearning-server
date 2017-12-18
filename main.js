@@ -186,7 +186,7 @@ app.post('/api/teacher/addStudent', function(req,res,next){
 
 app.post('/api/admin/addAssesment', function(req,res){
 
-	console.log(req.body.dataObj.questions);
+	console.log(req.body.dataObj);
 
 	// Class.update( { $and: [
 	// 	{ standard : req.body.class }, 

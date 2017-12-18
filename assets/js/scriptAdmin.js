@@ -133,7 +133,6 @@ myApp.factory('readFileData',['$http', function($http) {
                             answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
                             correct : true,
                             error_lesson_title : json[i][k].replace(/^"(.*)"$/, '$1')
-
                         });
 
                     }
@@ -147,7 +146,9 @@ myApp.factory('readFileData',['$http', function($http) {
                     }//else
                     k++;
                  } // j loop closed
-                 // data1.push(obj);
+                  data1.push({
+                    options : data1
+                  });
                  dataFinal.push(data1);
             }   // i loop closed         
             console.log(dataFinal);
@@ -166,7 +167,7 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
  $scope.uploadFile = function() {
       if ($scope.fileContent) {
         $scope.fileDataObj = readFileData.processData($scope.fileContent);
-      
+        
         if($scope.fileDataObj){
           $scope.message = "File Uploaded Successfully,Please Select class to create this assesment!";
         }else{
@@ -186,17 +187,23 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
         "lesson_title" : title_lesson,
         "questions"  : $scope.fileDataObj
       }
-      sendData = {
-        "class":var_class,
-        "section":var_section,
-        "subject" : var_subject,
-        "dataObj" : dataObj
 
-      }
+      // var options = {};
+      // options = {
+      //   "options" : $scope.fileDataObj[0][0]
+      // }
+      console.log(dataObj);
+      // sendData = {
+      //   "class":var_class,
+      //   "section":var_section,
+      //   "subject" : var_subject,
+      //   "dataObj" : dataObj
+
+      // }
       console.log(sendData);
-     $http.post('/api/admin/addAssesment', sendData).success(function(res){
+     // $http.post('/api/admin/addAssesment', sendData).success(function(res){
           
-        })
+     //    })
 
 
     }
