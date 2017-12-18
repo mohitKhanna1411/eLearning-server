@@ -188,22 +188,22 @@ app.post('/api/admin/addAssesment', function(req,res){
 
 	console.log(req.body.dataObj);
 
-	// Class.update( { $and: [
-	// 	{ standard : req.body.class }, 
-	// 	{ section: req.body.section },
-	// 	{ subject: req.body.subject }
-	// 	]},{$addToSet : { assesments : req.body.dataObj } },function(request,docs){
-	// 		console.log(docs);
-	// 		// if(docs.n == 0 && docs.nModified == 0){
-	// 		// 	res.end("Class combination does not exist! Please add Question into a valid class");
-	// 		// }
-	// 		// else if(docs.n == 1 && docs.nModified == 0){
-	// 		// 	res.end("Duplicate Question!!!");
-	// 		// }
-	// 		// else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-	// 		// 	res.end("Question successfully added.");
-	// 		// }
-	// 	});
+	Class.update( { $and: [
+		{ standard : req.body.class }, 
+		{ section: req.body.section },
+		{ subject: req.body.subject }
+		]},{$addToSet : { assesments : req.body.dataObj } },function(request,docs){
+			console.log(docs);
+			// if(docs.n == 0 && docs.nModified == 0){
+			// 	res.end("Class combination does not exist! Please add Question into a valid class");
+			// }
+			// else if(docs.n == 1 && docs.nModified == 0){
+			// 	res.end("Duplicate Question!!!");
+			// }
+			// else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+			// 	res.end("Question successfully added.");
+			// }
+		});
 	
 });
 
