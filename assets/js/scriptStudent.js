@@ -170,7 +170,7 @@ $scope.showResult = function(){
         $scope.remedial_lesson_title="";
          $http.get('/api/getRemedialTitle', { params: answers[j].error_code}).success(function(res){
         $scope.remedial_lesson_title = res;
-          })
+        
         var obj = {
           question : $scope.questions[i].questionText,
           response : $scope.questions[i].userAnswer,
@@ -183,13 +183,14 @@ $scope.showResult = function(){
          error_lesson.push(obj1);
 
 
-         
+        
 
         
         errors.push(obj);
         
         console.log(errors);
         console.log(errors.length);
+          })
       }
     }
   }

@@ -188,6 +188,7 @@ app.post('/api/admin/addAssesment', function(req,res){
 
 	console.log(req.body.dataObj);
 
+
 	Class.update( { $and: [
 		{ standard : req.body.class }, 
 		{ section: req.body.section },
@@ -204,6 +205,7 @@ app.post('/api/admin/addAssesment', function(req,res){
 			// 	res.end("Question successfully added.");
 			// }
 		});
+
 	
 });
 
