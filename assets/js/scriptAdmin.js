@@ -11,6 +11,10 @@ myApp.config(function($routeProvider, $locationProvider){
     templateUrl : '/views/lessonsAdmin.html',
     controller  : 'controllerAdmin'
   })
+  .when('/remedialLessonsAdmin', {
+    templateUrl : '/views/remedialLessonsAdmin.html',
+    controller  : 'controllerAdmin'
+  })
   .when('/viewClasses', {
     templateUrl : '/views/viewClasses.html',
     controller  : 'controllerAdmin'
@@ -25,6 +29,10 @@ myApp.config(function($routeProvider, $locationProvider){
   })
   .when('/createLessonAdmin', {
     templateUrl : '/views/createLessonAdmin.html',
+    controller  : 'controllerAdmin'
+  })
+  .when('/createRemedialLessonAdmin', {
+    templateUrl : '/views/createRemedialLessonAdmin.html',
     controller  : 'controllerAdmin'
   })
   .when('/showErrorCodes', {
@@ -272,7 +280,34 @@ $http.get('/api/listParentIDs').success(function(res){
 
 }
 
+ 
+ $scope.remedialLessons= function()
+ {
+  $scope.ok = "not";
+  $scope.msg = "";
+  $scope.msg1 = "";
+  var standard=$scope.standard;
+  var section=$scope.section;
+  var subject=$scope.subject;
 
+  var data={"class":standard, "subject":subject, "section":section};
+  console.log(data);
+  $http.get('/api/admin/getremedialLessons', { params: data }).success(function(res){
+    $scope.list = res;
+    console.log(res);
+    if(res == "0"){
+      $scope.msg1 = "No Class found, Please create a class and add remedial lessons!";
+      $scope.ok = "not";
+    }if(res.length == 0){
+      $scope.msg1 = "No remedial lessons found!, Please add lessons to continue";
+      $scope.ok = "not";
+    }else{
+      $scope.msg1 = " Number of Remedial lessons found : " + res.length ;
+      $scope.ok = "ok";
+    }
+  })
+
+}
 // $scope.optionsArr = [];
 // $scope.errorArr = [];
 // $scope.errorArr[3] = "Right Answer";
@@ -375,6 +410,46 @@ $scope.syncLink= function(){
 
       }
 
+    $scope.addingRemedialLessons= function(file)
+      {
+              $scope.progressPercentage = 0;
+               $scope.progress = "";
+        $scope.msg = "";
+        $scope.msg1 = "";
+        var standard=$scope.standard2;
+        var section=$scope.section2;
+        var subject=$scope.subject2;
+        var content=$scope.content;
+        var title=$scope.lesson_title;
+        var ref_link=$scope.ref_link;
+        var data={"class":standard, "subject":subject, "section":section,
+        "title":title,"content":content,"ref_link":ref_link, "file" : file};
+        console.log(data);
+        Upload.upload({
+          url   : '/api/admin/addRemedialLessons', 
+          data  : data //pass file as data, should be user ng-model
+        }).then(function (resp) { //upload function returns a promise
+            $scope.msg1 = resp.data;
+            $scope.content = "";
+            $scope.ref_link = "";
+            $scope.lesson_title ="";
+            $scope.file = "";
+
+        }, function (resp) {
+            $scope.msg1 = 'Error status: ' + resp.status;
+            $scope.content = "";
+            $scope.ref_link = "";
+            $scope.lesson_title ="";
+
+        }, function (evt) { 
+            $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+            $scope.progress = 'uploading progress: ' + $scope.progressPercentage + '%'; // capture upload progress
+        });
+
+
+
+      }
+
       $scope.addingErrorCodes= function(error_c , title)
       {
         $scope.msg = "";
@@ -389,48 +464,47 @@ $scope.syncLink= function(){
         console.log(data);
         $http.post('/api/admin/addErrorCodes', data).success(function(res){
           $scope.msg = res;
-          $scope.error_c = "";
-          $scope.title = "";
+        
         })
 
 
       }
 
-      // $scope.ok = "not";
-      // $scope.findErrorCodes= function()
-      // {
-      //   $scope.ok = "not";
-      //   $scope.msg = "";
-      //   $scope.msg1 = "";
-      //   var standard=$scope.standard;
-      //   var section=$scope.section;
-      //   var subject=$scope.subject;
+      $scope.ok = "not";
+      $scope.findErrorCodes= function()
+      {
+        $scope.ok = "not";
+        $scope.msg = "";
+        $scope.msg1 = "";
+        var standard=$scope.standard;
+        var section=$scope.section;
+        var subject=$scope.subject;
 
-      //   var data={"class":standard, "subject":subject, "section":section};
-      //   console.log(data);
-      //   $http.get('/api/getErrorCodes', { params: data }).success(function(res){
-      //     $scope.err = res;
+        var data={"class":standard, "subject":subject, "section":section};
+        console.log(data);
+        $http.get('/api/getErrorCodes', { params: data }).success(function(res){
+          $scope.err = res;
      
          
-      //     console.log(res);
-      //     if(res == "0"){
-      //       $scope.msg1 = "No Error Codes found in this class, Please create error codes for this class combination!";
-      //       $scope.ok = "not";
-      //     }else{
-      //         var right="Right Answer";
-      //     var obj = {
-      //     error_code : right,
-      //     lesson_title : right
-      //             };
-      //       $scope.err.push(obj);
-      //     console.log(res);
-      //       $scope.msg1 = res.length + " Error Codes Found! You can create your assesment now";
-      //       $scope.ok = "ok";
+          console.log(res);
+          if(res == "0"){
+            $scope.msg1 = "No Error Codes found in this class, Please create error codes for this class combination!";
+            $scope.ok = "not";
+          }else{
+          //     var right="Right Answer";
+          // var obj = {
+          // error_code : right,
+          // remedial_title : right
+          //         };
+          //   $scope.err.push(obj);
+          // console.log(res);
+            $scope.msg1 = res.length + " Error Codes Found!";
+            $scope.ok = "ok";
 
-      //     }
-      //   })
+          }
+        })
 
-      // }
+      }
 
     $scope.stuID = "";
 $scope.adminRecommend= function()
