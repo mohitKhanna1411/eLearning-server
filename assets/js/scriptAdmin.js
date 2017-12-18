@@ -132,32 +132,33 @@ myApp.factory('readFileData',['$http', function($http) {
             for(i=0;i<lines.length;i++){
                 
                 var data1=[];
-                data1.questionText=json[i][0].replace(/^"(.*)"$/, '$1');
-                // var obj=[];
+                var obj={};
                  var k=5;
                  for(j=1;j<5;j++){
                     if(json[i][k].replace(/^"(.*)"$/, '$1')==="ERT"){
-                        data1.push({
+                        obj= {
                             answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
                             correct : true,
                             error_lesson_title : json[i][k].replace(/^"(.*)"$/, '$1')
-                        });
+                        };
 
                     }
                     else{
-                          obj.push({
+                          obj={
                          answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
                          correct : false,
                          error_lesson_title : json[i][k].replace(/^"(.*)"$/, '$1')
-                          });
+                          };
 
                     }//else
                     k++;
+                 data1.push(obj);
                  } // j loop closed
-                  data1.push({
-                    options : obj
-                  });
-                 dataFinal.push(data1);
+                  
+                 dataFinal.push({
+                  options : data1,
+                  questionText : json[i][0].replace(/^"(.*)"$/, '$1') 
+                });
             }   // i loop closed         
             console.log(dataFinal);
             // var sendData={ "assesment_name" :$scope.assesment_name, "lesson_title": $scope.les_title, "questions":dataFinal} ;
@@ -196,22 +197,19 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
         "questions"  : $scope.fileDataObj
       }
 
-      // var options = {};
-      // options = {
-      //   "options" : $scope.fileDataObj[0][0]
-      // }
+     
       console.log(dataObj);
-      // sendData = {
-      //   "class":var_class,
-      //   "section":var_section,
-      //   "subject" : var_subject,
-      //   "dataObj" : dataObj
+      sendData = {
+        "class":var_class,
+        "section":var_section,
+        "subject" : var_subject,
+        "dataObj" : dataObj
 
-      // }
+      }
       console.log(sendData);
-     // $http.post('/api/admin/addAssesment', sendData).success(function(res){
+      $http.post('/api/admin/addAssesment', sendData).success(function(res){
           
-     //    })
+       })
 
 
     }
