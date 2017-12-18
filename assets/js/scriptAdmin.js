@@ -16,7 +16,7 @@ myApp.config(function($routeProvider, $locationProvider){
     controller  : 'controllerAdmin'
   })
   .when('/assesmentAdmin', {
-    templateUrl : '/views/assesmentAdmin.html',
+    templateUrl : '/csvupload.html',
     controller  : 'controllerAdmin'
   })
   .when('/createErrorCodes', {
@@ -116,7 +116,7 @@ myApp.factory('readFileData',['$http', function($http) {
             // stringified = stringified;
             // var jsonObject = JSON.parse(stringified);
             // console.log(jsonObject[2][0].replace(/^"(.*)"$/, '$1'));
-            var data1=[];
+            // var data1=[];
             var dataFinal =[];
             console.log(lines.length);
             console.log(headers.length);
@@ -139,7 +139,7 @@ myApp.factory('readFileData',['$http', function($http) {
 
                     }
                     else{
-                          obj.push({
+                          data1.push({
                          answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
                          correct : false,
                          error_lesson_title : json[i][k]
@@ -148,12 +148,12 @@ myApp.factory('readFileData',['$http', function($http) {
                     }//else
                     k++;
                  } // j loop closed
-                 data1.push(obj);
+                 // data1.push(obj);
                  dataFinal.push(data1);
             }   // i loop closed         
             console.log(dataFinal);
-            var sendData={ "assesment_name" :$scope.assesment_name, "lesson_title": $scope.les_title, "questions":dataFinal} ;
-            console.log(sendData);
+            // var sendData={ "assesment_name" :$scope.assesment_name, "lesson_title": $scope.les_title, "questions":dataFinal} ;
+            // console.log(sendData);
         }
     };
 }]);
@@ -165,9 +165,10 @@ myApp.factory('readFileData',['$http', function($http) {
 
 
 // creating mainController
-myApp.controller('controllerAdmin',['Upload','$window','$scope','$http',
-  'readFileData', function(Upload,$window,$scope, $http,readFileData) {
+myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
+  'readFileData', function($scope,Upload,$window, $http,readFileData) {
       $scope.fileDataObj = {};
+
  $scope.uploadFile = function() {
       if ($scope.fileContent) {
         $scope.fileDataObj = readFileData.processData($scope.fileContent);
