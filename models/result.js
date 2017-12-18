@@ -14,6 +14,9 @@ var resultSchema = mongoose.Schema({
             student_id:{
                   type : String
             },
+            assesment_name:{
+                  type : String
+            },
             marks : {
                   type : String
             },

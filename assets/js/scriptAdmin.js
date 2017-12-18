@@ -131,7 +131,7 @@ myApp.factory('readFileData',['$http', function($http) {
                         obj= {
                             answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
                             correct : true,
-                            error_lesson_title : json[i][k].replace(/^"(.*)"$/, '$1')
+                            error_code : json[i][k].replace(/^"(.*)"$/, '$1')
                         };
 
                     }
@@ -139,7 +139,7 @@ myApp.factory('readFileData',['$http', function($http) {
                           obj={
                          answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
                          correct : false,
-                         error_lesson_title : json[i][k].replace(/^"(.*)"$/, '$1')
+                         error_code : json[i][k].replace(/^"(.*)"$/, '$1')
                           };
 
                     }//else

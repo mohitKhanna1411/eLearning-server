@@ -220,6 +220,7 @@ app.post('/api/addResults', function(req,res,next){
 	newRes.section = req.body.section;
 	newRes.subject = req.body.subject;
 	newRes.student_id = req.user.student_id;
+	newRes.assesment_name=req.body.assesment;
 	newRes.marks = req.body.count;
 	newRes.recommendations = req.body.recommendations;
 	newRes.save(function(err,savedObject){
@@ -241,7 +242,8 @@ app.post('/api/addResults', function(req,res,next){
    Recommend.update( { $and: [
 		{ standard : req.body.class }, 
 		{ section: req.body.section },
-		{ subject: req.body.subject }
+		{ subject: req.body.subject },
+		{assesment_name : req.body.req.body.assesment}
 		]},{$addToSet : { lessons: req.body.lessons } },function(request,docs,err,savedObject){
 			console.log(docs);
 			if(err){
@@ -570,13 +572,7 @@ app.get('/api/getClassStudents', function(req,res,next){
 });
 
 
-
-
-
-
-
-
-app.get('/api/getAssign', function(req,res,next){
+app.get('/api/getAllAssign', function(req,res,next){
 	console.log("req   "+req.query.class);
 	console.log("req   "+req.query.subject);
 	console.log("req   "+req.query.section);
@@ -586,18 +582,54 @@ app.get('/api/getAssign', function(req,res,next){
 		{ section: req.query.section },
 		{ subject: req.query.subject }
 		],students : { $elemMatch : { Student_ID : req.user.student_id } }
-	},{ assesment : 1, _id: 0 },function(request,docs){
+	},{ assesments : 1, _id: 0 },function(request,docs){
 		console.log(docs);
 		if(docs.length == 0){
 			res.end(JSON.stringify(docs.length));
 		}
 		else{
-			res.end(JSON.stringify(docs[0].assesment));
+			res.end(JSON.stringify(docs[0].assesments));
 		} 
 		
 	});
 	
 });
+
+
+app.get('/api/getRemedialTitle', function(req,res,next){
+	console.log("error code   "+req.query);
+	
+	
+	Class.find( {"error_codes.error_code" : req.query},{ "error_codes.remedial_title" : 1, "_id" : 0 },function(request,docs){
+		console.log(docs[0]);
+		if(docs.length == 0){
+			res.end(JSON.stringify(docs.length));
+		}
+		else{
+			res.end(JSON.stringify(docs[0]));
+		} 
+		
+	});
+	
+}); 
+
+
+app.get('/api/getAssign', function(req,res,next){
+	console.log("req   "+req.query.assesment_name);
+	
+	
+	Class.find( {"assesments.assesment_name" : req.query.assesment_name},{ "assesments" : 1, "_id" : 0 },function(request,docs){
+		console.log(docs[0].assesments[0].questions);
+		if(docs.length == 0){
+			res.end(JSON.stringify(docs.length));
+		}
+		else{
+			res.end(JSON.stringify(docs[0].assesments[0]));
+		} 
+		
+	});
+	
+}); 
 
 app.get('/api/getRes', function(req,res,next){
 	console.log("req   "+req.query.class);

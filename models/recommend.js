@@ -10,6 +10,9 @@ var recommendSchema = mongoose.Schema({
             subject:{ 
                   type: String
             },
+            assesment_name:{ 
+                  type: String
+            },
             lessons :[ 
                   { 
                         lesson_title: {type : String},
