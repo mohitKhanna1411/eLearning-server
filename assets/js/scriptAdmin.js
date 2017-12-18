@@ -118,14 +118,13 @@ myApp.factory('readFileData',['$http', function($http) {
             // console.log(jsonObject[2][0].replace(/^"(.*)"$/, '$1'));
             // var data1=[];
             var dataFinal =[];
-            console.log(lines.length);
-            console.log(headers.length);
-            console.log(json[0][0].replace(/^"(.*)"$/, '$1'));
+            // console.log(lines.length);
+            // console.log(headers.length);
             // return json;
             for(i=0;i<lines.length;i++){
                 
                 var data1=[];
-                data1.questionText=json[i][0];
+                data1.questionText=json[i][0].replace(/^"(.*)"$/, '$1');
                 // var obj=[];
                  var k=5;
                  for(j=1;j<5;j++){
@@ -133,7 +132,7 @@ myApp.factory('readFileData',['$http', function($http) {
                         data1.push({
                             answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
                             correct : true,
-                            error_lesson_title : "ERT"
+                            error_lesson_title : json[i][k].replace(/^"(.*)"$/, '$1')
 
                         });
 
@@ -142,7 +141,7 @@ myApp.factory('readFileData',['$http', function($http) {
                           data1.push({
                          answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
                          correct : false,
-                         error_lesson_title : json[i][k]
+                         error_lesson_title : json[i][k].replace(/^"(.*)"$/, '$1')
                           });
 
                     }//else
@@ -154,29 +153,53 @@ myApp.factory('readFileData',['$http', function($http) {
             console.log(dataFinal);
             // var sendData={ "assesment_name" :$scope.assesment_name, "lesson_title": $scope.les_title, "questions":dataFinal} ;
             // console.log(sendData);
+            return dataFinal;
         }
     };
 }]);
-
-
-
-
-
-
 
 // creating mainController
 myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
   'readFileData', function($scope,Upload,$window, $http,readFileData) {
       $scope.fileDataObj = {};
-
+      $scope.message = null;
  $scope.uploadFile = function() {
       if ($scope.fileContent) {
         $scope.fileDataObj = readFileData.processData($scope.fileContent);
       
-        $scope.fileData = JSON.stringify($scope.fileDataObj);
+        if($scope.fileDataObj){
+          $scope.message = "File Uploaded Successfully,Please Select class to create this assesment!";
+        }else{
+          $scope.message = "Error!! Please try again later";
+        }
       }
     }
 
+ $scope.addAssesmentFunc = function(title_lesson , assesment_name , var_class , var_section , var_subject) {
+      // console.log($scope.fileDataObj);
+      // console.log(assesment_name);
+      // console.log(title_lesson);
+      var sendData = {};
+      var dataObj = {};
+      dataObj = {
+        "assesment_name" : assesment_name,
+        "lesson_title" : title_lesson,
+        "questions"  : $scope.fileDataObj
+      }
+      sendData = {
+        "class":var_class,
+        "section":var_section,
+        "subject" : var_subject,
+        "dataObj" : dataObj
+
+      }
+      console.log(sendData);
+     $http.post('/api/admin/addAssesment', sendData).success(function(res){
+          
+        })
+
+
+    }
 
 
  $http.get('/api/getStudents').success(function(res){
@@ -233,8 +256,11 @@ $http.get('/api/listParentIDs').success(function(res){
     if(res == "0"){
       $scope.msg1 = "No Class found, Please create a class and add lessons!";
       $scope.ok = "not";
+    }if(res.length == 0){
+      $scope.msg1 = "No lessons found!, Please add lessons to continue";
+      $scope.ok = "not";
     }else{
-      $scope.msg1 = res.length + " Number of lessons found.";
+      $scope.msg1 = " Number of lessons found : " + res.length ;
       $scope.ok = "ok";
     }
   })
@@ -242,59 +268,59 @@ $http.get('/api/listParentIDs').success(function(res){
 }
 
 
-$scope.optionsArr = [];
-$scope.errorArr = [];
-$scope.errorArr[3] = "Right Answer";
-$scope.codeArr = [];
-$scope.contents = [];
-var data ={};
+// $scope.optionsArr = [];
+// $scope.errorArr = [];
+// $scope.errorArr[3] = "Right Answer";
+// $scope.codeArr = [];
+// $scope.contents = [];
+// var data ={};
 
-$scope.addAssesment= function(data)
-{ 
-  $scope.msg = "";
-  console.log("RA " + data.right_answer);
-  console.log("op : " + $scope.optionsArr);
-  console.log("q : " + data.question);
-  console.log("CODE : " + $scope.codeArr);
-        // console.log($scope.standard);
-        // console.log($scope.section);
-        // console.log($scope.subject);
-        for(var i=0 ; i< 4 ; i++){
-          if($scope.optionsArr[i] == data.right_answer){
-            $scope.contents.push({
-              answerText: $scope.optionsArr[i],
-              correct: true,
-              error_lesson_title: $scope.codeArr[i]
-            });
-          }else{
-            $scope.contents.push({
-              answerText: $scope.optionsArr[i],
-              correct: false,
-              error_lesson_title: $scope.codeArr[i]
-            });
-          }
+// $scope.addAssesment= function(data)
+// { 
+//   $scope.msg = "";
+//   console.log("RA " + data.right_answer);
+//   console.log("op : " + $scope.optionsArr);
+//   console.log("q : " + data.question);
+//   console.log("CODE : " + $scope.codeArr);
+//         // console.log($scope.standard);
+//         // console.log($scope.section);
+//         // console.log($scope.subject);
+//         for(var i=0 ; i< 4 ; i++){
+//           if($scope.optionsArr[i] == data.right_answer){
+//             $scope.contents.push({
+//               answerText: $scope.optionsArr[i],
+//               correct: true,
+//               error_lesson_title: $scope.codeArr[i]
+//             });
+//           }else{
+//             $scope.contents.push({
+//               answerText: $scope.optionsArr[i],
+//               correct: false,
+//               error_lesson_title: $scope.codeArr[i]
+//             });
+//           }
 
-        }
-        console.log("CONTENTS : " + $scope.contents)
+//         }
+//         console.log("CONTENTS : " + $scope.contents)
 
-        var sendData={ "question": data.question, "class": $scope.standard, 
-        "subject": $scope.subject, "section": $scope.section , 
-        "options": $scope.contents};
-        console.log(sendData);
-        $http.post('/api/admin/addQues', sendData).success(function(res){
-          $scope.msg = res;
-          $scope.optionsArr = [];
-          $scope.errorArr = [];
-          $scope.errorArr[3] = "Right Answer";
-          $scope.contents = [];
-          $scope.codeArr = [];
-          data.right_answer = "";
-          data.question = "";
-          data.lesson_id = "";
-        })
+//         var sendData={ "question": data.question, "class": $scope.standard, 
+//         "subject": $scope.subject, "section": $scope.section , 
+//         "options": $scope.contents};
+//         console.log(sendData);
+        // $http.post('/api/admin/addQues', sendData).success(function(res){
+        //   $scope.msg = res;
+        //   $scope.optionsArr = [];
+        //   $scope.errorArr = [];
+        //   $scope.errorArr[3] = "Right Answer";
+        //   $scope.contents = [];
+        //   $scope.codeArr = [];
+        //   data.right_answer = "";
+        //   data.question = "";
+        //   data.lesson_id = "";
+        // })
 
 
-      }
+//       }
 
 $scope.syncVideo= function(){
   $scope.ref_link = "";

@@ -158,27 +158,52 @@ app.post('/api/teacher/addStudent', function(req,res,next){
 
 
 
-app.post('/api/admin/addQues', function(req,res,next){
+// app.post('/api/admin/addQues', function(req,res,next){
 
-	var assArr= {question:req.body.question, options:req.body.options};
-	console.log("assArr" + assArr);
+// 	var assArr= {question:req.body.question, options:req.body.options};
+// 	console.log("assArr" + assArr);
 
-	Class.update( { $and: [
-		{ standard : req.body.class }, 
-		{ section: req.body.section },
-		{ subject: req.body.subject }
-		]},{$addToSet : { assesment: assArr } },function(request,docs){
-			console.log(docs);
-			if(docs.n == 0 && docs.nModified == 0){
-				res.end("Class combination does not exist! Please add Question into a valid class");
-			}
-			else if(docs.n == 1 && docs.nModified == 0){
-				res.end("Duplicate Question!!!");
-			}
-			else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-				res.end("Question successfully added.");
-			}
-		});
+// 	Class.update( { $and: [
+// 		{ standard : req.body.class }, 
+// 		{ section: req.body.section },
+// 		{ subject: req.body.subject }
+// 		]},{$addToSet : { assesment: assArr } },function(request,docs){
+// 			console.log(docs);
+// 			if(docs.n == 0 && docs.nModified == 0){
+// 				res.end("Class combination does not exist! Please add Question into a valid class");
+// 			}
+// 			else if(docs.n == 1 && docs.nModified == 0){
+// 				res.end("Duplicate Question!!!");
+// 			}
+// 			else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+// 				res.end("Question successfully added.");
+// 			}
+// 		});
+	
+// });
+
+
+
+app.post('/api/admin/addAssesment', function(req,res){
+
+	console.log(req.body.dataObj.questions);
+
+	// Class.update( { $and: [
+	// 	{ standard : req.body.class }, 
+	// 	{ section: req.body.section },
+	// 	{ subject: req.body.subject }
+	// 	]},{$addToSet : { assesments : req.body.dataObj } },function(request,docs){
+	// 		console.log(docs);
+	// 		// if(docs.n == 0 && docs.nModified == 0){
+	// 		// 	res.end("Class combination does not exist! Please add Question into a valid class");
+	// 		// }
+	// 		// else if(docs.n == 1 && docs.nModified == 0){
+	// 		// 	res.end("Duplicate Question!!!");
+	// 		// }
+	// 		// else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+	// 		// 	res.end("Question successfully added.");
+	// 		// }
+	// 	});
 	
 });
 
