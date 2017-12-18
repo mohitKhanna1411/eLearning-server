@@ -346,7 +346,7 @@ Class.update( { $and: [
 
 app.post('/api/admin/addErrorCodes', function(req,res,next){
 	console.log(req.body);
-	var data = { error_code:req.body.error_code,lesson_title: req.body.title};
+	var data = { error_code:req.body.error_code,remedial_title: req.body.title};
 	console.log(data);
 	// console.log(Class);
 // Class.update(
@@ -368,7 +368,7 @@ Class.update( { $and: [
 			res.end("Error Code Already added in this class.");
 		}
 		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-			res.end("Error Code successfully added. You can add more Errors!");
+			res.end("Error Code successfully added. You can add more Error Codes!");
 		}
 	});
 
