@@ -697,8 +697,9 @@ app.get('/api/getRes', function(req,res,next){
 	Result.find( { $and: [
 		{ standard : req.query.class }, 
 		{ section: req.query.section },
-		{ subject: req.query.subject }
-		,{ student_id: req.user.student_id }
+		{ subject: req.query.subject },
+		{ assesment_name: req.query.assesment_name },
+		{ student_id: req.user.student_id }
 		]},{ recommendations : 1, marks: 1 , _id: 0 },function(request,docs){
 			console.log(docs);
 			if(docs.length == 0){
@@ -725,6 +726,7 @@ app.get('/api/parent/getRecomm', function(req,res,next){
 			{ standard : req.query.class }, 
 			{ section: req.query.section },
 			{ subject: req.query.subject },
+			{ assesment_name: req.query.assesment_name },
 			{ student_id: docs[0].student_id }
 			]},{ recommendations : 1 },function(request,docu){
 				console.log("docu===");
@@ -749,8 +751,9 @@ app.get('/api/teacher/getRes', function(req,res,next){
 	Result.find( { $and: [
 		{ standard : req.query.class }, 
 		{ section: req.query.section },
-		{ subject: req.query.subject }
-		,{ student_id: req.query.student_id }
+		{ subject: req.query.subject },
+		{ assesment_name: req.query.assesment_name },
+		{ student_id: req.query.student_id }
 		]},{ recommendations : 1, marks: 1 , _id: 0 },function(request,docs){
 			console.log(docs);
 			if(docs.length == 0){
