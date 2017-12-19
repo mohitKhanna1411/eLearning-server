@@ -484,14 +484,15 @@ app.get('/api/getOverallRecommend', function(req,res,next){
 		{ standard : req.query.class }, 
 		{ section: req.query.section },
 		{ subject: req.query.subject }
-		] },{ lessons : 1, _id: 0 },function(request,docs){
+		] },{ remedial_lessons : 1, _id: 0 },function(request,docs){
 			console.log(docs);
+			// res.end(JSON.stringify(docs[0].remedial_lessons));
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
 				console.log("getOverallRecommend else : "+ docs);
-				res.end(JSON.stringify(docs[0].lessons));
+				res.end(JSON.stringify(docs[0].remedial_lessons));
 			} 
 			
 		});
