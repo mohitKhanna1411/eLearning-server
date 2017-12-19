@@ -30,7 +30,7 @@ var resultSchema = mongoose.Schema({
             ] 
 });
 
-resultSchema.index({ standard: 1, section: 1, subject: 1 , student_id : 1 }, { unique: true });
+resultSchema.index({ standard: 1, section: 1, subject: 1 , student_id : 1 , assesment_name : 1}, { unique: true });
 // var Test = db.mode("Test", testSchema );
 
 var Result = mongoose.model('Result', resultSchema);  

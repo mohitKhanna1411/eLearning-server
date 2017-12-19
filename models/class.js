@@ -53,7 +53,7 @@ var classSchema = mongoose.Schema({
                         options : [{
                               answerText : {type : String},
                               correct : {type : Boolean},
-                              error_lesson_title : {type : String},
+                              error_code : {type : String},
                               _id : false
                         }] //options
                   }]//questions

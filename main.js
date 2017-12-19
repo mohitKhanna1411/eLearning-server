@@ -195,15 +195,15 @@ app.post('/api/admin/addAssesment', function(req,res){
 		{ subject: req.body.subject }
 		]},{$addToSet : { assesments : req.body.dataObj } },function(request,docs){
 			console.log(docs);
-			// if(docs.n == 0 && docs.nModified == 0){
-			// 	res.end("Class combination does not exist! Please add Question into a valid class");
-			// }
-			// else if(docs.n == 1 && docs.nModified == 0){
-			// 	res.end("Duplicate Question!!!");
-			// }
-			// else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-			// 	res.end("Question successfully added.");
-			// }
+			if(docs.n == 0 && docs.nModified == 0){
+				res.end("Class combination does not exist! Please add Assesment into a valid class");
+			}
+			else if(docs.n == 1 && docs.nModified == 0){
+				res.end("Duplicate Assesment!!!");
+			}
+			else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+				res.end("Assesment successfully added.");
+			}
 		});
 
 	
@@ -678,18 +678,14 @@ app.get('/api/getRemedialTitle', function(req,res,next){
 
 
 app.get('/api/getAssign', function(req,res,next){
+	// req.query.assesment_name = "assesment2";
 	console.log("req   "+req.query.assesment_name);
 	
+	Class.findOne( {assesments : {$elemMatch: {assesment_name: req.query.assesment_name}}},
+		{assesments: {$elemMatch: {assesment_name: req.query.assesment_name}}},
+		function(request,docs){
+		res.end(JSON.stringify(docs.assesments[0]));
 	
-	Class.find( {"assesments.assesment_name" : req.query.assesment_name},{ "assesments" : 1, "_id" : 0 },function(request,docs){
-		console.log(docs[0].assesments[0].questions);
-		if(docs.length == 0){
-			res.end(JSON.stringify(docs.length));
-		}
-		else{
-			res.end(JSON.stringify(docs[0].assesments[0]));
-		} 
-		
 	});
 	
 }); 

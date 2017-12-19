@@ -102,7 +102,7 @@ $scope.getAssign= function(assess_name)
   console.log(data);
   $http.get('/api/getAssign', { params: data }).success(function(res){
     $scope.questions = res.questions;
-    $scope.name : res.assesment_name;
+    $scope.name = res.assesment_name;
     console.log(res);
     console.log($scope.questions);
   })

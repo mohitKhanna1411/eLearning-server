@@ -176,7 +176,7 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
  $scope.uploadFile = function() {
       if ($scope.fileContent) {
         $scope.fileDataObj = readFileData.processData($scope.fileContent);
-        
+        console.log($scope.fileDataObj);
         if($scope.fileDataObj){
           $scope.message = "File Uploaded Successfully,Please Select class to create this assesment!";
         }else{
@@ -189,6 +189,7 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
       // console.log($scope.fileDataObj);
       // console.log(assesment_name);
       // console.log(title_lesson);
+     $scope.msg4 =null;
       var sendData = {};
       var dataObj = {};
       dataObj = {
@@ -208,7 +209,8 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
       }
       console.log(sendData);
       $http.post('/api/admin/addAssesment', sendData).success(function(res){
-          
+     console.log(res);  
+     $scope.msg4 = res;    
        })
 
 
