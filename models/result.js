@@ -24,7 +24,7 @@ var resultSchema = mongoose.Schema({
                   { 
                         question : {type : String},
                         response : {type : String},
-                        error_lesson_title : {type : String},
+                        remedial_lesson_title : {type : String},
                         _id : false
                   }
             ] 

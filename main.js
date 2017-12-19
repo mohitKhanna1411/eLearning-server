@@ -212,11 +212,11 @@ app.post('/api/admin/addAssesment', function(req,res){
 
 app.post('/api/addResults', function(req,res,next){
 
-	console.log(req.body.recommendations);
+	console.log(req.body);
 
 	var newRes = new Result();
 
-	var newRec=new Recommend();
+	// var newRec=new Recommend();
 
 	newRes.standard = req.body.class;
 	newRes.section = req.body.section;
@@ -230,6 +230,7 @@ app.post('/api/addResults', function(req,res,next){
 			console.log(err);
 			if(err.code == 11000){
 				res.end("This assesment is avaiable for practice only because you have already taken this Test.")
+				console.log(res);
 			}
 			res.end("Error : " + err.code);
 		}
@@ -241,21 +242,20 @@ app.post('/api/addResults', function(req,res,next){
 
 
 
-   Recommend.update( { $and: [
-		{ standard : req.body.class }, 
-		{ section: req.body.section },
-		{ subject: req.body.subject },
-		{assesment_name : req.body.req.body.assesment}
-		]},{$addToSet : { lessons: req.body.lessons } },function(request,docs,err,savedObject){
-			console.log(docs);
-			if(err){
-			console.log(err);
-			res.end("Error : " + err);
-		}
-		else{
-			console.log(savedObject);
-		}
-		});
+  //  Recommend.update( { $and: [
+		// { standard : req.body.class }, 
+		// { section: req.body.section },
+		// { subject: req.body.subject }
+		// ]},{$addToSet : { remedial_lessons: req.body.remedial_lessons } },function(request,docs){
+		// 	console.log(docs);
+		// 	if(err){
+		// 	console.log(err);
+		// 	res.end("Error : " + err);
+		// }
+		// else{
+		// 	console.log(savedObject);
+		// }
+		// });
 
 
 	
@@ -660,18 +660,15 @@ app.get('/api/getAllAssign', function(req,res,next){
 
 
 app.get('/api/getRemedialTitle', function(req,res,next){
-	console.log("error code   "+req.query);
+	// req.query.error_code="E001";
+	// console.log("error code   "+req.query.error_code);
+
 	
 	
-	Class.find( {"error_codes.error_code" : req.query},{ "error_codes.remedial_title" : 1, "_id" : 0 },function(request,docs){
-		console.log(docs[0]);
-		if(docs.length == 0){
-			res.end(JSON.stringify(docs.length));
-		}
-		else{
-			res.end(JSON.stringify(docs[0]));
-		} 
-		
+	Class.find( {error_codes : {$elemMatch: {error_code: req.query.error_code}}},
+		{ error_codes : {$elemMatch: {error_code: req.query.error_code}} },
+		function(request,docs){
+		res.end(JSON.stringify(docs[0].error_codes[0]));
 	});
 	
 }); 

@@ -28,7 +28,7 @@ myApp.filter('trusted', ['$sce', function ($sce) {
 
 
 // creating mainController
-myApp.controller('controllerStudent', function($scope, $http) {
+myApp.controller('controllerStudent', function($scope, $http,$timeout) {
 
  $scope.ok = "not";
  $scope.lessons= function()
@@ -154,12 +154,12 @@ $scope.showResult = function(){
   $scope.hide = false ;
   $scope.correctCount = 0;
   var qLength = $scope.questions.length;
-  for(var i=0;i<qLength;i++){
+  for(let i=0;i<qLength;i++){
     var answers = $scope.questions[i].options;
     console.log(answers);
     $scope.questions[i].userAnswerCorrect = false;
     $scope.questions[i].userAnswer = $scope.answers[i];
-    for(var j=0;j<answers.length;j++){
+    for(let j=0;j<answers.length;j++){
        // answers[j].selected = "donno";
        if ($scope.questions[i].userAnswer === answers[j].answerText && answers[j].correct===true){
         $scope.questions[i].userAnswerCorrect = true;
@@ -168,17 +168,19 @@ $scope.showResult = function(){
       }else if($scope.questions[i].userAnswer === answers[j].answerText && answers[j].correct===false){
         answers[j].selected = "false";
         $scope.remedial_lesson_title="";
-         $http.get('/api/getRemedialTitle', { params: answers[j].error_code}).success(function(res){
-        $scope.remedial_lesson_title = res;
+        let data={"error_code" : answers[j].error_code};
+         $http.get('/api/getRemedialTitle', { params: data }).success(function(res){
         
-        var obj = {
+        $scope.remedial_lesson_title = res.remedial_title;
+
+        let obj = {
           question : $scope.questions[i].questionText,
           response : $scope.questions[i].userAnswer,
           remedial_lesson_title : $scope.remedial_lesson_title
                   };
        
-          var obj1={
-            lesson_title : $scope.remedial_lesson_title
+          let obj1={
+            remedial_lesson_title : $scope.remedial_lesson_title
           };
          error_lesson.push(obj1);
 
@@ -190,15 +192,18 @@ $scope.showResult = function(){
         
         console.log(errors);
         console.log(errors.length);
-          })
+                  })
       }
-    }
-  }
-  var standard=$scope.standard;
+    } //for loop
+  } //for loop outer
+
+
+$timeout(function() { 
+      var standard=$scope.standard;
   var section=$scope.section;
   var subject=$scope.subject;
   var sendData = {  "count" : $scope.correctCount +" out of "+ $scope.questions.length , "assesment": $scope.name,
-  "class":standard, "section":section, "subject":subject, "recommendations" : errors ,"lessons": error_lesson                 
+  "class":standard, "section":section, "subject":subject, "recommendations" : errors ,"remedial_lessons": error_lesson                 
 }
 $scope.ql = qLength;
 console.log(sendData);
@@ -210,5 +215,9 @@ $http.post('/api/addResults', sendData).success(function(res){
       // data = "";
       // $scope.questions = [] ;
     })
+}, 1000);
+
+
 }
+
 });
