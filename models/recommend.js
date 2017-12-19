@@ -10,9 +10,9 @@ var recommendSchema = mongoose.Schema({
             subject:{ 
                   type: String
             },
-            lessons :[ 
+            remedial_lessons :[ 
                   { 
-                        lesson_title: {type : String},
+                        remedial_lesson_title: {type : String},
                         _id : false
                   }]
             

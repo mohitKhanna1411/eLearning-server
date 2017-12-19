@@ -357,7 +357,7 @@ $scope.overallRecommend= function()
      for(var i = 0 ; i < $scope.summary.length ; i++){
       for(var j = 0 ; j < Object.keys($scope.summary[i]).length ; j++){
         // console.log($scope.summary[i][j].lesson_title);
-        overall.push($scope.summary[i][j].lesson_title);
+        overall.push($scope.summary[i][j].remedial_lesson_title);
 
       }
      }
