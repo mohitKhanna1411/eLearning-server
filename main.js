@@ -231,6 +231,7 @@ app.post('/api/addResults', function(req,res,next){
 			if(err.code == 11000){
 				res.end("This assesment is avaiable for practice only because you have already taken this Test.")
 				console.log(res);
+				console.log("This assesment is avaiable for practice only because you have already taken this Test.");
 			}
 			res.end("Error : " + err.code);
 		}
@@ -242,20 +243,20 @@ app.post('/api/addResults', function(req,res,next){
 
 
 
-  //  Recommend.update( { $and: [
-		// { standard : req.body.class }, 
-		// { section: req.body.section },
-		// { subject: req.body.subject }
-		// ]},{$addToSet : { remedial_lessons: req.body.remedial_lessons } },function(request,docs){
-		// 	console.log(docs);
-		// 	if(err){
-		// 	console.log(err);
-		// 	res.end("Error : " + err);
-		// }
-		// else{
-		// 	console.log(savedObject);
-		// }
-		// });
+   Recommend.update( { $and: [
+		{ standard : req.body.class }, 
+		{ section: req.body.section },
+		{ subject: req.body.subject }
+		]},{$addToSet : { remedial_lessons: req.body.remedial_lessons } },function(request,docs,err){
+			console.log(docs);
+			if(err){
+			console.log(err);
+			res.end("Error : " + err);
+		}
+		else{
+			console.log("saved");
+		}
+		});
 
 
 	

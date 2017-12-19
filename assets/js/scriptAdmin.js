@@ -466,6 +466,7 @@ $scope.syncLink= function(){
         console.log(data);
         $http.post('/api/admin/addErrorCodes', data).success(function(res){
           $scope.msg = res;
+          $scope.error_c="";
         
         })
 

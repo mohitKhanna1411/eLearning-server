@@ -11,6 +11,10 @@ myApp.config(function($routeProvider, $locationProvider){
     templateUrl : '/views/assesmentStudent.html',
     controller  : 'controllerStudent'
   })
+  .when('/remedialStudent', {
+    templateUrl : '/views/remedialStudent.html',
+    controller  : 'controllerStudent'
+  })
   .when('/recommendationStudent', {
     templateUrl : '/views/recommendationStudent.html',
     controller  : 'controllerStudent'
@@ -219,5 +223,48 @@ $http.post('/api/addResults', sendData).success(function(res){
 
 
 }
+
+
+$scope.remedialLessons= function()
+ {
+  $scope.ok = "not";
+  $scope.msg = "";
+  $scope.msg1 = "";
+  var standard=$scope.standard;
+  var section=$scope.section;
+  var subject=$scope.subject;
+
+  var data={"class":standard, "subject":subject, "section":section};
+  console.log(data);
+  $http.get('/api/admin/getremedialLessons', { params: data }).success(function(res){
+    $scope.list = res;
+    console.log(res);
+    if(res == "0"){
+      $scope.msg1 = "No Class found, Please create a class and add remedial lessons!";
+      $scope.ok = "not";
+    }if(res.length == 0){
+      $scope.msg1 = "No remedial lessons found!, Please add lessons to continue";
+      $scope.ok = "not";
+    }else{
+      $scope.msg1 = " Number of Remedial lessons found : " + res.length ;
+      $scope.ok = "ok";
+    }
+  })
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 });
