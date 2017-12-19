@@ -158,43 +158,71 @@ app.post('/api/teacher/addStudent', function(req,res,next){
 
 
 
-app.post('/api/admin/addQues', function(req,res,next){
+// app.post('/api/admin/addQues', function(req,res,next){
 
-	var assArr= {question:req.body.question, options:req.body.options};
-	console.log("assArr" + assArr);
+// 	var assArr= {question:req.body.question, options:req.body.options};
+// 	console.log("assArr" + assArr);
+
+// 	Class.update( { $and: [
+// 		{ standard : req.body.class }, 
+// 		{ section: req.body.section },
+// 		{ subject: req.body.subject }
+// 		]},{$addToSet : { assesment: assArr } },function(request,docs){
+// 			console.log(docs);
+// 			if(docs.n == 0 && docs.nModified == 0){
+// 				res.end("Class combination does not exist! Please add Question into a valid class");
+// 			}
+// 			else if(docs.n == 1 && docs.nModified == 0){
+// 				res.end("Duplicate Question!!!");
+// 			}
+// 			else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+// 				res.end("Question successfully added.");
+// 			}
+// 		});
+	
+// });
+
+
+
+app.post('/api/admin/addAssesment', function(req,res){
+
+	console.log(req.body.dataObj);
+
 
 	Class.update( { $and: [
 		{ standard : req.body.class }, 
 		{ section: req.body.section },
 		{ subject: req.body.subject }
-		]},{$addToSet : { assesment: assArr } },function(request,docs){
+		]},{$addToSet : { assesments : req.body.dataObj } },function(request,docs){
 			console.log(docs);
 			if(docs.n == 0 && docs.nModified == 0){
-				res.end("Class combination does not exist! Please add Question into a valid class");
+				res.end("Class combination does not exist! Please add Assesment into a valid class");
 			}
 			else if(docs.n == 1 && docs.nModified == 0){
-				res.end("Duplicate Question!!!");
+				res.end("Duplicate Assesment!!!");
 			}
 			else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-				res.end("Question successfully added.");
+				res.end("Assesment successfully added.");
 			}
 		});
+
 	
 });
 
 
 app.post('/api/addResults', function(req,res,next){
 
-	console.log(req.body.recommendations);
+	console.log(req.body);
 
 	var newRes = new Result();
 
-	var newRec=new Recommend();
+	// var newRec=new Recommend();
 
 	newRes.standard = req.body.class;
 	newRes.section = req.body.section;
 	newRes.subject = req.body.subject;
 	newRes.student_id = req.user.student_id;
+	newRes.assesment_name=req.body.assesment;
 	newRes.marks = req.body.count;
 	newRes.recommendations = req.body.recommendations;
 	newRes.save(function(err,savedObject){
@@ -202,6 +230,8 @@ app.post('/api/addResults', function(req,res,next){
 			console.log(err);
 			if(err.code == 11000){
 				res.end("This assesment is avaiable for practice only because you have already taken this Test.")
+				console.log(res);
+				console.log("This assesment is avaiable for practice only because you have already taken this Test.");
 			}
 			res.end("Error : " + err.code);
 		}
@@ -217,14 +247,14 @@ app.post('/api/addResults', function(req,res,next){
 		{ standard : req.body.class }, 
 		{ section: req.body.section },
 		{ subject: req.body.subject }
-		]},{$addToSet : { lessons: req.body.lessons } },function(request,docs,err,savedObject){
+		]},{$addToSet : { remedial_lessons: req.body.remedial_lessons } },function(request,docs,err){
 			console.log(docs);
 			if(err){
 			console.log(err);
 			res.end("Error : " + err);
 		}
 		else{
-			console.log(savedObject);
+			console.log("saved");
 		}
 		});
 
@@ -281,10 +311,47 @@ Class.update( { $and: [
 });
 });
 
+app.post('/api/admin/addRemedialLessons', function(req,res,next){
+	upload(req,res,function(err) {
+		console.log("post====")
+	console.log(req.body);
+	console.log(req.file);
+	if(typeof req.file !== 'undefined' && req.file !== null ){
+		console.log("here===");
+		console.log(req.file);
+		var filePath = "./" + req.file.path;
+	}else{
+		var filePath = "";
+	}
+	// console.log(req.file.path);
+	var data = { 	remedial_title : req.body.title,
+					remedial_content : req.body.content,
+					remedial_ref_link : req.body.ref_link,
+	 				remedial_ref_video : filePath 
+	 			};
+
+Class.update( { $and: [
+	{ standard : req.body.class }, 
+	{ section: req.body.section },
+	{ subject: req.body.subject }
+	]},{$addToSet : { remedial_lessons : data } },function(request,docs){
+		console.log(docs);
+		if(docs.n == 0 && docs.nModified == 0){
+			res.end("Class combination does not exist! Please add remedial lesson into a valid class");
+		}
+		else if(docs.n == 1 && docs.nModified == 0){
+			res.end("Remedial Lesson Already added in this class.");
+		}
+		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+			res.end("Remedial Lesson successfully added. You can add more lessons!");
+		}
+	});
+});
+});
 
 app.post('/api/admin/addErrorCodes', function(req,res,next){
 	console.log(req.body);
-	var data = { error_code:req.body.error_code,lesson_title: req.body.title};
+	var data = { error_code:req.body.error_code,remedial_title: req.body.title};
 	console.log(data);
 	// console.log(Class);
 // Class.update(
@@ -306,7 +373,7 @@ Class.update( { $and: [
 			res.end("Error Code Already added in this class.");
 		}
 		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-			res.end("Error Code successfully added. You can add more Errors!");
+			res.end("Error Code successfully added. You can add more Error Codes!");
 		}
 	});
 
@@ -417,14 +484,15 @@ app.get('/api/getOverallRecommend', function(req,res,next){
 		{ standard : req.query.class }, 
 		{ section: req.query.section },
 		{ subject: req.query.subject }
-		] },{ lessons : 1, _id: 0 },function(request,docs){
+		] },{ remedial_lessons : 1, _id: 0 },function(request,docs){
 			console.log(docs);
+			// res.end(JSON.stringify(docs[0].remedial_lessons));
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
 				console.log("getOverallRecommend else : "+ docs);
-				res.end(JSON.stringify(docs[0].lessons));
+				res.end(JSON.stringify(docs[0].remedial_lessons));
 			} 
 			
 		});
@@ -500,6 +568,8 @@ app.get('/api/admin/getlessons', function(req,res,next){
 	
 });
 
+
+
 app.get('/api/teacher/getlessons', function(req,res,next){
 	console.log("req   "+req.query.class);
 	console.log("req   "+req.query.subject);
@@ -521,6 +591,28 @@ app.get('/api/teacher/getlessons', function(req,res,next){
 		});
 });
 
+app.get('/api/admin/getremedialLessons', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	
+	Class.find( { $and: [
+		{ standard : req.query.class }, 
+		{ section: req.query.section },
+		{ subject: req.query.subject }
+		]},{ remedial_lessons : 1, _id: 0 },function(request,docs){
+			console.log(docs);
+			if(docs.length == 0){
+				res.end(JSON.stringify(docs.length));
+			}
+			else{
+				console.log("remedial_lessons else : "+ docs[0].remedial_lessons);
+				res.end(JSON.stringify(docs[0].remedial_lessons));
+			} 
+			
+		});
+	
+});
 
 app.get('/api/getClassStudents', function(req,res,next){
 	console.log("req   "+req.query.class);
@@ -545,13 +637,7 @@ app.get('/api/getClassStudents', function(req,res,next){
 });
 
 
-
-
-
-
-
-
-app.get('/api/getAssign', function(req,res,next){
+app.get('/api/getAllAssign', function(req,res,next){
 	console.log("req   "+req.query.class);
 	console.log("req   "+req.query.subject);
 	console.log("req   "+req.query.section);
@@ -561,18 +647,47 @@ app.get('/api/getAssign', function(req,res,next){
 		{ section: req.query.section },
 		{ subject: req.query.subject }
 		],students : { $elemMatch : { Student_ID : req.user.student_id } }
-	},{ assesment : 1, _id: 0 },function(request,docs){
+	},{ assesments : 1, _id: 0 },function(request,docs){
 		console.log(docs);
 		if(docs.length == 0){
 			res.end(JSON.stringify(docs.length));
 		}
 		else{
-			res.end(JSON.stringify(docs[0].assesment));
+			res.end(JSON.stringify(docs[0].assesments));
 		} 
 		
 	});
 	
 });
+
+
+app.get('/api/getRemedialTitle', function(req,res,next){
+	// req.query.error_code="E001";
+	// console.log("error code   "+req.query.error_code);
+
+	
+	
+	Class.find( {error_codes : {$elemMatch: {error_code: req.query.error_code}}},
+		{ error_codes : {$elemMatch: {error_code: req.query.error_code}} },
+		function(request,docs){
+		res.end(JSON.stringify(docs[0].error_codes[0]));
+	});
+	
+}); 
+
+
+app.get('/api/getAssign', function(req,res,next){
+	// req.query.assesment_name = "assesment2";
+	console.log("req   "+req.query.assesment_name);
+	
+	Class.findOne( {assesments : {$elemMatch: {assesment_name: req.query.assesment_name}}},
+		{assesments: {$elemMatch: {assesment_name: req.query.assesment_name}}},
+		function(request,docs){
+		res.end(JSON.stringify(docs.assesments[0]));
+	
+	});
+	
+}); 
 
 app.get('/api/getRes', function(req,res,next){
 	console.log("req   "+req.query.class);
