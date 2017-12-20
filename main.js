@@ -697,7 +697,8 @@ app.get('/api/getRes', function(req,res,next){
 	Result.find( { $and: [
 		{ standard : req.query.class }, 
 		{ section: req.query.section },
-		{ subject: req.query.subject }
+		{ subject: req.query.subject },
+		{assesment_name : req.query.assesment_name}
 		,{ student_id: req.user.student_id }
 		]},{ recommendations : 1, marks: 1 , _id: 0 },function(request,docs){
 			console.log(docs);
