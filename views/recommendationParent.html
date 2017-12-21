@@ -11,7 +11,7 @@
 
         <div class="panel-body">
 
-          <form ng-submit="parentRecomm()">
+          <form ng-submit="getAllAssign()">
             <div class="row">
 
               <div class="form-group">
@@ -77,9 +77,27 @@
           </div>
         </div>
       </br>
+       <div class="row" ng-if="ok == 'ok'">
+
+           <div class="form-group">
+            <label for="subject" class="col-md-4 control-label">Select Assesment Name</label>
+
+            <div class="col-md-6">
+             <select class="form-control" ng-model="myselect" ng-options="o.assesment_name as o.assesment_name for o in assesments" ng-click="parentRecomm()"></select>
+                
+              </div>
+            </div>
+
+        </div>
+      </br>
               <div class="row">
                 <div ng-if="msg1.length > 0" class="alert alert-info">
                   <strong><center>{{msg1}}</center></strong>
+                </div>
+              </div>
+              <div class="row">
+                <div ng-if="msg2.length > 0" class="alert alert-info">
+                  <strong><center>{{msg2}}</center></strong>
                 </div>
               </div>
 
@@ -95,63 +113,9 @@
 
 
 
-<div class="container" style ="margin-top: 0.5cm;" ng-if = "ok == 'ok'">
-  <div class="col-md-8">
-    <div class="panel panel-default">
-      <div class="panel-heading"><h3>Select Assesment in this class</h3></div>
-
-      <div class="panel-body">
-
-        <form ng-submit="getResults(assess_name)">
-          <div class="row">
-
-            <div class="form-group">
-              <label for="assesment_name" class="col-md-4 control-label">Select Assesment </label>
-
-              <div class="col-md-6">
-                <select name="assesment_name" ng-model="assess_name" class="form-control" required="">
-                      <option value="">Make a selection</option>
-                  <option ng-repeat = "list in assesments">{{list.assesment_name}}</option>
-                </select>
-              </div>
-            </div>
-          </div>
 
 
-        </br>
-
-
-<div class="row">
-
-  <div class="form-group">
-    <div class="col-md-8 col-md-offset-4">
-      <button type="submit" class="btn btn-success" >
-       Go
-      </button>
-    </div>
-  </div>
-</div>
-</br>
-<div class="row">
-  <div ng-if="msg.length > 0" class="alert alert-info">
-    <strong><center>{{msg2}}</center></strong>
-  </div>
-</div>
-</form>
-</div>
-</div>
-</div>
-</div>
-
-
-
-
-
-
-
-
-
-<div class="container" ng-if="msg1.length == 0">
+<div class="container" ng-if="msg2.length == 0">
  <div class="col-md-8">
   <div class="panel panel-default">
     <div class="panel-heading"><h3>Recommendations</h3></div>
@@ -164,7 +128,6 @@
             <th>S.NO</th>
             <th>Question</th>
             <th>Student's Response</th>
-
             <th>Recommended Lesson ID</th>
           </tr>
         </thead>

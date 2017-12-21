@@ -351,29 +351,22 @@ Class.update( { $and: [
 
 app.post('/api/admin/addErrorCodes', function(req,res,next){
 	console.log(req.body);
-	var data = { error_code:req.body.error_code,remedial_title: req.body.title};
-	console.log(data);
-	// console.log(Class);
-// Class.update(
-//     { _id: person._id }, 
-//     { $push: { friends: friend } },
-//     done
-// );
+
 
 Class.update( { $and: [
 	{ standard : req.body.class }, 
 	{ section: req.body.section },
 	{ subject: req.body.subject }
-	]},{$addToSet : { error_codes : data } },function(request,docs){
+	]},{$addToSet : { error_codes : { $each : req.body.error_codes } } },function(request,docs){
 		console.log(docs);
 		if(docs.n == 0 && docs.nModified == 0){
-			res.end("Combination does not exist! Please add error code into a valid class");
+			res.end("Combination does not exist! Please add error codes into a valid class");
 		}
 		else if(docs.n == 1 && docs.nModified == 0){
-			res.end("Error Code Already added in this class.");
+			res.end("Error Codes Already added in this class.");
 		}
 		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-			res.end("Error Code successfully added. You can add more Error Codes!");
+			res.end("Error Codes successfully added. You can add more Error Codes!");
 		}
 	});
 
@@ -700,6 +693,7 @@ app.get('/api/getRes', function(req,res,next){
 		{ subject: req.query.subject },
 		{assesment_name : req.query.assesment_name}
 		,{ student_id: req.user.student_id }
+
 		]},{ recommendations : 1, marks: 1 , _id: 0 },function(request,docs){
 			console.log(docs);
 			if(docs.length == 0){
@@ -726,16 +720,14 @@ app.get('/api/parent/getRecomm', function(req,res,next){
 			{ standard : req.query.class }, 
 			{ section: req.query.section },
 			{ subject: req.query.subject },
+			{ assesment_name: req.query.assesment_name },
 			{ student_id: docs[0].student_id }
 			]},{ recommendations : 1 },function(request,docu){
 				console.log("docu===");
 				console.log(docu);
-				if(docu.length == 0){
-					res.end(JSON.stringify(docu.length));
-				}
-				else{
+				
 					res.end(JSON.stringify(docu[0].recommendations));
-				} 
+				 
 				
 			});
 	});
@@ -750,8 +742,9 @@ app.get('/api/teacher/getRes', function(req,res,next){
 	Result.find( { $and: [
 		{ standard : req.query.class }, 
 		{ section: req.query.section },
-		{ subject: req.query.subject }
-		,{ student_id: req.query.student_id }
+		{ subject: req.query.subject },
+		{ assesment_name: req.query.assesment_name },
+		{ student_id: req.query.student_id }
 		]},{ recommendations : 1, marks: 1 , _id: 0 },function(request,docs){
 			console.log(docs);
 			if(docs.length == 0){

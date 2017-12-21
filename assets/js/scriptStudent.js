@@ -88,8 +88,6 @@ $scope.getAllAssign= function()
       }
     }
   })
-
-  
 }
 
 
