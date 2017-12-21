@@ -108,7 +108,7 @@ module.exports = function(passport){
                 var newUser = new Teacher();
                 newUser.username = username;
                 newUser.password = newUser.generateHash(password);
-                newUser.teacher_id = "TEA-00" + (count+1);
+                newUser.teacher_id = "TEA-00" + (count+1) + "-" + req.body.aadhar_no;
                 console.log("teacherid" + newUser.teacher_id);
                 newUser.qualification = req.body.qualification;
                 newUser.job_description = req.body.job_description;
@@ -153,7 +153,7 @@ module.exports = function(passport){
                 var newUser = new Student();
                 newUser.username = username;
                 newUser.password = newUser.generateHash(password);
-                newUser.student_id = "STU -00" + (count+1);
+                newUser.student_id = "STU -00" + (count+1) + "-" + req.body.aadhar;
                 console.log("studentid : " + newUser.student_id);
                 newUser.email = req.body.email;
                 newUser.grade = req.body.grade;
@@ -195,7 +195,7 @@ module.exports = function(passport){
                 var newUser = new Parent();
                 newUser.username = username;
                 newUser.password = newUser.generateHash(password);
-                newUser.parent_id = "PAR -00" + (count+1);
+                newUser.parent_id = "PAR -00" + (count+1) + "-" + req.body.aadhar;
                 console.log("parentid : " + newUser.parent_id);
                 newUser.email = req.body.email;
                 newUser.qualification = req.body.qualification;

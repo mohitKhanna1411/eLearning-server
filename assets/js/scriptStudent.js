@@ -88,8 +88,6 @@ $scope.getAllAssign= function()
       }
     }
   })
-
-  
 }
 
 
@@ -120,8 +118,8 @@ $scope.getAssign= function(assess_name)
 
 
 
-$scope.ok = "not";
-$scope.getResults= function()
+$scope.notok = "not";
+$scope.getResults= function(assess_name)
 {
   $scope.msg = "";
   $scope.msg1 = "";
@@ -129,17 +127,18 @@ $scope.getResults= function()
   var section=$scope.section;
   var subject=$scope.subject;
   
-  var data={"class":standard, "subject":subject, "section":section};
+  var data={"class":standard, "subject":subject, "section":section, "assesment_name" : assess_name};
   console.log(data);
   $http.get('/api/getRes', { params: data }).success(function(res){
     $scope.list = res;
     console.log(res);
     if(res == "0"){
       $scope.msg1 = "No results found or you are not enrolled in this class!";
-      $scope.ok = "not";
+      $scope.notok = "not";
     }else{
             // $scope.msg1 = res.length + " Number of lessons found.";
-            $scope.ok = "ok";
+            $scope.notok = "ok";
+            $scope.okok="ok";
           }
         })
   
