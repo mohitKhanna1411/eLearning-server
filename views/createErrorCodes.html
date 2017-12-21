@@ -12,7 +12,7 @@
 
         <div class="panel-body">
 
-          <form ng-submit = "remedialLessons()">
+          <form ng-submit = "addingErrorCodes()">
             <div class="row">
 
               <div class="form-group">
@@ -70,6 +70,17 @@
         <div class="row">
 
           <div class="form-group">
+            <label for="error_code" class="col-md-4 control-label">Upload CSV file</label>
+            <div class="col-md-6">
+            <input type="file" data-file-reader-directive="fileContent" accept=".csv" name="file" 
+            class="form-control" required="required" />
+           </div>
+         </div>
+       </div>
+     </br>
+        <div class="row">
+
+          <div class="form-group">
             <div class="col-md-8 col-md-offset-4">
               <button type="submit" class="btn btn-success">
                 Go
@@ -89,72 +100,6 @@
 </div>
 </div>
 </div>
-
-
-
-<div class="container" style ="margin-top: 0.5cm;" ng-if = "ok == 'ok'">
-  <div class="col-md-8">
-    <div class="panel panel-default">
-      <div class="panel-heading"><h3>Create Error Code</h3></div>
-
-      <div class="panel-body">
-
-        <form ng-submit="addingErrorCodes(error_c , title)">
-          <div class="row">
-
-            <div class="form-group">
-              <label for="lesson" class="col-md-4 control-label">Select Lesson </label>
-
-              <div class="col-md-6">
-                <select name="lesson" ng-model="title" class="form-control" required="">
-                      <option value="">Make a selection</option>
-                  <option ng-repeat = "list in list">{{list.remedial_title}}</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-
-
-        </br>
-
-
-        <div class="row">
-
-          <div class="form-group">
-            <label for="error_code" class="col-md-4 control-label">Add Error Code</label>
-            <div class="col-md-6">
-             <input type="text" class="form-control" ng-model="error_c" required=""/>
-           </div>
-         </div>
-       </div>
-</br>              
-
-
-
-<div class="row">
-
-  <div class="form-group">
-    <div class="col-md-8 col-md-offset-4">
-      <button type="submit" class="btn btn-success" >
-        Add New Error Code
-      </button>
-    </div>
-  </div>
-</div>
-</br>
-<div class="row">
-  <div ng-if="msg.length > 0" class="alert alert-info">
-    <strong><center>{{msg}}</center></strong>
-  </div>
-</div>
-</form>
-</div>
-</div>
-</div>
-</div>
-
-
 
 
 </body>

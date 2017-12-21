@@ -118,17 +118,7 @@ myApp.factory('readFileData',['$http', function($http) {
             for (var k = 0; k < lines.length; ++k){
               json[k] = lines[k];
             }
-          
-            // var stringified = JSON.stringify(json);
-            // stringified = stringified.replace('"\\": ""');
-            // stringified = stringified;
-            // var jsonObject = JSON.parse(stringified);
-            // console.log(jsonObject[2][0].replace(/^"(.*)"$/, '$1'));
-            // var data1=[];
             var dataFinal =[];
-            // console.log(lines.length);
-            // console.log(headers.length);
-            // return json;
             for(i=0;i<lines.length;i++){
                 
                 var data1=[];
@@ -168,9 +158,50 @@ myApp.factory('readFileData',['$http', function($http) {
     };
 }]);
 
+
+myApp.factory('readErrorCodeData',['$http', function($http) {
+    return {
+        processErrorCodeData: function(csv_data) {
+            var record = csv_data.split(/\r\n|\n/);
+            var headers = record[0].split(',');
+            var lines = [];
+            var json = {};
+
+            for (var i = 0; i < record.length; i++) {
+                var data = record[i].split(',');
+                if (data.length == headers.length) {
+                    var tarr = [];
+                    for (var j = 0; j < headers.length; j++) {
+                        tarr.push(data[j]);
+                    }
+                    lines.push(tarr);
+                    //lines=lines.replace('\\','');
+                }
+            }
+            
+            for (var k = 0; k < lines.length; ++k){
+              json[k] = lines[k];
+            }
+               var dataFinal =[];
+            for(i=0; i<lines.length;i++){
+              obj= {
+                           
+                            remedial_title : json[i][0].replace(/^"(.*)"$/, '$1'),
+                             error_code : json[i][1].replace(/^"(.*)"$/, '$1')
+
+                        };
+                        dataFinal.push(obj);
+            }
+          
+            return dataFinal;
+        }
+    };
+}]);
+
+
 // creating mainController
 myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
-  'readFileData', function($scope,Upload,$window, $http,readFileData) {
+  'readFileData', 'readErrorCodeData' , function($scope,Upload,$window, $http,readFileData,readErrorCodeData) {
       $scope.fileDataObj = {};
       $scope.message = null;
  $scope.uploadFile = function() {
@@ -184,7 +215,29 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
         }
       }
     }
+ $scope.addingErrorCodes= function()
+      {
 
+        if ($scope.fileContent) {
+        $scope.fileDataObj = readErrorCodeData.processErrorCodeData($scope.fileContent);
+        console.log($scope.fileDataObj);
+        if($scope.fileDataObj){
+
+        var data={"class":$scope.standard, "subject":$scope.subject, "section":$scope.section,"error_codes":$scope.fileDataObj};
+        console.log(data);
+        $http.post('/api/admin/addErrorCodes', data).success(function(res){
+          $scope.msg1 = res;
+          $scope.fileContent = "";
+          $scope.standard ="";
+          $scope.subject = "";
+          $scope.section = "";
+        })
+
+        }else{
+          $scope.msg1 = "Error!! Please try again later";
+        }
+  }
+      }
  $scope.addAssesmentFunc = function(title_lesson , assesment_name , var_class , var_section , var_subject) {
       // console.log($scope.fileDataObj);
       // console.log(assesment_name);
@@ -310,59 +363,7 @@ $http.get('/api/listParentIDs').success(function(res){
   })
 
 }
-// $scope.optionsArr = [];
-// $scope.errorArr = [];
-// $scope.errorArr[3] = "Right Answer";
-// $scope.codeArr = [];
-// $scope.contents = [];
-// var data ={};
 
-// $scope.addAssesment= function(data)
-// { 
-//   $scope.msg = "";
-//   console.log("RA " + data.right_answer);
-//   console.log("op : " + $scope.optionsArr);
-//   console.log("q : " + data.question);
-//   console.log("CODE : " + $scope.codeArr);
-//         // console.log($scope.standard);
-//         // console.log($scope.section);
-//         // console.log($scope.subject);
-//         for(var i=0 ; i< 4 ; i++){
-//           if($scope.optionsArr[i] == data.right_answer){
-//             $scope.contents.push({
-//               answerText: $scope.optionsArr[i],
-//               correct: true,
-//               error_lesson_title: $scope.codeArr[i]
-//             });
-//           }else{
-//             $scope.contents.push({
-//               answerText: $scope.optionsArr[i],
-//               correct: false,
-//               error_lesson_title: $scope.codeArr[i]
-//             });
-//           }
-
-//         }
-//         console.log("CONTENTS : " + $scope.contents)
-
-//         var sendData={ "question": data.question, "class": $scope.standard, 
-//         "subject": $scope.subject, "section": $scope.section , 
-//         "options": $scope.contents};
-//         console.log(sendData);
-        // $http.post('/api/admin/addQues', sendData).success(function(res){
-        //   $scope.msg = res;
-        //   $scope.optionsArr = [];
-        //   $scope.errorArr = [];
-        //   $scope.errorArr[3] = "Right Answer";
-        //   $scope.contents = [];
-        //   $scope.codeArr = [];
-        //   data.right_answer = "";
-        //   data.question = "";
-        //   data.lesson_id = "";
-        // })
-
-
-//       }
 
 $scope.syncVideo= function(){
   $scope.ref_link = "";
@@ -452,26 +453,26 @@ $scope.syncLink= function(){
 
       }
 
-      $scope.addingErrorCodes= function(error_c , title)
-      {
-        $scope.msg = "";
-        $scope.msg1 = "";
-        var standard=$scope.standard;
-        var section=$scope.section;
-        var subject=$scope.subject;
-        console.log(error_c);
-        console.log(title);
+      // $scope.addingErrorCodes= function(error_c , title)
+      // {
+      //   $scope.msg = "";
+      //   $scope.msg1 = "";
+      //   var standard=$scope.standard;
+      //   var section=$scope.section;
+      //   var subject=$scope.subject;
+      //   console.log(error_c);
+      //   console.log(title);
         
-        var data={"class":standard, "subject":subject, "section":section,"error_code":error_c,"title":title};
-        console.log(data);
-        $http.post('/api/admin/addErrorCodes', data).success(function(res){
-          $scope.msg = res;
-          $scope.error_c="";
+      //   var data={"class":standard, "subject":subject, "section":section,"error_code":error_c,"title":title};
+      //   console.log(data);
+      //   $http.post('/api/admin/addErrorCodes', data).success(function(res){
+      //     $scope.msg = res;
+      //     $scope.error_c="";
         
-        })
+      //   })
 
 
-      }
+      // }
 
       $scope.ok = "not";
       $scope.findErrorCodes= function()
