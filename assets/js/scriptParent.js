@@ -21,8 +21,8 @@
     $http.get('/api/getReport').success(function(res){
     $scope.reports = res;
     console.log($scope.reports);
-    if(res == "0"){
-      $scope.msg = "No report found";
+    if(res.length === 0){
+      $scope.msg = "No reports found";
     }
 	  
   })
@@ -65,7 +65,7 @@ $scope.getAllAssign= function()
     $scope.assesments = res;
     console.log(res);
     if(res == "0"){
-      $scope.msg1 = "No assesment found or you are not enrolled in this class!";
+      $scope.msg1 = "No assesment found or you child is not enrolled in this class!";
       $scope.ok = "not";
     }else{
       $scope.ok = "ok";

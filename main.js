@@ -724,12 +724,9 @@ app.get('/api/parent/getRecomm', function(req,res,next){
 			]},{ recommendations : 1 },function(request,docu){
 				console.log("docu===");
 				console.log(docu);
-				if(docu.length == 0){
-					res.end(JSON.stringify(docu.length));
-				}
-				else{
+				
 					res.end(JSON.stringify(docu[0].recommendations));
-				} 
+				 
 				
 			});
 	});
