@@ -544,6 +544,92 @@ $scope.adminRecommend= function()
 }
 
 
+$scope.ok = "not";
+$scope.getAllAssign= function()
+{
+  $scope.msg = "";
+  $scope.msg1 = "";
+  var standard=$scope.standard;
+  var section=$scope.section;
+  var subject=$scope.subject;
+  var studentID=$scope.stuID;
+  
+  var data={"class":standard, "subject":subject, "section":section, student :studentID };
+  console.log(data);
+  $http.get('/api/teacher/getAllAssign', { params: data }).success(function(res){
+    $scope.assesments = res;
+    console.log(res);
+    if(res == "0"){
+      $scope.msg1 = "No assesment found !";
+      $scope.ok = "not";
+    }else{
+      $scope.ok = "ok";
+      $scope.msg1 = res.length + " assesments found.";
+      if(res.length == 0){
+        $scope.ok = "not";
+        $scope.msg1 = "Assesment yet to be added. Please come again later!";    
+      }
+    }
+  })
+}
+
+
+$scope.notok = "not";
+$scope.getResults= function(assess_name)
+{
+  $scope.msg = "";
+  $scope.msg1 = "";
+  var standard=$scope.standard;
+  var section=$scope.section;
+  var subject=$scope.subject;
+  var studentID=$scope.stuID;
+  
+  var data={"class":standard, "subject":subject, "section":section, "assesment_name" : assess_name,"student":studentID};
+  console.log(data);
+  $http.get('/api/teacher/getRes', { params: data }).success(function(res){
+    $scope.recommend = res;
+    console.log(res);
+    if(res == "0"){
+      $scope.msg1 = "No results found!";
+      $scope.notok = "not";
+    }else{
+            // $scope.msg1 = res.length + " Number of lessons found.";
+            $scope.notok = "ok";
+            $scope.okok="ok";
+          }
+        })
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 $scope.deleteStudent= function()
       {
