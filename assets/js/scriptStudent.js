@@ -47,13 +47,18 @@ myApp.controller('controllerStudent', function($scope, $http,$timeout) {
   console.log(data);
   $http.get('/api/student/getlessons', { params: data }).success(function(res){
    $scope.list = res;
-   if(res == "0"){
-    $scope.msg1 = "No lessons found or you are not enrolled in this class!";
-    $scope.ok = "not";
-  }else{
-    $scope.msg1 = res.length + " Number of lessons found.";
-    $scope.ok = "ok";
-  }
+  if(res === "0"){
+          $scope.msg1 = "No Class found, Please create a class and add lessons!";
+          $scope.ok = "not";
+          return;
+      }if(res.length === 0){
+          $scope.msg1 = "No lessons found!, Please add lessons to continue";
+          $scope.ok = "not";
+          return;
+      }else{
+          $scope.msg1 = " Number of lessons found : " + res.length ;
+          $scope.ok = "ok";
+      }
   console.log($scope.list);
 })
 
