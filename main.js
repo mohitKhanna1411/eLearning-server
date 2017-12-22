@@ -654,6 +654,46 @@ app.get('/api/getAllAssign', function(req,res,next){
 });
 
 
+
+app.get('/api/teacher/getAllAssign', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	
+	Class.find( { $and: [
+		{ standard : req.query.class }, 
+		{ section: req.query.section },
+		{ subject: req.query.subject }
+		],students : { $elemMatch : { Student_ID : req.query.student } }
+	},{ assesments : 1, _id: 0 },function(request,docs){
+		console.log(docs);
+		if(docs.length == 0){
+			res.end(JSON.stringify(docs.length));
+		}
+		else{
+			res.end(JSON.stringify(docs[0].assesments));
+		} 
+		
+	});
+	
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.get('/api/getRemedialTitle', function(req,res,next){
 	// req.query.error_code="E001";
 	// console.log("error code   "+req.query.error_code);
@@ -706,6 +746,49 @@ app.get('/api/getRes', function(req,res,next){
 		});
 	
 });
+
+
+
+app.get('/api/teacher/getRes', function(req,res,next){
+	console.log("req   "+req.query.class);
+	console.log("req   "+req.query.subject);
+	console.log("req   "+req.query.section);
+	
+	Result.find( { $and: [
+		{ standard : req.query.class }, 
+		{ section: req.query.section },
+		{ subject: req.query.subject },
+		{assesment_name : req.query.assesment_name}
+		,{ student_id: req.query.student }
+
+		]},{ recommendations : 1, marks: 1 , _id: 0 },function(request,docs){
+			console.log(docs);
+			if(docs.length == 0){
+				res.end(JSON.stringify(docs.length));
+			}
+			else{
+				res.end(JSON.stringify(docs[0]));
+			} 
+			
+		});
+	
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.get('/api/parent/getRecomm', function(req,res,next){
 	console.log("req   "+req.query.class);
