@@ -28,15 +28,15 @@
   })
 
 
-    $scope.parentRecomm = function(){
-
+   $scope.parentRecomm = function(myselect){
+// console.log(myselect);
       $scope.msg = "";
     $scope.msg2 = "";
     var standard=$scope.standard;
     var section=$scope.section;
     var subject=$scope.subject;
-    
-    var data={"class":standard, "subject":subject, "section":section, "assesment_name" : $scope.myselect};
+
+    var data={"class":standard, "subject":subject, "section":section, "assesment_name" : myselect};
     console.log(data);
 
     $http.get('/api/parent/getRecomm',{ params: data }).success(function(res){
@@ -45,7 +45,7 @@
       $scope.msg2 = "Student has not taken his/her assesment or is not enrolled in this class!";
     }
     console.log($scope.recommendations);
-    
+
   })
 
 }
