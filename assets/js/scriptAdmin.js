@@ -284,7 +284,7 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
 })
  $http.get('/api/getClasses').success(function(res){
   $scope.list4 = res;
-  console.log("classes"  + res[0].students);
+  //console.log("classes"  + res[0].students);
 })
 
  $http.get('/api/listStudentIDs').success(function(res){
