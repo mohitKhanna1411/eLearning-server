@@ -246,9 +246,11 @@ $scope.remedialLessons= function()
     if(res == "0"){
       $scope.msg1 = "No Class found, Please create a class and add remedial lessons!";
       $scope.ok = "not";
+      return;
     }if(res.length == 0){
       $scope.msg1 = "No remedial lessons found!, Please add lessons to continue";
       $scope.ok = "not";
+      return;
     }else{
       $scope.msg1 = " Number of Remedial lessons found : " + res.length ;
       $scope.ok = "ok";
