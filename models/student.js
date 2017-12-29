@@ -36,6 +36,9 @@ var studentSchema = mongoose.Schema({
     teacher_id:{
         type : String
     },
+    parent_id:{
+        type : String
+    },
 	fav_subject:{
         type: String
     },

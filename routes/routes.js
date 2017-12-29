@@ -51,7 +51,7 @@ module.exports = function(app,passport){
 
     app.post('/studentRegister', passport.authenticate('studentRegister',{
         successRedirect : '/dashboardStudent',
-        failureRedirect : '/register',
+        failureRedirect : '/studentRegister',
         failureFlash : true
     }));
     app.get('/teacherRegister', function(req, res){
@@ -61,7 +61,7 @@ module.exports = function(app,passport){
 
     app.post('/teacherRegister', passport.authenticate('teacherRegister',{
         successRedirect : '/dashboardTeacher',
-        failureRedirect : '/register',
+        failureRedirect : '/teacherRegister',
         failureFlash : true
     }));
 
@@ -73,7 +73,7 @@ module.exports = function(app,passport){
 
     app.post('/parentRegister', passport.authenticate('parentRegister',{
         successRedirect : '/dashboardParent',
-        failureRedirect : '/register',
+        failureRedirect : '/parentRegister',
         failureFlash : true
     }));
 

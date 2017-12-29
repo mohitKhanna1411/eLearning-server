@@ -164,6 +164,7 @@ module.exports = function(passport){
                 newUser.fav_subject = req.body.fav_subject;
                 newUser.role = "student";
                 newUser.teacher_id = req.body.teacherID.replace('string:','');
+                newUser.parent_id = req.body.parentID.replace('string:','');
                 newUser.save(function(err){
                     if(err) throw err;
                     return done(null,newUser);

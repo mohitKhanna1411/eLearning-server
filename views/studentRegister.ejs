@@ -9,9 +9,15 @@ var app = angular.module('myApp', []);
 app.controller('stu', function($scope, $http) {
     console.log("controllerStudent");
     $http.get('/api/listTeacherIDs').success(function(res){
-      $scope.options = res;
-      console.log($scope.options);
+      $scope.optionsTeacher = res;
+      // console.log($scope.options);
     })
+
+    $http.get('/api/listParentIDs').success(function(res){
+      $scope.optionsParent = res;
+      // console.log($scope.options);
+    })
+
 });
 </script>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
@@ -72,12 +78,31 @@ app.controller('stu', function($scope, $http) {
                     <div class="row">
 
                         <div class="form-group">
-                            <label for="password" class="col-md-4 control-label">Select Teacher ID</label>
+                            <label class="col-md-4 control-label">Select Teacher ID</label>
 
                             <div class="col-md-6">
-                                
-            
-            <select class="form-control" name="teacherID" ng-model="myselect" ng-options="o.teacher_id as o.teacher_id for o in options"></select>
+            <select class="form-control" name="teacherID" ng-model="myselectTeacherID" ng-options="o.teacher_id as o.teacher_id for o in optionsTeacher" required="">
+                <option value="">Make a selection</option>
+                
+            </select>
+               
+                            </div>
+                        </div>
+                    </div>
+                          
+                    </br>
+
+                    <div class="row">
+
+                        <div class="form-group">
+                            <label class="col-md-4 control-label">Select Parent ID</label>
+
+                            <div class="col-md-6">
+            <select class="form-control" name="parentID" ng-model="myselectParentID" ng-options="o.parent_id as o.parent_id for o in optionsParent" required="">
+                <option value="">Make a selection</option>
+
+            </select>
+             
                
                             </div>
                         </div>
