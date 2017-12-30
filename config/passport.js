@@ -7,15 +7,15 @@ var Parent= require('../models/parent');
 module.exports = function(passport){
     passport.serializeUser(function(req, user, done) {
         // console.log("serial reqbody "+req);
-        console.log("serial  " + user.id);
-        console.log("serial  " + user);
+        // console.log("serial  " + user.id);
+        // console.log("serial  " + user);
         done(null, user);
     });
 
     passport.deserializeUser(function(req , user, done) {
-        console.log("deserial req body "+user._id);
-        console.log("deserial  role" + user.role);
-        console.log("deserial  " + user.username);
+        // console.log("deserial req body "+user._id);
+        // console.log("deserial  role" + user.role);
+        // console.log("deserial  " + user.username);
         
         if(user.role == "teacher"){
             Teacher.findById(user._id, function(err, user) {
