@@ -1,40 +1,40 @@
 ﻿<!DOCTYPE html>
 <html lang="en" >
 <head>
-<meta charset="UTF-8">
-<title>Student Registration</title>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
-<script>
-var app = angular.module('myApp', []);
-app.controller('stu', function($scope, $http) {
-    console.log("controllerStudent");
-    $http.get('/api/listTeacherIDs').success(function(res){
-      $scope.optionsTeacher = res;
+    <meta charset="UTF-8">
+    <title>Student Registration</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('stu', function($scope, $http) {
+            console.log("controllerStudent");
+            $http.get('/api/listTeacherIDs').success(function(res){
+              $scope.optionsTeacher = res;
       // console.log($scope.options);
-    })
+  })
 
-    $http.get('/api/listParentIDs').success(function(res){
-      $scope.optionsParent = res;
+            $http.get('/api/listParentIDs').success(function(res){
+              $scope.optionsParent = res;
       // console.log($scope.options);
-    })
+  })
 
-});
-</script>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+        });
+    </script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 </head>
 <body ng-app="myApp" ng-controller="stu">
 
-<div class="container" style ="margin-top: 3cm;" >
+    <div class="container" style ="margin-top: 3cm;" >
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading"><h3>Student Register Here</h3></div>
 
                 <div class="panel-body">
                 	<% if(message.length>0){ %>
-								<div class="alert alert-danger"><%= message %></div>
-					<% } %>
+                    <div class="alert alert-danger"><%= message %></div>
+                    <% } %>
                     <form action="/studentRegister" method="post">
-                    	    <div class="row">
+                       <div class="row">
 
                         <div class="form-group">
                             <label for="username" class="col-md-4 control-label">Username</label>
@@ -45,119 +45,119 @@ app.controller('stu', function($scope, $http) {
                         </div>
                     </div>
                 </br>
-                        <div class="row">
+                <div class="row">
 
-                        <div class="form-group">
-                            <label for="password" class="col-md-4 control-label">Password</label>
+                    <div class="form-group">
+                        <label for="password" class="col-md-4 control-label">Password</label>
 
-                            <div class="col-md-6">
-                                <input type="password" class="form-control" name="password" required="">
-                            </div>
+                        <div class="col-md-6">
+                            <input type="password" class="form-control" name="password" required="">
                         </div>
                     </div>
-                          
-                    </br> 
-
-
-                          <div class="row">
-
-                        <div class="form-group">
-                            <label for="email" class="col-md-4 control-label">Email</label>
-
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="email" required="" autofocus>
-                            </div>
-                        </div>
-                    </div>
-                </br>
-
-
-
-
-    
-                    <div class="row">
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Select Teacher ID</label>
-
-                            <div class="col-md-6">
-            <select class="form-control" name="teacherID" ng-model="myselectTeacherID" ng-options="o.teacher_id as o.teacher_id for o in optionsTeacher" required="">
-                <option value="">Make a selection</option>
+                </div>
                 
-            </select>
-               
-                            </div>
-                        </div>
+            </br> 
+
+
+            <div class="row">
+
+                <div class="form-group">
+                    <label for="email" class="col-md-4 control-label">Email</label>
+
+                    <div class="col-md-6">
+                        <input type="text" class="form-control" name="email" required="" autofocus>
                     </div>
-                          
-                    </br>
-
-                    <div class="row">
-
-                        <div class="form-group">
-                            <label class="col-md-4 control-label">Select Parent ID</label>
-
-                            <div class="col-md-6">
-            <select class="form-control" name="parentID" ng-model="myselectParentID" ng-options="o.parent_id as o.parent_id for o in optionsParent" required="">
-                <option value="">Make a selection</option>
-
-            </select>
-             
-               
-                            </div>
-                        </div>
-                    </div>
-                          
-                    </br>
-                  
+                </div>
+            </div>
+        </br>
 
 
 
-                      <div class="row">
 
-                        <div class="form-group">
-                            <label for="grade" class="col-md-4 control-label">Contact</label>
+        
+        <div class="row">
 
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="contact" required="" autofocus>
-                            </div>
-                        </div>
-                    </div>
-                </br>
-                          
-                       
-      <div class="row">
+            <div class="form-group">
+                <label class="col-md-4 control-label">Select Teacher ID</label>
 
-                        <div class="form-group">
-                            <label for="aadhar" class="col-md-4 control-label">Aadhar</label>
+                <div class="col-md-6">
+                    <select class="form-control" name="teacherID" ng-model="myselectTeacherID" ng-options="o.teacher_id as o.teacher_id for o in optionsTeacher" required="">
+                        <option value="">Make a selection</option>
+                        
+                    </select>
+                    
+                </div>
+            </div>
+        </div>
+        
+    </br>
 
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="aadhar" required="" autofocus>
-                            </div>
-                        </div>
-                    </div>
-                </br>
-                  <div class="row">
-               <div class="form-group">
-                            <label for="address" class="col-md-4 control-label">Address</label>
+    <div class="row">
 
-                            <div class="col-md-6">
-                                <input type="textarea" class="form-control" name="address" required="" autofocus>
-                            </div>
-                        </div>
-                    </div>
-                </br>
+        <div class="form-group">
+            <label class="col-md-4 control-label">Select Parent ID</label>
+
+            <div class="col-md-6">
+                <select class="form-control" name="parentID" ng-model="myselectParentID" ng-options="o.parent_id as o.parent_id for o in optionsParent" required="">
+                    <option value="">Make a selection</option>
+
+                </select>
+                
+                
+            </div>
+        </div>
+    </div>
+    
+</br>
+
+
+
+
 <div class="row">
 
-                        <div class="form-group">
-                            <label for="school" class="col-md-4 control-label">School</label>
+    <div class="form-group">
+        <label for="grade" class="col-md-4 control-label">Contact</label>
 
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" name="school" required="" autofocus>
-                            </div>
-                        </div>
-                    </div>
-                </br>
+        <div class="col-md-6">
+            <input type="text" class="form-control" name="contact" required="" autofocus>
+        </div>
+    </div>
+</div>
+</br>
+
+
+<div class="row">
+
+    <div class="form-group">
+        <label for="aadhar" class="col-md-4 control-label">Aadhar</label>
+
+        <div class="col-md-6">
+            <input type="text" class="form-control" name="aadhar" required="" autofocus>
+        </div>
+    </div>
+</div>
+</br>
+<div class="row">
+ <div class="form-group">
+    <label for="address" class="col-md-4 control-label">Address</label>
+
+    <div class="col-md-6">
+        <input type="textarea" class="form-control" name="address" required="" autofocus>
+    </div>
+</div>
+</div>
+</br>
+<div class="row">
+
+    <div class="form-group">
+        <label for="school" class="col-md-4 control-label">School</label>
+
+        <div class="col-md-6">
+            <input type="text" class="form-control" name="school" required="" autofocus>
+        </div>
+    </div>
+</div>
+</br>
    <!--  <div class="row">
 
                         <div class="form-group">
@@ -200,29 +200,29 @@ app.controller('stu', function($scope, $http) {
 
 
 
-						<div class="row">
-							
-                        <div class="form-group">
-                            <div class="col-md-8 col-md-offset-4">
-                                <button type="submit" class="btn btn-success">
-                                    Register
-                                </button>
+                <div class="row">
+                 
+                    <div class="form-group">
+                        <div class="col-md-8 col-md-offset-4">
+                            <button type="submit" class="btn btn-success">
+                                Register
+                            </button>
 
-                            	<a class="btn btn-link" href="/login">
-                                    Already registered?
-                                </a>
-                                <a class="btn btn-link" href="/">
-                                    Exit
-                                </a>
+                            <a class="btn btn-link" href="/login">
+                                Already registered?
+                            </a>
+                            <a class="btn btn-link" href="/">
+                                Exit
+                            </a>
 
-                            </div>
                         </div>
                     </div>
-
-                    </form>
                 </div>
+
+            </form>
         </div>
     </div>
+</div>
 </div>
 
 

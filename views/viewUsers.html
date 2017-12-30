@@ -1,63 +1,63 @@
 
 <html>
 <head>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
 </head>
 <body style="background:#eef1f6;" ng-app="myApp" ng-controller ="controllerAdmin">
 
-<div class="container">
-  <h2>Student Information</h2>
-  <table class="table table-condensed">
-    <thead>
-      <tr>
-        <th>S.NO</th>
-        <th>Username</th>
-        <th>Student ID</th>
-        <th>Email ID</th>
-        <th>Address</th>
-        <th>Teacher ID</th>
-        <th>Teacher ID</th>
-        <th>School</th>
-        <th>Grade</th>
-        <th>Fav Subject</th>
-        <th>Aadhar Number</th>
-        <th>Contact Number</th>
+  <div class="container">
+    <h2>Student Information</h2>
+    <table class="table table-condensed">
+      <thead>
+        <tr>
+          <th>S.NO</th>
+          <th>Username</th>
+          <th>Student ID</th>
+          <th>Email ID</th>
+          <th>Address</th>
+          <th>Teacher ID</th>
+          <th>Teacher ID</th>
+          <th>School</th>
+          <th>Grade</th>
+          <th>Fav Subject</th>
+          <th>Aadhar Number</th>
+          <th>Contact Number</th>
 
-      </tr>
-    </thead>
-    <tbody  ng-repeat = "list1 in list1">
-      <tr>
-        <td>{{$index+1}}</td>
-        <td>{{list1.username}}</td>
-        <td>{{list1.student_id}}</td>
-        <td>{{list1.email}}</td>
-        <td>{{list1.address}}</td>
-        <td>{{list1.teacher_id}}</td>
-        <td>{{list1.parent_id}}</td>
-        <td>{{list1.school}}</td>
-        <td>{{list1.grade}}</td>
-        <td>{{list1.fav_subject}}</td>
-        <td>{{list1.aadhar}}</td>
-        <td>{{list1.contact}}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+        </tr>
+      </thead>
+      <tbody  ng-repeat = "list1 in list1">
+        <tr>
+          <td>{{$index+1}}</td>
+          <td>{{list1.username}}</td>
+          <td>{{list1.student_id}}</td>
+          <td>{{list1.email}}</td>
+          <td>{{list1.address}}</td>
+          <td>{{list1.teacher_id}}</td>
+          <td>{{list1.parent_id}}</td>
+          <td>{{list1.school}}</td>
+          <td>{{list1.grade}}</td>
+          <td>{{list1.fav_subject}}</td>
+          <td>{{list1.aadhar}}</td>
+          <td>{{list1.contact}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 
-<div class="container" >
+  <div class="container" >
     <div class="row">
-    <div class="col-md-10"></div>
- <div class="col-md-2">
-     <div class="panel-body">
-     
-                    <a href="/api/student/getCSV" target="_self" class="btn btn-success" ng-disabled="btnDisabled" download>
-                                    Download CSV
-                </a>
-          </div>
-</div>
+      <div class="col-md-10"></div>
+      <div class="col-md-2">
+       <div class="panel-body">
+         
+        <a href="/api/student/getCSV" target="_self" class="btn btn-success" ng-disabled="btnDisabled" download>
+          Download CSV
+        </a>
+      </div>
+    </div>
 
-     </div>
- </div>
+  </div>
+</div>
 
 
 
@@ -88,9 +88,9 @@
         <td>{{list2.qualification}}</td>
         <td>{{list2.job_description}}</td>
         <td>{{list2.teaching_experience}}</td>
-         <td>{{list2.aadhar_no}}</td>
+        <td>{{list2.aadhar_no}}</td>
         <td>{{list2.contact_number}}</td>
-       
+        
       </tr>
     </tbody>
   </table>
@@ -98,19 +98,19 @@
 
 
 <div class="container" >
-    <div class="row">
+  <div class="row">
     <div class="col-md-10"></div>
- <div class="col-md-2">
+    <div class="col-md-2">
      <div class="panel-body">
-     
-                    <a href="/api/teacher/getCSV" target="_self" class="btn btn-success" ng-disabled="btnDisabled" download>
-                                    Download CSV
-                </a>
-          </div>
-</div>
+       
+      <a href="/api/teacher/getCSV" target="_self" class="btn btn-success" ng-disabled="btnDisabled" download>
+        Download CSV
+      </a>
+    </div>
+  </div>
 
-     </div>
- </div>
+</div>
+</div>
 
 
 
@@ -133,36 +133,36 @@
     </thead>
     <tbody  ng-repeat = "list3 in list3">
       <tr>
-         <td>{{$index+1}}</td>
-        <td>{{list3.username}}</td>
-        <td>{{list3.parent_id}}</td>
-        <td>{{list3.email}}</td>
-        <td>{{list3.address}}</td>
-        <td>{{list3.job_description}}</td>
-        <td>{{list3.qualification}}</td>
-        <td>{{list3.student_id}}</td>
-        <td>{{list3.aadhar}}</td>
-        <td>{{list3.contact}}</td>
-      </tr>
-    </tbody>
-  </table>
+       <td>{{$index+1}}</td>
+       <td>{{list3.username}}</td>
+       <td>{{list3.parent_id}}</td>
+       <td>{{list3.email}}</td>
+       <td>{{list3.address}}</td>
+       <td>{{list3.job_description}}</td>
+       <td>{{list3.qualification}}</td>
+       <td>{{list3.student_id}}</td>
+       <td>{{list3.aadhar}}</td>
+       <td>{{list3.contact}}</td>
+     </tr>
+   </tbody>
+ </table>
 </div>
 
 
 <div class="container" >
-    <div class="row">
+  <div class="row">
     <div class="col-md-10"></div>
- <div class="col-md-2">
+    <div class="col-md-2">
      <div class="panel-body">
-         
-                            <a href="/api/parent/getCSV" target="_self" class="btn btn-success" ng-disabled="btnDisabled" download>
-                                    Download CSV
-                </a>
-          </div>
-</div>
+       
+      <a href="/api/parent/getCSV" target="_self" class="btn btn-success" ng-disabled="btnDisabled" download>
+        Download CSV
+      </a>
+    </div>
+  </div>
 
-     </div>
- </div>
+</div>
+</div>
 
 </body>
 </html>

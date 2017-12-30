@@ -5,17 +5,17 @@ app.controller('MainCtrl', [
     'readFileData',
     function($scope, readFileData) {
       $scope.fileDataObj = {};
-    
-    $scope.uploadFile = function() {
-      if ($scope.fileContent) {
-        $scope.fileDataObj = readFileData.processData($scope.fileContent);
       
-        $scope.fileData = JSON.stringify($scope.fileDataObj);
-      }
+      $scope.uploadFile = function() {
+          if ($scope.fileContent) {
+            $scope.fileDataObj = readFileData.processData($scope.fileContent);
+            
+            $scope.fileData = JSON.stringify($scope.fileDataObj);
+        }
     }
- }]);
- 
- app.directive('fileReaderDirective', function() {
+}]);
+
+app.directive('fileReaderDirective', function() {
     return {
         restrict: "A",
         scope: {
@@ -61,7 +61,7 @@ app.factory('readFileData', function() {
             
             for (var k = 0; k < lines.length; ++k){
               json[k] = lines[k];
-            }
+          }
           
             // var stringified = JSON.stringify(json);
             // stringified = stringified.replace('"\\": ""');
@@ -79,8 +79,8 @@ app.factory('readFileData', function() {
                 var data1=[];
                 data1.questionText=json[i][0];
                 // var obj=[];
-                 var k=5;
-                 for(j=1;j<5;j++){
+                var k=5;
+                for(j=1;j<5;j++){
                     if(json[i][k].replace(/^"(.*)"$/, '$1')==="ERT"){
                         data1.push({
                             answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
@@ -91,11 +91,11 @@ app.factory('readFileData', function() {
 
                     }
                     else{
-                          data1.push({
-                         answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
-                         correct : false,
-                         error_lesson_title : json[i][k]
-                          });
+                      data1.push({
+                       answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
+                       correct : false,
+                       error_lesson_title : json[i][k]
+                   });
 
                     }//else
                     k++;
@@ -130,7 +130,7 @@ app.factory('readFileData', function() {
 
 //             // Trying to convert to JSON object
 //             $scope.toJSON = angular.toString($scope.data);
-            
+
 //          var lines = toJson.split('\n');
 //          var headerValues = lines[0].split(',');
 //           var dataValues = lines.splice(1).map(function (dataLine) { return dataLine.split(','); });

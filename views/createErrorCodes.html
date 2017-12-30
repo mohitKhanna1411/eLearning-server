@@ -19,7 +19,7 @@
                 <label for="role" class="col-md-4 control-label">Standard </label>
                 <div class="col-md-6">
                  <select name="standard" ng-model="standard" class="form-control" required>
-                      <option value="">Make a selection</option>
+                  <option value="">Make a selection</option>
                   <option value="1">Class 1</option>
                   <option value="2">Class 2</option>
                   <option value="3">Class 3</option>
@@ -43,7 +43,7 @@
 
             <div class="col-md-6">
               <select name="section" ng-model="section" class="form-control" required>
-                      <option value="">Make a selection</option>
+                <option value="">Make a selection</option>
                 <option value="A">Sec A</option>
                 <option value="B">Sec B</option>
                 <option value="C">Sec C</option></select>
@@ -58,7 +58,7 @@
 
             <div class="col-md-6">
               <select name="subject" ng-model="subject" class="form-control" required>
-                    <option value="">Make a selection</option>
+                <option value="">Make a selection</option>
                 <option value="maths">Maths</option>
                 <option value="science">Science</option>
                 <option value="english">English</option></select>
@@ -72,31 +72,31 @@
           <div class="form-group">
             <label for="error_code" class="col-md-4 control-label">Upload CSV file</label>
             <div class="col-md-6">
-            <input type="file" data-file-reader-directive="fileContent" accept=".csv" name="file" 
-            class="form-control" required="required" />
-           </div>
-         </div>
-       </div>
-     </br>
-        <div class="row">
-
-          <div class="form-group">
-            <div class="col-md-8 col-md-offset-4">
-              <button type="submit" class="btn btn-success">
-                Submit
-              </button>
+              <input type="file" data-file-reader-directive="fileContent" accept=".csv" name="file" 
+              class="form-control" required="required" />
             </div>
           </div>
         </div>
       </br>
       <div class="row">
-        <div ng-if="msg1.length > 0" class="alert alert-info">
-          <strong><center>{{msg1}}</center></strong>
+
+        <div class="form-group">
+          <div class="col-md-8 col-md-offset-4">
+            <button type="submit" class="btn btn-success">
+              Submit
+            </button>
+          </div>
         </div>
       </div>
+    </br>
+    <div class="row">
+      <div ng-if="msg1.length > 0" class="alert alert-info">
+        <strong><center>{{msg1}}</center></strong>
+      </div>
+    </div>
 
-    </form>
-  </div>
+  </form>
+</div>
 </div>
 </div>
 </div>

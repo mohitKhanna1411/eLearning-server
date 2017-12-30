@@ -42,8 +42,8 @@ module.exports = function(passport){
         passReqToCallback:true
     },
     function(req,username, password, done) {
-     console.log(req.body.role);
-     if(req.body.role=="teacher"){
+       console.log(req.body.role);
+       if(req.body.role=="teacher"){
         Teacher.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
             if (!user) {
@@ -105,23 +105,23 @@ module.exports = function(passport){
 
                 Teacher.count({},function(err,count){
                     console.log("teacher count : " + count);
-                var newUser = new Teacher();
-                newUser.username = username;
-                newUser.password = newUser.generateHash(password);
-                newUser.teacher_id = "TEA-00" + (count+1) + "-" + req.body.aadhar_no;
-                console.log("teacherid" + newUser.teacher_id);
-                newUser.qualification = req.body.qualification;
-                newUser.job_description = req.body.job_description;
-                newUser.teaching_experience = req.body.teaching_experience;
-                newUser.email_id = req.body.email_id;
-                newUser.contact_number = req.body.contact_number;
-                newUser.address = req.body.address;
-                newUser.aadhar_no = req.body.aadhar_no;
-                newUser.role = "teacher";
-                newUser.save(function(err){
-                    if(err) throw err;
-                    return done(null,newUser);
-                });
+                    var newUser = new Teacher();
+                    newUser.username = username;
+                    newUser.password = newUser.generateHash(password);
+                    newUser.teacher_id = "TEA-00" + (count+1) + "-" + req.body.aadhar_no;
+                    console.log("teacherid" + newUser.teacher_id);
+                    newUser.qualification = req.body.qualification;
+                    newUser.job_description = req.body.job_description;
+                    newUser.teaching_experience = req.body.teaching_experience;
+                    newUser.email_id = req.body.email_id;
+                    newUser.contact_number = req.body.contact_number;
+                    newUser.address = req.body.address;
+                    newUser.aadhar_no = req.body.aadhar_no;
+                    newUser.role = "teacher";
+                    newUser.save(function(err){
+                        if(err) throw err;
+                        return done(null,newUser);
+                    });
             })//teacher.count
             }
 
@@ -150,30 +150,30 @@ module.exports = function(passport){
                 
                 Student.count({},function(err,count){
                     console.log("student count : " + count);
-                var newUser = new Student();
-                newUser.username = username;
-                newUser.password = newUser.generateHash(password);
-                newUser.student_id = "STU -00" + (count+1) + "-" + req.body.aadhar;
-                console.log("studentid : " + newUser.student_id);
-                newUser.email = req.body.email;
-                newUser.grade = req.body.grade;
-                newUser.contact = req.body.contact;
-                newUser.address = req.body.address;
-                newUser.aadhar = req.body.aadhar;
-                newUser.school = req.body.school;
-                newUser.fav_subject = req.body.fav_subject;
-                newUser.role = "student";
-                newUser.teacher_id = req.body.teacherID.replace('string:','');
-                newUser.parent_id = req.body.parentID.replace('string:','');
-                
-                Parent.update( { parent_id : req.body.parentID.replace('string:','') },{$set : {student_id : newUser.student_id }},function(request,docs){
-                     console.log(docs);
-                });
+                    var newUser = new Student();
+                    newUser.username = username;
+                    newUser.password = newUser.generateHash(password);
+                    newUser.student_id = "STU -00" + (count+1) + "-" + req.body.aadhar;
+                    console.log("studentid : " + newUser.student_id);
+                    newUser.email = req.body.email;
+                    newUser.grade = req.body.grade;
+                    newUser.contact = req.body.contact;
+                    newUser.address = req.body.address;
+                    newUser.aadhar = req.body.aadhar;
+                    newUser.school = req.body.school;
+                    newUser.fav_subject = req.body.fav_subject;
+                    newUser.role = "student";
+                    newUser.teacher_id = req.body.teacherID.replace('string:','');
+                    newUser.parent_id = req.body.parentID.replace('string:','');
+                    
+                    Parent.update( { parent_id : req.body.parentID.replace('string:','') },{$set : {student_id : newUser.student_id }},function(request,docs){
+                       console.log(docs);
+                   });
 
-                newUser.save(function(err){
-                    if(err) throw err;
-                    return done(null,newUser);
-                });
+                    newUser.save(function(err){
+                        if(err) throw err;
+                        return done(null,newUser);
+                    });
 
             })//student count
             }
@@ -198,25 +198,25 @@ module.exports = function(passport){
                 return done(null, false, req.flash('registerMessage','Username is already taken...' ));
             }else{
                 Parent.count({},function(err,count){
-                console.log("parent count : " + count);
-                var newUser = new Parent();
-                newUser.username = username;
-                newUser.password = newUser.generateHash(password);
-                newUser.parent_id = "PAR -00" + (count+1) + "-" + req.body.aadhar;
-                console.log("parentid : " + newUser.parent_id);
-                newUser.email = req.body.email;
-                newUser.qualification = req.body.qualification;
-                newUser.job_description = req.body.job_description;
-                newUser.contact = req.body.contact;
-                newUser.aadhar = req.body.aadhar;
-                newUser.address = req.body.address;
-                newUser.role = "parent";
-                newUser.student_id = req.body.studentID.replace('string:','');
-                newUser.save(function(err){
-                    if(err) throw err;
-                    return done(null,newUser);
-                });
-            })
+                    console.log("parent count : " + count);
+                    var newUser = new Parent();
+                    newUser.username = username;
+                    newUser.password = newUser.generateHash(password);
+                    newUser.parent_id = "PAR -00" + (count+1) + "-" + req.body.aadhar;
+                    console.log("parentid : " + newUser.parent_id);
+                    newUser.email = req.body.email;
+                    newUser.qualification = req.body.qualification;
+                    newUser.job_description = req.body.job_description;
+                    newUser.contact = req.body.contact;
+                    newUser.aadhar = req.body.aadhar;
+                    newUser.address = req.body.address;
+                    newUser.role = "parent";
+                    newUser.student_id = req.body.studentID.replace('string:','');
+                    newUser.save(function(err){
+                        if(err) throw err;
+                        return done(null,newUser);
+                    });
+                })
             }
         });
     }));
