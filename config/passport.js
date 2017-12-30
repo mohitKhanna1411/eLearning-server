@@ -135,13 +135,13 @@ module.exports = function(passport){
         passReqToCallback:true
     },
     function(req,username, password,done) {
-        console.log(req.body.grade);
-        console.log(req.body.fav_subject);
-        console.log(req.body.email);
-        console.log(req.body.contact);
-        console.log(req.body.school);
-        console.log(req.body.aadhar);
-        console.log(req.body.teacherID.replace('string:',''));
+        // console.log(req.body.grade);
+        // console.log(req.body.fav_subject);
+        // console.log(req.body.email);
+        // console.log(req.body.contact);
+        // console.log(req.body.school);
+        // console.log(req.body.aadhar);
+        // console.log(req.body.teacherID.replace('string:',''));
         Student.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
             if (user) {
@@ -165,10 +165,16 @@ module.exports = function(passport){
                 newUser.role = "student";
                 newUser.teacher_id = req.body.teacherID.replace('string:','');
                 newUser.parent_id = req.body.parentID.replace('string:','');
+                
+                Parent.update( { parent_id : req.body.parentID.replace('string:','') },{$set : {student_id : newUser.student_id }},function(request,docs){
+                     console.log(docs);
+                });
+
                 newUser.save(function(err){
                     if(err) throw err;
                     return done(null,newUser);
                 });
+
             })//student count
             }
         });
@@ -181,11 +187,11 @@ module.exports = function(passport){
         passReqToCallback:true
     },
     function(req,username,password,done)  {
-        console.log(req.body.qualification);
-        console.log(req.body.job_description);
-        console.log(req.body.email);
-        console.log(req.body.aadhar);
-        console.log(req.body.studentID.replace('string:',''));
+        // console.log(req.body.qualification);
+        // console.log(req.body.job_description);
+        // console.log(req.body.email);
+        // console.log(req.body.aadhar);
+        // console.log(req.body.studentID.replace('string:',''));
         Parent.findOne({ username: username }, function(err, user) {
             if (err) { return done(err); }
             if (user) {

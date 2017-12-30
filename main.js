@@ -617,7 +617,7 @@ app.get('/api/getClassStudents', function(req,res,next){
 		{ section: req.query.section },
 		{ subject: req.query.subject }
 		]},{ students : 1, _id: 0 },function(request,docs){
-			console.log(docs[0].students);
+			// console.log(docs[0].students);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
@@ -721,6 +721,38 @@ app.get('/api/getAssign', function(req,res,next){
 	});
 	
 }); 
+
+
+
+app.get('/api/getSpecificLesson', function(req,res,next){
+	// req.query.assesment_name = "assesment2";
+	console.log("req   "+req.query.Title);
+	
+	Class.findOne( {lessons : {$elemMatch: {Title: req.query.Title}}},
+		{lessons: {$elemMatch: {Title: req.query.Title}}},
+		function(request,docs){
+			console.log("inside find specific lesson");
+			console.log(docs);
+		res.end(JSON.stringify(docs.lessons[0]));
+	
+	});
+	
+}); 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.get('/api/getRes', function(req,res,next){
 	console.log("req   "+req.query.class);
@@ -1002,6 +1034,45 @@ var csvFile = json2csv({ data: csvArr, fields: fields });
 
 }); 
   });
+
+
+
+app.get('/api/parent/getReportCSV', function(req,res,next){
+
+  Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
+	 	console.log("id  :  " + docs[0].student_id)
+	 	Result.find({ student_id: docs[0].student_id }, function(request,docu){
+    res.setHeader('Content-disposition', 'attachment; filename=StudentReport.csv');
+  res.set('Content-Type', 'text/csv');
+      // console.log(docs);
+              var fields = ['S.NO.', 'Class', 'Section','Subject', 'Assesment Name','Marks'];
+               var csvArr =[];
+          for(var i=0;i<docu.length;i++){
+   csvArr.push(
+  {
+    "S.NO.": i+1,
+    "Class": docu[i].standard,
+    "Section": docu[i].section,
+    "Subject": docu[i].subject,
+    "Assesment Name": docu[i].assesment_name,
+    "Marks": docu[i].marks,
+    
+  }
+);
+          }//for loop
+          // console.log("created array  :  " + csvArr)
+
+var csvFile = json2csv({ data: csvArr, fields: fields });
+   
+   res.send(csvFile);
+});
+
+}); 
+  });
+
+
+
+
 
 
 

@@ -119,6 +119,36 @@ $scope.getAssign= function(assess_name)
 
 
 
+$scope.notok = "not";
+$scope.getSpecificLesson= function(title_lesson)
+{
+  
+  $scope.msg = "";
+  $scope.msg1 = "";
+  $scope.msg2="";
+  $scope.msg4="";
+  
+  var data={"Title" : title_lesson};
+  console.log(data);
+  $http.get('/api/getSpecificLesson', { params: data }).success(function(res){
+    $scope.notok="ok";
+    $scope.list5 = res;
+    
+    console.log(res);
+    
+  })
+
+  
+}
+
+
+
+
+
+
+
+
+
 
 
 
