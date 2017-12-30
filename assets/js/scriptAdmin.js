@@ -68,27 +68,27 @@ myApp.filter('trusted', ['$sce', function ($sce) {
 
 
 myApp.directive('fileReaderDirective', function() {
-    return {
-        restrict: "A",
-        scope: {
-            fileReaderDirective: "=",
-        },
-        link: function(scope, element) {
-            $(element).on('change', function(changeEvent) {
-                var files = changeEvent.target.files;
-                if (files.length) {
-                    var r = new FileReader();
-                    r.onload = function(e) {
-                        var contents = e.target.result;
-                        scope.$apply(function() {
-                            scope.fileReaderDirective = contents;
-                        });
-                    };
-                    r.readAsText(files[0]);
-                }
+  return {
+    restrict: "A",
+    scope: {
+      fileReaderDirective: "=",
+    },
+    link: function(scope, element) {
+      $(element).on('change', function(changeEvent) {
+        var files = changeEvent.target.files;
+        if (files.length) {
+          var r = new FileReader();
+          r.onload = function(e) {
+            var contents = e.target.result;
+            scope.$apply(function() {
+              scope.fileReaderDirective = contents;
             });
+          };
+          r.readAsText(files[0]);
         }
-    };
+      });
+    }
+  };
 });
 
 
@@ -96,55 +96,55 @@ myApp.directive('fileReaderDirective', function() {
 
 
 myApp.factory('readFileData',['$http', function($http) {
-    return {
-        processData: function(csv_data) {
-            var record = csv_data.split(/\r\n|\n/);
-            var headers = record[0].split(',');
-            var lines = [];
-            var json = {};
+  return {
+    processData: function(csv_data) {
+      var record = csv_data.split(/\r\n|\n/);
+      var headers = record[0].split(',');
+      var lines = [];
+      var json = {};
 
-            for (var i = 0; i < record.length; i++) {
-                var data = record[i].split(',');
-                if (data.length == headers.length) {
-                    var tarr = [];
-                    for (var j = 0; j < headers.length; j++) {
-                        tarr.push(data[j]);
-                    }
-                    lines.push(tarr);
+      for (var i = 0; i < record.length; i++) {
+        var data = record[i].split(',');
+        if (data.length == headers.length) {
+          var tarr = [];
+          for (var j = 0; j < headers.length; j++) {
+            tarr.push(data[j]);
+          }
+          lines.push(tarr);
                     //lines=lines.replace('\\','');
+                  }
                 }
-            }
-            
-            for (var k = 0; k < lines.length; ++k){
-              json[k] = lines[k];
-            }
-            var dataFinal =[];
-            for(i=0;i<lines.length;i++){
                 
-                var data1=[];
-                var obj={};
-                 var k=5;
-                 for(j=1;j<5;j++){
+                for (var k = 0; k < lines.length; ++k){
+                  json[k] = lines[k];
+                }
+                var dataFinal =[];
+                for(i=0;i<lines.length;i++){
+                  
+                  var data1=[];
+                  var obj={};
+                  var k=5;
+                  for(j=1;j<5;j++){
                     if(json[i][k].replace(/^"(.*)"$/, '$1')==="ERT"){
-                        obj= {
-                            answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
-                            correct : true,
-                            error_code : json[i][k].replace(/^"(.*)"$/, '$1')
-                        };
+                      obj= {
+                        answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
+                        correct : true,
+                        error_code : json[i][k].replace(/^"(.*)"$/, '$1')
+                      };
 
                     }
                     else{
-                          obj={
-                         answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
-                         correct : false,
-                         error_code : json[i][k].replace(/^"(.*)"$/, '$1')
-                          };
+                      obj={
+                       answerText : json[i][j].replace(/^"(.*)"$/, '$1'),
+                       correct : false,
+                       error_code : json[i][k].replace(/^"(.*)"$/, '$1')
+                     };
 
                     }//else
                     k++;
-                 data1.push(obj);
+                    data1.push(obj);
                  } // j loop closed
-                  
+                 
                  dataFinal.push({
                   options : data1,
                   questionText : json[i][0].replace(/^"(.*)"$/, '$1') 
@@ -154,57 +154,57 @@ myApp.factory('readFileData',['$http', function($http) {
             // var sendData={ "assesment_name" :$scope.assesment_name, "lesson_title": $scope.les_title, "questions":dataFinal} ;
             // console.log(sendData);
             return dataFinal;
-        }
-    };
-}]);
+          }
+        };
+      }]);
 
 
 myApp.factory('readErrorCodeData',['$http', function($http) {
-    return {
-        processErrorCodeData: function(csv_data) {
-            var record = csv_data.split(/\r\n|\n/);
-            var headers = record[0].split(',');
-            var lines = [];
-            var json = {};
+  return {
+    processErrorCodeData: function(csv_data) {
+      var record = csv_data.split(/\r\n|\n/);
+      var headers = record[0].split(',');
+      var lines = [];
+      var json = {};
 
-            for (var i = 0; i < record.length; i++) {
-                var data = record[i].split(',');
-                if (data.length == headers.length) {
-                    var tarr = [];
-                    for (var j = 0; j < headers.length; j++) {
-                        tarr.push(data[j]);
-                    }
-                    lines.push(tarr);
+      for (var i = 0; i < record.length; i++) {
+        var data = record[i].split(',');
+        if (data.length == headers.length) {
+          var tarr = [];
+          for (var j = 0; j < headers.length; j++) {
+            tarr.push(data[j]);
+          }
+          lines.push(tarr);
                     //lines=lines.replace('\\','');
+                  }
                 }
-            }
-            
-            for (var k = 0; k < lines.length; ++k){
-              json[k] = lines[k];
-            }
-               var dataFinal =[];
-            for(i=0; i<lines.length;i++){
-              obj= {
-                           
-                            remedial_title : json[i][0].replace(/^"(.*)"$/, '$1'),
-                             error_code : json[i][1].replace(/^"(.*)"$/, '$1')
+                
+                for (var k = 0; k < lines.length; ++k){
+                  json[k] = lines[k];
+                }
+                var dataFinal =[];
+                for(i=0; i<lines.length;i++){
+                  obj= {
+                   
+                    remedial_title : json[i][0].replace(/^"(.*)"$/, '$1'),
+                    error_code : json[i][1].replace(/^"(.*)"$/, '$1')
 
-                        };
-                        dataFinal.push(obj);
-            }
-          
-            return dataFinal;
-        }
-    };
-}]);
+                  };
+                  dataFinal.push(obj);
+                }
+                
+                return dataFinal;
+              }
+            };
+          }]);
 
 
 // creating mainController
 myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
   'readFileData', 'readErrorCodeData' , function($scope,Upload,$window, $http,readFileData,readErrorCodeData) {
-      $scope.fileDataObj = {};
-      $scope.message = null;
- $scope.uploadFile = function() {
+    $scope.fileDataObj = {};
+    $scope.message = null;
+    $scope.uploadFile = function() {
       if ($scope.fileContent) {
         $scope.fileDataObj = readFileData.processData($scope.fileContent);
         console.log($scope.fileDataObj);
@@ -215,34 +215,34 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
         }
       }
     }
- $scope.addingErrorCodes= function()
-      {
+    $scope.addingErrorCodes= function()
+    {
 
-        if ($scope.fileContent) {
+      if ($scope.fileContent) {
         $scope.fileDataObj = readErrorCodeData.processErrorCodeData($scope.fileContent);
         console.log($scope.fileDataObj);
         if($scope.fileDataObj){
 
-        var data={"class":$scope.standard, "subject":$scope.subject, "section":$scope.section,"error_codes":$scope.fileDataObj};
-        console.log(data);
-        $http.post('/api/admin/addErrorCodes', data).success(function(res){
-          $scope.msg1 = res;
-          $scope.fileContent = "";
-          $scope.standard ="";
-          $scope.subject = "";
-          $scope.section = "";
-        })
+          var data={"class":$scope.standard, "subject":$scope.subject, "section":$scope.section,"error_codes":$scope.fileDataObj};
+          console.log(data);
+          $http.post('/api/admin/addErrorCodes', data).success(function(res){
+            $scope.msg1 = res;
+            $scope.fileContent = "";
+            $scope.standard ="";
+            $scope.subject = "";
+            $scope.section = "";
+          })
 
         }else{
           $scope.msg1 = "Error!! Please try again later";
         }
-  }
       }
- $scope.addAssesmentFunc = function(title_lesson , assesment_name , var_class , var_section , var_subject) {
+    }
+    $scope.addAssesmentFunc = function(title_lesson , assesment_name , var_class , var_section , var_subject) {
       // console.log($scope.fileDataObj);
       // console.log(assesment_name);
       // console.log(title_lesson);
-     $scope.msg4 =null;
+      $scope.msg4 =null;
       var sendData = {};
       var dataObj = {};
       dataObj = {
@@ -251,7 +251,7 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
         "questions"  : $scope.fileDataObj
       }
 
-     
+      
       console.log(dataObj);
       sendData = {
         "class":var_class,
@@ -262,41 +262,41 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
       }
       console.log(sendData);
       $http.post('/api/admin/addAssesment', sendData).success(function(res){
-     console.log(res);  
-     $scope.msg4 = res;    
-       })
+       console.log(res);  
+       $scope.msg4 = res;    
+     })
 
 
     }
 
 
- $http.get('/api/getStudents').success(function(res){
-  $scope.list1 = res;
-})
+    $http.get('/api/getStudents').success(function(res){
+      $scope.list1 = res;
+    })
 
- $http.get('/api/getTeachers').success(function(res){
-  $scope.list2 = res;
-})
+    $http.get('/api/getTeachers').success(function(res){
+      $scope.list2 = res;
+    })
 
- $http.get('/api/getParents').success(function(res){
-  $scope.list3 = res;
+    $http.get('/api/getParents').success(function(res){
+      $scope.list3 = res;
   // console.log(res);
 })
- $http.get('/api/getClasses').success(function(res){
-  $scope.list4 = res;
+    $http.get('/api/getClasses').success(function(res){
+      $scope.list4 = res;
   //console.log("classes"  + res[0].students);
 })
 
- $http.get('/api/listStudentIDs').success(function(res){
-  $scope.options = res;
+    $http.get('/api/listStudentIDs').success(function(res){
+      $scope.options = res;
   // console.log($scope.options[0]._id);
 })
-$http.get('/api/listTeacherIDs').success(function(res){
-  $scope.options1 = res;
+    $http.get('/api/listTeacherIDs').success(function(res){
+      $scope.options1 = res;
   // console.log($scope.options[0]._id);
 })
-$http.get('/api/listParentIDs').success(function(res){
-  $scope.options2 = res;
+    $http.get('/api/listParentIDs').success(function(res){
+      $scope.options2 = res;
   // console.log($scope.options[0]._id);
 })
 
@@ -306,121 +306,121 @@ $http.get('/api/listParentIDs').success(function(res){
 
 
 
- $scope.ok = "not";
- $scope.lessons= function()
- {
-  $scope.ok = "not";
-  $scope.msg = "";
-  $scope.msg1 = "";
-  var standard=$scope.standard;
-  var section=$scope.section;
-  var subject=$scope.subject;
-
-  var data={"class":standard, "subject":subject, "section":section};
-  console.log(data);
-  $http.get('/api/admin/getlessons', { params: data }).success(function(res){
-    $scope.list = res;
-    console.log(res);
-    if(res == "0"){
-      $scope.msg1 = "No Class found, Please create a class and add lessons!";
+    $scope.ok = "not";
+    $scope.lessons= function()
+    {
       $scope.ok = "not";
-      return;
-    }if(res.length == 0){
-      $scope.msg1 = "No lessons found!, Please add lessons to continue";
-      $scope.ok = "not";
-      return;
-    }else{
-      $scope.msg1 = " Number of lessons found : " + res.length ;
-      $scope.ok = "ok";
+      $scope.msg = "";
+      $scope.msg1 = "";
+      var standard=$scope.standard;
+      var section=$scope.section;
+      var subject=$scope.subject;
+
+      var data={"class":standard, "subject":subject, "section":section};
+      console.log(data);
+      $http.get('/api/admin/getlessons', { params: data }).success(function(res){
+        $scope.list = res;
+        console.log(res);
+        if(res == "0"){
+          $scope.msg1 = "No Class found, Please create a class and add lessons!";
+          $scope.ok = "not";
+          return;
+        }if(res.length == 0){
+          $scope.msg1 = "No lessons found!, Please add lessons to continue";
+          $scope.ok = "not";
+          return;
+        }else{
+          $scope.msg1 = " Number of lessons found : " + res.length ;
+          $scope.ok = "ok";
+        }
+      })
+
     }
-  })
 
-}
-
- 
- $scope.remedialLessons= function()
- {
-  $scope.ok = "not";
-  $scope.msg = "";
-  $scope.msg1 = "";
-  var standard=$scope.standard;
-  var section=$scope.section;
-  var subject=$scope.subject;
-
-  var data={"class":standard, "subject":subject, "section":section};
-  console.log(data);
-  $http.get('/api/admin/getremedialLessons', { params: data }).success(function(res){
-    $scope.list = res;
-    console.log(res);
-    if(res == "0"){
-      $scope.msg1 = "No Class found, Please create a class and add remedial lessons!";
+    
+    $scope.remedialLessons= function()
+    {
       $scope.ok = "not";
-      return;
-    }if(res.length == 0){
-      $scope.msg1 = "No remedial lessons found!, Please add lessons to continue";
-      $scope.ok = "not";
-      return;
-    }else{
-      $scope.msg1 = " Number of Remedial lessons found : " + res.length ;
-      $scope.ok = "ok";
+      $scope.msg = "";
+      $scope.msg1 = "";
+      var standard=$scope.standard;
+      var section=$scope.section;
+      var subject=$scope.subject;
+
+      var data={"class":standard, "subject":subject, "section":section};
+      console.log(data);
+      $http.get('/api/admin/getremedialLessons', { params: data }).success(function(res){
+        $scope.list = res;
+        console.log(res);
+        if(res == "0"){
+          $scope.msg1 = "No Class found, Please create a class and add remedial lessons!";
+          $scope.ok = "not";
+          return;
+        }if(res.length == 0){
+          $scope.msg1 = "No remedial lessons found!, Please add lessons to continue";
+          $scope.ok = "not";
+          return;
+        }else{
+          $scope.msg1 = " Number of Remedial lessons found : " + res.length ;
+          $scope.ok = "ok";
+        }
+      })
+
     }
-  })
-
-}
 
 
-$scope.syncVideo= function(){
-  $scope.ref_link = "";
-}
-$scope.syncLink= function(){
-  $scope.file = "";
-}
+    $scope.syncVideo= function(){
+      $scope.ref_link = "";
+    }
+    $scope.syncLink= function(){
+      $scope.file = "";
+    }
 
 
     $scope.addinglessons= function(file)
-      {
-              $scope.progressPercentage = 0;
-               $scope.progress = "";
-        $scope.msg = "";
-        $scope.msg1 = "";
-        var standard=$scope.standard2;
-        var section=$scope.section2;
-        var subject=$scope.subject2;
-        var content=$scope.content;
-        var title=$scope.lesson_title;
-        var ref_link=$scope.ref_link;
-        var data={"class":standard, "subject":subject, "section":section,
-        "title":title,"content":content,"ref_link":ref_link, "file" : file};
-        console.log(data);
-        Upload.upload({
-          url   : '/api/teacher/addlessons', 
+    {
+      $scope.progressPercentage = 0;
+      $scope.progress = "";
+      $scope.msg = "";
+      $scope.msg1 = "";
+      var standard=$scope.standard2;
+      var section=$scope.section2;
+      var subject=$scope.subject2;
+      var content=$scope.content;
+      var title=$scope.lesson_title;
+      var ref_link=$scope.ref_link;
+      var data={"class":standard, "subject":subject, "section":section,
+      "title":title,"content":content,"ref_link":ref_link, "file" : file};
+      console.log(data);
+      Upload.upload({
+        url   : '/api/teacher/addlessons', 
           data  : data //pass file as data, should be user ng-model
         }).then(function (resp) { //upload function returns a promise
-            $scope.msg1 = resp.data;
-            $scope.content = "";
-            $scope.ref_link = "";
-            $scope.lesson_title ="";
-            $scope.file = "";
+          $scope.msg1 = resp.data;
+          $scope.content = "";
+          $scope.ref_link = "";
+          $scope.lesson_title ="";
+          $scope.file = "";
 
         }, function (resp) {
-            $scope.msg1 = 'Error status: ' + resp.status;
-            $scope.content = "";
-            $scope.ref_link = "";
-            $scope.lesson_title ="";
+          $scope.msg1 = 'Error status: ' + resp.status;
+          $scope.content = "";
+          $scope.ref_link = "";
+          $scope.lesson_title ="";
 
         }, function (evt) { 
-            $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+          $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             $scope.progress = 'uploading progress: ' + $scope.progressPercentage + '%'; // capture upload progress
-        });
+          });
 
 
 
       }
 
-    $scope.addingRemedialLessons= function(file)
+      $scope.addingRemedialLessons= function(file)
       {
-              $scope.progressPercentage = 0;
-               $scope.progress = "";
+        $scope.progressPercentage = 0;
+        $scope.progress = "";
         $scope.msg = "";
         $scope.msg1 = "";
         var standard=$scope.standard2;
@@ -436,22 +436,22 @@ $scope.syncLink= function(){
           url   : '/api/admin/addRemedialLessons', 
           data  : data //pass file as data, should be user ng-model
         }).then(function (resp) { //upload function returns a promise
-            $scope.msg1 = resp.data;
-            $scope.content = "";
-            $scope.ref_link = "";
-            $scope.lesson_title ="";
-            $scope.file = "";
+          $scope.msg1 = resp.data;
+          $scope.content = "";
+          $scope.ref_link = "";
+          $scope.lesson_title ="";
+          $scope.file = "";
 
         }, function (resp) {
-            $scope.msg1 = 'Error status: ' + resp.status;
-            $scope.content = "";
-            $scope.ref_link = "";
-            $scope.lesson_title ="";
+          $scope.msg1 = 'Error status: ' + resp.status;
+          $scope.content = "";
+          $scope.ref_link = "";
+          $scope.lesson_title ="";
 
         }, function (evt) { 
-            $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+          $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
             $scope.progress = 'uploading progress: ' + $scope.progressPercentage + '%'; // capture upload progress
-        });
+          });
 
 
 
@@ -466,13 +466,13 @@ $scope.syncLink= function(){
       //   var subject=$scope.subject;
       //   console.log(error_c);
       //   console.log(title);
-        
+      
       //   var data={"class":standard, "subject":subject, "section":section,"error_code":error_c,"title":title};
       //   console.log(data);
       //   $http.post('/api/admin/addErrorCodes', data).success(function(res){
       //     $scope.msg = res;
       //     $scope.error_c="";
-        
+      
       //   })
 
 
@@ -492,8 +492,8 @@ $scope.syncLink= function(){
         console.log(data);
         $http.get('/api/getErrorCodes', { params: data }).success(function(res){
           $scope.err = res;
-     
-         
+          
+          
           console.log(res);
           if(res == "0"){
             $scope.msg1 = "No Error Codes found in this class, Please create error codes for this class combination!";
@@ -506,100 +506,100 @@ $scope.syncLink= function(){
           //         };
           //   $scope.err.push(obj);
           // console.log(res);
-            $scope.msg1 = res.length + " Error Codes Found!";
-            $scope.ok = "ok";
+          $scope.msg1 = res.length + " Error Codes Found!";
+          $scope.ok = "ok";
 
+        }
+      })
+
+      }
+
+      $scope.stuID = "";
+      $scope.adminRecommend= function()
+      {
+        $scope.ok = "not";
+        $scope.msg = "";
+        $scope.msg1 = "";
+        var standard=$scope.standard;
+        var section=$scope.section;
+        var subject=$scope.subject;
+        var studentID=$scope.stuID;
+        console.log("id:  " + $scope.stuID); 
+        
+        var data={"class":standard, "subject":subject, "section":section,"student_id":studentID};
+        console.log("data   " +data);
+        $http.get('/api/teacher/getRes', { params: data }).success(function(res){
+          $scope.recommend=res;
+          console.log(res);
+          if(res == "0"){
+            $scope.msg1 = "No Recommendations/Assesments Found in this combination";
+            $scope.ok = "not";
+          }else{
+
+            $scope.ok = "ok";
+          }
+          
+        })
+        
+      }
+
+
+      $scope.ok = "not";
+      $scope.getAllAssign= function()
+      {
+        $scope.msg = "";
+        $scope.msg1 = "";
+        var standard=$scope.standard;
+        var section=$scope.section;
+        var subject=$scope.subject;
+        var studentID=$scope.stuID;
+        
+        var data={"class":standard, "subject":subject, "section":section, student :studentID };
+        console.log(data);
+        $http.get('/api/teacher/getAllAssign', { params: data }).success(function(res){
+          $scope.assesments = res;
+          console.log(res);
+          if(res == "0"){
+            $scope.msg1 = "No assesment found !";
+            $scope.ok = "not";
+          }else{
+            $scope.ok = "ok";
+            $scope.msg1 = res.length + " assesments found.";
+            if(res.length == 0){
+              $scope.ok = "not";
+              $scope.msg1 = "Assesment yet to be added. Please come again later!";    
+            }
           }
         })
-
       }
 
-    $scope.stuID = "";
-$scope.adminRecommend= function()
-{
-  $scope.ok = "not";
-  $scope.msg = "";
-  $scope.msg1 = "";
-  var standard=$scope.standard;
-  var section=$scope.section;
-  var subject=$scope.subject;
-  var studentID=$scope.stuID;
-  console.log("id:  " + $scope.stuID); 
-  
-  var data={"class":standard, "subject":subject, "section":section,"student_id":studentID};
-  console.log("data   " +data);
-  $http.get('/api/teacher/getRes', { params: data }).success(function(res){
-    $scope.recommend=res;
-    console.log(res);
-   if(res == "0"){
-      $scope.msg1 = "No Recommendations/Assesments Found in this combination";
-      $scope.ok = "not";
-    }else{
 
-      $scope.ok = "ok";
-    }
-  
-  })
-  
-}
-
-
-$scope.ok = "not";
-$scope.getAllAssign= function()
-{
-  $scope.msg = "";
-  $scope.msg1 = "";
-  var standard=$scope.standard;
-  var section=$scope.section;
-  var subject=$scope.subject;
-  var studentID=$scope.stuID;
-  
-  var data={"class":standard, "subject":subject, "section":section, student :studentID };
-  console.log(data);
-  $http.get('/api/teacher/getAllAssign', { params: data }).success(function(res){
-    $scope.assesments = res;
-    console.log(res);
-    if(res == "0"){
-      $scope.msg1 = "No assesment found !";
-      $scope.ok = "not";
-    }else{
-      $scope.ok = "ok";
-      $scope.msg1 = res.length + " assesments found.";
-      if(res.length == 0){
-        $scope.ok = "not";
-        $scope.msg1 = "Assesment yet to be added. Please come again later!";    
-      }
-    }
-  })
-}
-
-
-$scope.notok = "not";
-$scope.getResults= function(assess_name)
-{
-  $scope.msg = "";
-  $scope.msg1 = "";
-  var standard=$scope.standard;
-  var section=$scope.section;
-  var subject=$scope.subject;
-  var studentID=$scope.stuID;
-  
-  var data={"class":standard, "subject":subject, "section":section, "assesment_name" : assess_name,"student":studentID};
-  console.log(data);
-  $http.get('/api/teacher/getRes', { params: data }).success(function(res){
-    $scope.recommend = res;
-    console.log(res);
-    if(res == "0"){
-      $scope.msg1 = "No results found!";
       $scope.notok = "not";
-    }else{
+      $scope.getResults= function(assess_name)
+      {
+        $scope.msg = "";
+        $scope.msg1 = "";
+        var standard=$scope.standard;
+        var section=$scope.section;
+        var subject=$scope.subject;
+        var studentID=$scope.stuID;
+        
+        var data={"class":standard, "subject":subject, "section":section, "assesment_name" : assess_name,"student":studentID};
+        console.log(data);
+        $http.get('/api/teacher/getRes', { params: data }).success(function(res){
+          $scope.recommend = res;
+          console.log(res);
+          if(res == "0"){
+            $scope.msg1 = "No results found!";
+            $scope.notok = "not";
+          }else{
             // $scope.msg1 = res.length + " Number of lessons found.";
             $scope.notok = "ok";
             $scope.okok="ok";
           }
         })
-  
-}
+        
+      }
 
 
 
@@ -631,7 +631,7 @@ $scope.getResults= function(assess_name)
 
 
 
-$scope.deleteStudent= function()
+      $scope.deleteStudent= function()
       {
         $scope.msg = "";
         $scope.msg1 = "";
@@ -645,7 +645,7 @@ $scope.deleteStudent= function()
           $scope.msg = res;
 
           $scope.msg1 = "";
-        $scope.msg2 = "";
+          $scope.msg2 = "";
           $scope.stu_id = "";
         })
 
@@ -653,7 +653,7 @@ $scope.deleteStudent= function()
       }
 
 
-$scope.deleteTeacher= function()
+      $scope.deleteTeacher= function()
       {
         $scope.msg = "";
         $scope.msg1 = "";
@@ -667,7 +667,7 @@ $scope.deleteTeacher= function()
 
           $scope.msg1 = res;
           $scope.msg = "";
-        $scope.msg2 = "";
+          $scope.msg2 = "";
 
           $scope.tea_id = "";
         })
@@ -690,7 +690,7 @@ $scope.deleteTeacher= function()
 
           $scope.msg2 = res;
           $scope.msg1 = "";
-        $scope.msg = "";
+          $scope.msg = "";
 
           $scope.par_id = "";
         })        
@@ -699,29 +699,29 @@ $scope.deleteTeacher= function()
 
 
 
-$scope.ok = "not";
-$scope.overallRecommend= function()
-{
-  $scope.ok = "not";
-  $scope.msg = "";
-  $scope.msg1 = "";
-  var standard=$scope.standard;
-  var section=$scope.section;
-  var subject=$scope.subject;
-  
-  var data={"class":standard, "subject":subject, "section":section};
-  console.log(data);
-  $http.get('/api/getOverallRecommend', { params: data }).success(function(res){
-    $scope.summary = res;
-   
-    if(res == "0"){
-      $scope.msg1 = "No lessons found.";
       $scope.ok = "not";
-    }else{
-      $scope.msg1 = " Result Found";
-      $scope.ok = "ok";
+      $scope.overallRecommend= function()
+      {
+        $scope.ok = "not";
+        $scope.msg = "";
+        $scope.msg1 = "";
+        var standard=$scope.standard;
+        var section=$scope.section;
+        var subject=$scope.subject;
+        
+        var data={"class":standard, "subject":subject, "section":section};
+        console.log(data);
+        $http.get('/api/getOverallRecommend', { params: data }).success(function(res){
+          $scope.summary = res;
+          
+          if(res == "0"){
+            $scope.msg1 = "No lessons found.";
+            $scope.ok = "not";
+          }else{
+            $scope.msg1 = " Result Found";
+            $scope.ok = "ok";
 
-      var overall = [];
+            var overall = [];
      // angular.forEach($scope.summary, function(element) {
      //   overall.push(element);
      //   });
@@ -732,7 +732,7 @@ $scope.overallRecommend= function()
         overall.push($scope.summary[i][j].remedial_lesson_title);
 
       }
-     }
+    }
 
     console.log("overall  " + overall);
     // console.log("summ  "   + $scope.summary);
@@ -741,25 +741,25 @@ $scope.overallRecommend= function()
 
 
     function foo(arr) {
-    var a = [], b = [], prev;
-    
-    arr.sort();
-    for ( var i = 0; i < arr.length; i++ ) {
+      var a = [], b = [], prev;
+      
+      arr.sort();
+      for ( var i = 0; i < arr.length; i++ ) {
         if ( arr[i] !== prev ) {
-            a.push(arr[i]);
-            b.push(1);
+          a.push(arr[i]);
+          b.push(1);
         } else {
-            b[b.length-1]++;
+          b[b.length-1]++;
         }
         prev = arr[i];
+      }
+      
+      return [a, b];
     }
-    
-    return [a, b];
-}
-      $scope.list2=[];
+    $scope.list2=[];
 
-     var result = foo(overall);
-     for ( var i = 0; i < result[0].length; i++ ) {
+    var result = foo(overall);
+    for ( var i = 0; i < result[0].length; i++ ) {
       
       $scope.list2.push({
         les_title : result[0][i],
@@ -773,8 +773,8 @@ $scope.overallRecommend= function()
 
     }//else
   })
-  
-}
+        
+      }
 
 
     }]);
