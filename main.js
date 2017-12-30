@@ -113,8 +113,8 @@ app.post('/api/teacher/manageGrade', function(req,res,next){
 		}
 	});
 
-     
-   newRec.save(function(err,savedObject){
+
+	newRec.save(function(err,savedObject){
 		if(err){
 			console.log(err);
 			if(err.code == 11000){
@@ -154,34 +154,6 @@ app.post('/api/teacher/addStudent', function(req,res,next){
 		});
 	
 });
-
-
-
-
-// app.post('/api/admin/addQues', function(req,res,next){
-
-// 	var assArr= {question:req.body.question, options:req.body.options};
-// 	console.log("assArr" + assArr);
-
-// 	Class.update( { $and: [
-// 		{ standard : req.body.class }, 
-// 		{ section: req.body.section },
-// 		{ subject: req.body.subject }
-// 		]},{$addToSet : { assesment: assArr } },function(request,docs){
-// 			console.log(docs);
-// 			if(docs.n == 0 && docs.nModified == 0){
-// 				res.end("Class combination does not exist! Please add Question into a valid class");
-// 			}
-// 			else if(docs.n == 1 && docs.nModified == 0){
-// 				res.end("Duplicate Question!!!");
-// 			}
-// 			else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-// 				res.end("Question successfully added.");
-// 			}
-// 		});
-	
-// });
-
 
 
 app.post('/api/admin/addAssesment', function(req,res){
@@ -243,33 +215,33 @@ app.post('/api/addResults', function(req,res,next){
 
 
 
-   Recommend.update( { $and: [
+	Recommend.update( { $and: [
 		{ standard : req.body.class }, 
 		{ section: req.body.section },
 		{ subject: req.body.subject }
 		]},{$addToSet : { remedial_lessons: req.body.remedial_lessons } },function(request,docs,err){
 			console.log(docs);
 			if(err){
-			console.log(err);
-			res.end("Error : " + err);
-		}
-		else{
-			console.log("saved");
-		}
+				console.log(err);
+				res.end("Error : " + err);
+			}
+			else{
+				console.log("saved");
+			}
 		});
 
 
 	
 });
 var storage	=	multer.diskStorage({
-  destination: function (req, file, callback) {
-    callback(null, './uploads');
-  },
-  filename: function (req, file, callback) {
-  	 console.log("filename========");
-  	 console.log(file);
-    callback(null, 'ourPortal-' + file.originalname.replace(/\..+$/, '') + '-' + Date.now() + path.extname(file.originalname));
-  }
+	destination: function (req, file, callback) {
+		callback(null, './uploads');
+	},
+	filename: function (req, file, callback) {
+		console.log("filename========");
+		console.log(file);
+		callback(null, 'ourPortal-' + file.originalname.replace(/\..+$/, '') + '-' + Date.now() + path.extname(file.originalname));
+	}
 });
 
 var upload = multer({ storage : storage }).single('file');
@@ -277,75 +249,75 @@ var upload = multer({ storage : storage }).single('file');
 app.post('/api/teacher/addlessons', function(req,res,next){
 	upload(req,res,function(err) {
 		console.log("post==============")
-	console.log(req.body);
-	console.log(req.file);
-	if(typeof req.file !== 'undefined' && req.file !== null ){
-		console.log("here=======");
+		console.log(req.body);
 		console.log(req.file);
-		var filePath = "./" + req.file.path;
-	}else{
-		var filePath = "";
-	}
+		if(typeof req.file !== 'undefined' && req.file !== null ){
+			console.log("here=======");
+			console.log(req.file);
+			var filePath = "./" + req.file.path;
+		}else{
+			var filePath = "";
+		}
 	// console.log(req.file.path);
 	var data = { Title:req.body.title,Content: req.body.content,Ref_Link: req.body.ref_link, Ref_Video : filePath };
 
-	 
 
 
-Class.update( { $and: [
-	{ standard : req.body.class }, 
-	{ section: req.body.section },
-	{ subject: req.body.subject }
-	]},{$addToSet : { lessons : data } },function(request,docs){
-		console.log(docs);
-		if(docs.n == 0 && docs.nModified == 0){
-			res.end("Class combination does not exist! Please add lesson into a valid class");
-		}
-		else if(docs.n == 1 && docs.nModified == 0){
-			res.end("Lesson Already added in this class.");
-		}
-		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-			res.end("Lesson successfully added. You can add more lessons!");
-		}
-	});
+
+	Class.update( { $and: [
+		{ standard : req.body.class }, 
+		{ section: req.body.section },
+		{ subject: req.body.subject }
+		]},{$addToSet : { lessons : data } },function(request,docs){
+			console.log(docs);
+			if(docs.n == 0 && docs.nModified == 0){
+				res.end("Class combination does not exist! Please add lesson into a valid class");
+			}
+			else if(docs.n == 1 && docs.nModified == 0){
+				res.end("Lesson Already added in this class.");
+			}
+			else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+				res.end("Lesson successfully added. You can add more lessons!");
+			}
+		});
 });
 });
 
 app.post('/api/admin/addRemedialLessons', function(req,res,next){
 	upload(req,res,function(err) {
 		console.log("post====")
-	console.log(req.body);
-	console.log(req.file);
-	if(typeof req.file !== 'undefined' && req.file !== null ){
-		console.log("here===");
+		console.log(req.body);
 		console.log(req.file);
-		var filePath = "./" + req.file.path;
-	}else{
-		var filePath = "";
-	}
+		if(typeof req.file !== 'undefined' && req.file !== null ){
+			console.log("here===");
+			console.log(req.file);
+			var filePath = "./" + req.file.path;
+		}else{
+			var filePath = "";
+		}
 	// console.log(req.file.path);
 	var data = { 	remedial_title : req.body.title,
-					remedial_content : req.body.content,
-					remedial_ref_link : req.body.ref_link,
-	 				remedial_ref_video : filePath 
-	 			};
+		remedial_content : req.body.content,
+		remedial_ref_link : req.body.ref_link,
+		remedial_ref_video : filePath 
+	};
 
-Class.update( { $and: [
-	{ standard : req.body.class }, 
-	{ section: req.body.section },
-	{ subject: req.body.subject }
-	]},{$addToSet : { remedial_lessons : data } },function(request,docs){
-		console.log(docs);
-		if(docs.n == 0 && docs.nModified == 0){
-			res.end("Class combination does not exist! Please add remedial lesson into a valid class");
-		}
-		else if(docs.n == 1 && docs.nModified == 0){
-			res.end("Remedial Lesson Already added in this class.");
-		}
-		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-			res.end("Remedial Lesson successfully added. You can add more lessons!");
-		}
-	});
+	Class.update( { $and: [
+		{ standard : req.body.class }, 
+		{ section: req.body.section },
+		{ subject: req.body.subject }
+		]},{$addToSet : { remedial_lessons : data } },function(request,docs){
+			console.log(docs);
+			if(docs.n == 0 && docs.nModified == 0){
+				res.end("Class combination does not exist! Please add remedial lesson into a valid class");
+			}
+			else if(docs.n == 1 && docs.nModified == 0){
+				res.end("Remedial Lesson Already added in this class.");
+			}
+			else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+				res.end("Remedial Lesson successfully added. You can add more lessons!");
+			}
+		});
 });
 });
 
@@ -353,22 +325,22 @@ app.post('/api/admin/addErrorCodes', function(req,res,next){
 	console.log(req.body);
 
 
-Class.update( { $and: [
-	{ standard : req.body.class }, 
-	{ section: req.body.section },
-	{ subject: req.body.subject }
-	]},{$addToSet : { error_codes : { $each : req.body.error_codes } } },function(request,docs){
-		console.log(docs);
-		if(docs.n == 0 && docs.nModified == 0){
-			res.end("Combination does not exist! Please add error codes into a valid class");
-		}
-		else if(docs.n == 1 && docs.nModified == 0){
-			res.end("Error Codes Already added in this class.");
-		}
-		else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
-			res.end("Error Codes successfully added. You can add more Error Codes!");
-		}
-	});
+	Class.update( { $and: [
+		{ standard : req.body.class }, 
+		{ section: req.body.section },
+		{ subject: req.body.subject }
+		]},{$addToSet : { error_codes : { $each : req.body.error_codes } } },function(request,docs){
+			console.log(docs);
+			if(docs.n == 0 && docs.nModified == 0){
+				res.end("Combination does not exist! Please add error codes into a valid class");
+			}
+			else if(docs.n == 1 && docs.nModified == 0){
+				res.end("Error Codes Already added in this class.");
+			}
+			else if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+				res.end("Error Codes successfully added. You can add more Error Codes!");
+			}
+		});
 
 });
 
@@ -403,7 +375,7 @@ app.get('/api/getReport', function(req,res,next){
 	 // console.log("inside g et username    :"  + req.user.username);
 
 	 Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
-	 	console.log("id  :  " + docs[0].student_id)
+	 	console.log("id  :  " + docs)
 	 	Result.find({ student_id: docs[0].student_id }, function(request,docu){
 	 		console.log("docu :  "+  docu);
 	 		res.end(JSON.stringify(docu));
@@ -459,7 +431,7 @@ app.get('/api/getErrorCodes', function(req,res,next){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				console.log("error_codes else : "+ docs[0].error_codes);
+				console.log("error_codes else : "+ docs);
 				res.end(JSON.stringify(docs[0].error_codes));
 			} 
 			
@@ -523,17 +495,17 @@ app.get('/api/student/getlessons', function(req,res,next){
 		{ section: req.query.section },
 		{ subject: req.query.subject }
 		],students : {$elemMatch : { Student_ID : req.user.student_id } }
-		},{ lessons : 1, _id: 0 },function(request,docs){
-			console.log(docs);
-			if(docs.length == 0){
-				res.end(JSON.stringify(docs.length));
-			}
-			else{
-				console.log("lessons else : "+ docs[0].lessons);
-				res.end(JSON.stringify(docs[0].lessons));
-			} 
-			
-		});
+	},{ lessons : 1, _id: 0 },function(request,docs){
+		console.log(docs);
+		if(docs.length == 0){
+			res.end(JSON.stringify(docs.length));
+		}
+		else{
+			console.log("lessons else : "+ docs);
+			res.end(JSON.stringify(docs[0].lessons));
+		} 
+
+	});
 	
 });
 
@@ -578,7 +550,7 @@ app.get('/api/teacher/getlessons', function(req,res,next){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				console.log("lessons else : "+ docs[0].lessons);
+				console.log("lessons else : "+ docs);
 				res.end(JSON.stringify(docs[0].lessons));
 			} 		
 		});
@@ -599,7 +571,7 @@ app.get('/api/admin/getremedialLessons', function(req,res,next){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				console.log("remedial_lessons else : "+ docs[0].remedial_lessons);
+				console.log("remedial_lessons else : "+ docs);
 				res.end(JSON.stringify(docs[0].remedial_lessons));
 			} 
 			
@@ -617,7 +589,7 @@ app.get('/api/getClassStudents', function(req,res,next){
 		{ section: req.query.section },
 		{ subject: req.query.subject }
 		]},{ students : 1, _id: 0 },function(request,docs){
-			console.log(docs[0].students);
+			// console.log(docs[0].students);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
@@ -679,21 +651,6 @@ app.get('/api/teacher/getAllAssign', function(req,res,next){
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.get('/api/getRemedialTitle', function(req,res,next){
 	// req.query.error_code="E001";
 	// console.log("error code   "+req.query.error_code);
@@ -703,8 +660,8 @@ app.get('/api/getRemedialTitle', function(req,res,next){
 	Class.find( {error_codes : {$elemMatch: {error_code: req.query.error_code}}},
 		{ error_codes : {$elemMatch: {error_code: req.query.error_code}} },
 		function(request,docs){
-		res.end(JSON.stringify(docs[0].error_codes[0]));
-	});
+			res.end(JSON.stringify(docs[0].error_codes[0]));
+		});
 	
 }); 
 
@@ -716,11 +673,77 @@ app.get('/api/getAssign', function(req,res,next){
 	Class.findOne( {assesments : {$elemMatch: {assesment_name: req.query.assesment_name}}},
 		{assesments: {$elemMatch: {assesment_name: req.query.assesment_name}}},
 		function(request,docs){
-		res.end(JSON.stringify(docs.assesments[0]));
-	
-	});
+			res.end(JSON.stringify(docs.assesments[0]));
+
+		});
 	
 }); 
+
+
+
+app.get('/api/student/getSpecificLesson', function(req,res,next){
+	// req.query.assesment_name = "assesment2";
+	console.log("req   "+ req.query.Title);
+	Student.update({ username : req.user.username },{$set : { last_lesson : req.query.Title }}, function(request,docs){
+
+		console.log(docs);
+
+	})
+
+	Class.findOne( {lessons : {$elemMatch: {Title: req.query.Title}}},
+		{lessons: {$elemMatch: {Title: req.query.Title}}},
+		function(request,docs){
+			console.log("inside find specific lesson");
+			console.log(docs);
+			res.end(JSON.stringify(docs.lessons[0]));
+
+		});
+	
+}); 
+
+app.get('/api/teacher/getSpecificLesson', function(req,res,next){
+	// req.query.assesment_name = "assesment2";
+	console.log("req   "+ req.query.Title);
+	Teacher.update({ username : req.user.username },{$set : { last_lesson : req.query.Title }}, function(request,docs){
+
+		console.log(docs);
+
+	})
+
+	Class.findOne( {lessons : {$elemMatch: {Title: req.query.Title}}},
+		{lessons: {$elemMatch: {Title: req.query.Title}}},
+		function(request,docs){
+			console.log("inside find specific lesson");
+			console.log(docs);
+			res.end(JSON.stringify(docs.lessons[0]));
+
+		});
+	
+}); 
+
+
+app.get('/api/student/getLastLesson', function(req,res,next){
+	// req.query.assesment_name = "assesment2";
+	Student.find({ username : req.user.username },{ last_lesson : 1}, function(request,docs){
+
+		console.log("docsssssssss get lesson" + docs);
+		
+		res.end(JSON.stringify(docs[0]));
+	})
+});
+
+
+app.get('/api/teacher/getLastLesson', function(req,res,next){
+	// req.query.assesment_name = "assesment2";
+	Teacher.find({ username : req.user.username },{ last_lesson : 1 }, function(request,docs){
+
+		console.log("docsssssssss get lesson" + docs);
+		
+		res.end(JSON.stringify(docs[0]));
+	})
+});
+
+
 
 app.get('/api/getRes', function(req,res,next){
 	console.log("req   "+req.query.class);
@@ -775,21 +798,6 @@ app.get('/api/teacher/getRes', function(req,res,next){
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.get('/api/parent/getRecomm', function(req,res,next){
 	console.log("req   "+req.query.class);
 	console.log("req   "+req.query.subject);
@@ -797,8 +805,8 @@ app.get('/api/parent/getRecomm', function(req,res,next){
 	
 
 	Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
-				console.log("docs====");
-				console.log(docs);
+		console.log("docs====");
+		console.log(docs);
 		Result.find( { $and: [
 			{ standard : req.query.class }, 
 			{ section: req.query.section },
@@ -809,8 +817,8 @@ app.get('/api/parent/getRecomm', function(req,res,next){
 				console.log("docu===");
 				console.log(docu);
 				
-					res.end(JSON.stringify(docu[0].recommendations));
-				 
+				res.end(JSON.stringify(docu[0].recommendations));
+
 				
 			});
 	});
@@ -844,72 +852,146 @@ app.get('/api/teacher/getRes', function(req,res,next){
 
 app.get('/api/student/getCSV', function(req,res,next){
 
-  Student.find({},function(request,docs){
-    res.setHeader('Content-disposition', 'attachment; filename=StudentRecords.csv');
-  res.set('Content-Type', 'text/csv');
+	Student.find({},function(request,docs){
+		res.setHeader('Content-disposition', 'attachment; filename=StudentRecords.csv');
+		res.set('Content-Type', 'text/csv');
       // console.log(docs);
-              var fields = ['S.NO.', 'Username','Student ID', 'Email ID','Address', 'Teacher ID', 'School','Grade', 'Fav Subject', 'Aadhar Number', 'Contact Number'];
-               var csvArr =[];
-          for(var i=0;i<docs.length;i++){
-   csvArr.push(
-  {
-    "S.NO.": i+1,
-    "Username": docs[i].username,
-    "Student ID" : docs[i].student_id,
-    "Email ID": docs[i].email,
-    "Address": docs[i].address,
-    "Teacher ID": docs[i].teacher_id,
-    "School": docs[i].school,
-    "Grade": docs[i].grade,
-    "Fav Subject": docs[i].fav_subject,
-    "Aadhar Number": docs[i].aadhar,
-    "Contact Number": docs[i].contact
-  }
-);
+      var fields = ['S.NO.', 'Username','Student ID', 'Email ID','Address', 'Teacher ID', 'School','Grade', 'Fav Subject', 'Aadhar Number', 'Contact Number'];
+      var csvArr =[];
+      for(var i=0;i<docs.length;i++){
+      	csvArr.push(
+      	{
+      		"S.NO.": i+1,
+      		"Username": docs[i].username,
+      		"Student ID" : docs[i].student_id,
+      		"Email ID": docs[i].email,
+      		"Address": docs[i].address,
+      		"Teacher ID": docs[i].teacher_id,
+      		"School": docs[i].school,
+      		"Grade": docs[i].grade,
+      		"Fav Subject": docs[i].fav_subject,
+      		"Aadhar Number": docs[i].aadhar,
+      		"Contact Number": docs[i].contact
+      	}
+      	);
           }//for loop
           // console.log("created array  :  " + csvArr)
 
-var csvFile = json2csv({ data: csvArr, fields: fields });
-   
-   res.send(csvFile);
+          var csvFile = json2csv({ data: csvArr, fields: fields });
 
-}); 
-  });
+          res.send(csvFile);
+
+      }); 
+});
 
 
 
 app.get('/api/teacher/getCSV', function(req,res,next){
 
-  Teacher.find({},function(request,docs){
-    res.setHeader('Content-disposition', 'attachment; filename=TeacherRecords.csv');
-  res.set('Content-Type', 'text/csv');
+	Teacher.find({},function(request,docs){
+		res.setHeader('Content-disposition', 'attachment; filename=TeacherRecords.csv');
+		res.set('Content-Type', 'text/csv');
       // console.log(docs);
-              var fields = ['S.NO.', 'Username', 'Teacher ID','Email ID', 'Address', 'Qualification','Job Description', 'Teaching Exp', 'Aadhar Number', 'Contact Number'];
-               var csvArr =[];
-          for(var i=0;i<docs.length;i++){
-   csvArr.push(
-  {
-    "S.NO.": i+1,
-    "Username": docs[i].username,
-    "Teacher ID": docs[i].teacher_id,
-    "Email ID": docs[i].email_id,
-    "Address": docs[i].address,
-    "Qualification": docs[i].qualification,
-    "Job Description": docs[i].job_description,
-    "Teaching Exp": docs[i].teaching_experience,
-    "Aadhar Number": docs[i].aadhar_no,
-    "Contact Number": docs[i].contact_number
-  }
-);
+      var fields = ['S.NO.', 'Username', 'Teacher ID','Email ID', 'Address', 'Qualification','Job Description', 'Teaching Exp', 'Aadhar Number', 'Contact Number'];
+      var csvArr =[];
+      for(var i=0;i<docs.length;i++){
+      	csvArr.push(
+      	{
+      		"S.NO.": i+1,
+      		"Username": docs[i].username,
+      		"Teacher ID": docs[i].teacher_id,
+      		"Email ID": docs[i].email_id,
+      		"Address": docs[i].address,
+      		"Qualification": docs[i].qualification,
+      		"Job Description": docs[i].job_description,
+      		"Teaching Exp": docs[i].teaching_experience,
+      		"Aadhar Number": docs[i].aadhar_no,
+      		"Contact Number": docs[i].contact_number
+      	}
+      	);
           }//for loop
           // console.log("created array  :  " + csvArr)
 
-var csvFile = json2csv({ data: csvArr, fields: fields });
-   
-   res.send(csvFile);
+          var csvFile = json2csv({ data: csvArr, fields: fields });
 
-}); 
-  });
+          res.send(csvFile);
+
+      }); 
+});
+
+
+
+
+
+app.get('/api/parent/getCSV', function(req,res,next){
+
+	Parent.find( {},function(request,docs){
+		res.setHeader('Content-disposition', 'attachment; filename=ParentRecords.csv');
+		res.set('Content-Type', 'text/csv');
+      // console.log(docs);
+      var fields = ['S.NO.', 'Username', 'Parent ID','Email ID', 'Address', 'Job Description','Qualification', 'Student ID', 'Aadhar Number', 'Contact Number'];
+      var csvArr =[];
+      for(var i=0;i<docs.length;i++){
+      	csvArr.push(
+      	{
+      		"S.NO.": i+1,
+      		"Username": docs[i].username,
+      		"Parent ID": docs[i].parent_id,
+      		"Email ID": docs[i].email,
+      		"Address": docs[i].address,
+      		"Job Description": docs[i].job_description,
+      		"Qualification": docs[i].qualification,
+      		"Student ID": docs[i].student_id,
+      		"Aadhar Number": docs[i].aadhar,
+      		"Contact Number": docs[i].contact
+      	}
+      	);
+          }//for loop
+          // console.log("created array  :  " + csvArr)
+
+          var csvFile = json2csv({ data: csvArr, fields: fields });
+
+          res.send(csvFile);
+
+      }); 
+});
+
+
+
+app.get('/api/parent/getReportCSV', function(req,res,next){
+
+	Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
+	 	//console.log("id  :  " + docs[0].student_id)
+	 	Result.find({ student_id: docs[0].student_id }, function(request,docu){
+	 		res.setHeader('Content-disposition', 'attachment; filename=StudentReport.csv');
+	 		res.set('Content-Type', 'text/csv');
+      // console.log(docs);
+      var fields = ['S.NO.', 'Class', 'Section','Subject', 'Assesment Name','Marks'];
+      var csvArr =[];
+      for(var i=0;i<docu.length;i++){
+      	csvArr.push(
+      	{
+      		"S.NO.": i+1,
+      		"Class": docu[i].standard,
+      		"Section": docu[i].section,
+      		"Subject": docu[i].subject,
+      		"Assesment Name": docu[i].assesment_name,
+      		"Marks": docu[i].marks,
+
+      	}
+      	);
+          }//for loop
+          // console.log("created array  :  " + csvArr)
+
+          var csvFile = json2csv({ data: csvArr, fields: fields });
+
+          res.send(csvFile);
+      });
+
+	 }); 
+});
+
+
 
 
 
@@ -917,16 +999,16 @@ app.post('/api/admin/deleteStudent', function(req,res,next){
 	console.log(req.body);
 	var stu_id = req.body.student_id ;
 	console.log(stu_id);
-    Student.remove({ student_id: stu_id }, function(err) {
-    if (!err) {
+	Student.remove({ student_id: stu_id }, function(err) {
+		if (!err) {
 
-            res.end('Student Removed');
-    }
-    else {
-            res.end('Student could not be removed. Please try again later!');
+			res.end('Student Removed');
+		}
+		else {
+			res.end('Student could not be removed. Please try again later!');
 
-    }
-});
+		}
+	});
 	
 });
 
@@ -935,15 +1017,15 @@ app.post('/api/admin/deleteTeacher', function(req,res,next){
 	var tea_id = req.body.teacher_id ;
 	console.log(tea_id);
 
-    Teacher.remove( { teacher_id: tea_id }, function(err) {
-    if (!err) {
-            res.end('Teacher Removed');
-    }
-    else {
-            res.end('Teacher could not be removed. Please try again later!');
+	Teacher.remove( { teacher_id: tea_id }, function(err) {
+		if (!err) {
+			res.end('Teacher Removed');
+		}
+		else {
+			res.end('Teacher could not be removed. Please try again later!');
 
-    }
-});
+		}
+	});
 	
 });
 
@@ -953,55 +1035,20 @@ app.post('/api/admin/deleteParent', function(req,res,next){
 	var par_id = req.body.parent_id ;
 	console.log(par_id);
 
-    Parent.remove( { parent_id: par_id }, function(err) {
-    if (!err) {
-            res.end('Parent Removed');
-    }
-    else {
-            res.end('Parent could not be removed. Please try again later!');
+	Parent.remove( { parent_id: par_id }, function(err) {
+		if (!err) {
+			res.end('Parent Removed');
+		}
+		else {
+			res.end('Parent could not be removed. Please try again later!');
 
-    }
-});
+		}
+	});
 	
 });
 
 
 
-
-
-
-app.get('/api/parent/getCSV', function(req,res,next){
-
-  Parent.find( {},function(request,docs){
-    res.setHeader('Content-disposition', 'attachment; filename=ParentRecords.csv');
-  res.set('Content-Type', 'text/csv');
-      // console.log(docs);
-              var fields = ['S.NO.', 'Username', 'Parent ID','Email ID', 'Address', 'Job Description','Qualification', 'Student ID', 'Aadhar Number', 'Contact Number'];
-               var csvArr =[];
-          for(var i=0;i<docs.length;i++){
-   csvArr.push(
-  {
-    "S.NO.": i+1,
-    "Username": docs[i].username,
-    "Parent ID": docs[i].parent_id,
-    "Email ID": docs[i].email,
-    "Address": docs[i].address,
-    "Job Description": docs[i].job_description,
-    "Qualification": docs[i].qualification,
-    "Student ID": docs[i].student_id,
-    "Aadhar Number": docs[i].aadhar,
-    "Contact Number": docs[i].contact
-  }
-);
-          }//for loop
-          // console.log("created array  :  " + csvArr)
-
-var csvFile = json2csv({ data: csvArr, fields: fields });
-   
-   res.send(csvFile);
-
-}); 
-  });
 
 
 

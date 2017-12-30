@@ -19,7 +19,7 @@
                 <label for="role" class="col-md-4 control-label">Standard </label>
                 <div class="col-md-6">
                  <select name="standard" ng-model="standard" class="form-control" required>
-                      <option value="">Make a selection</option>
+                  <option value="">Make a selection</option>
                   <option value="1">Class 1</option>
                   <option value="2">Class 2</option>
                   <option value="3">Class 3</option>
@@ -43,7 +43,7 @@
 
             <div class="col-md-6">
               <select name="section" ng-model="section" class="form-control" required>
-                      <option value="">Make a selection</option>
+                <option value="">Make a selection</option>
                 <option value="A">Sec A</option>
                 <option value="B">Sec B</option>
                 <option value="C">Sec C</option></select>
@@ -51,14 +51,14 @@
             </div>
           </div>
         </br>
-         <div class="row">
+        <div class="row">
 
           <div class="form-group">
             <label for="subject" class="col-md-4 control-label">Subject</label>
 
             <div class="col-md-6">
               <select name="subject" ng-model="subject" class="form-control" required>
-                    <option value="">Make a selection</option>
+                <option value="">Make a selection</option>
                 <option value="maths">Maths</option>
                 <option value="science">Science</option>
                 <option value="english">English</option></select>
@@ -67,38 +67,38 @@
           </div>
 
         </br>
-         <div class="row">
+        <div class="row">
 
           <div class="form-group">
             <label for="Section" class="col-md-4 control-label">Select Student ID</label>
 
-           <div class="col-md-6">
+            <div class="col-md-6">
              <select class="form-control" name="studID" ng-model="stuID" ng-options="o.student_id as o.student_id for o in options"></select>
              
-        </div>
-            </div>
-          </div>
-        </br>
-       
-        <div class="row">
+           </div>
+         </div>
+       </div>
+     </br>
+     
+     <div class="row">
 
-          <div class="form-group">
-            <div class="col-md-8 col-md-offset-4">
-              <button type="submit" class="btn btn-success">
-                Go
-              </button>
-            </div>
-          </div>
-        </div>
-      </br>
-      <div class="row">
-        <div ng-if="msg1.length > 0" class="alert alert-info">
-          <strong><center>{{msg1}}</center></strong>
+      <div class="form-group">
+        <div class="col-md-8 col-md-offset-4">
+          <button type="submit" class="btn btn-success">
+            Go
+          </button>
         </div>
       </div>
-
-    </form>
+    </div>
+  </br>
+  <div class="row">
+    <div ng-if="msg1.length > 0" class="alert alert-info">
+      <strong><center>{{msg1}}</center></strong>
+    </div>
   </div>
+
+</form>
+</div>
 </div>
 </div>
 </div>
@@ -117,7 +117,7 @@
 
               <div class="col-md-6">
                 <select name="assesment_name" ng-model="assess_name" class="form-control" required="">
-                      <option value="">Make a selection</option>
+                  <option value="">Make a selection</option>
                   <option ng-repeat = "list in assesments">{{list.assesment_name}}</option>
                 </select>
               </div>
@@ -128,23 +128,23 @@
         </br>
 
 
-<div class="row">
+        <div class="row">
 
-  <div class="form-group">
-    <div class="col-md-8 col-md-offset-4">
-      <button type="submit" class="btn btn-success" >
-       Go
-      </button>
+          <div class="form-group">
+            <div class="col-md-8 col-md-offset-4">
+              <button type="submit" class="btn btn-success" >
+               Go
+             </button>
+           </div>
+         </div>
+       </div>
+     </br>
+     <div class="row">
+      <div ng-if="msg.length > 0" class="alert alert-info">
+        <strong><center>{{msg2}}</center></strong>
+      </div>
     </div>
-  </div>
-</div>
-</br>
-<div class="row">
-  <div ng-if="msg.length > 0" class="alert alert-info">
-    <strong><center>{{msg2}}</center></strong>
-  </div>
-</div>
-</form>
+  </form>
 </div>
 </div>
 </div>
@@ -162,27 +162,27 @@
         <p> Attention Needed in </p></br>
         
         <table class="table table-condensed">
-        <thead>
-         <tr>
-         <th>S.No</th>
-         <th>Question </th>
-         <th> Student's Response </th>
-         <th>Recommended Lesson</th>
-       
-      <tr></thead>
-         <tbody  ng-repeat = "rec in recommend.recommendations">
-        
-        <td>{{$index+1}}</td>
-        <td>{{rec.question}}</td>
-        <td>{{rec.response}}</td>   
-        <td>{{rec.remedial_lesson_title}}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-</div>
-</div>
-</div>
+          <thead>
+           <tr>
+             <th>S.No</th>
+             <th>Question </th>
+             <th> Student's Response </th>
+             <th>Recommended Lesson</th>
+             
+             <tr></thead>
+               <tbody  ng-repeat = "rec in recommend.recommendations">
+                
+                <td>{{$index+1}}</td>
+                <td>{{rec.question}}</td>
+                <td>{{rec.response}}</td>   
+                <td>{{rec.remedial_lesson_title}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 

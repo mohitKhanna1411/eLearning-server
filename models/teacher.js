@@ -30,7 +30,7 @@ var teacherSchema = mongoose.Schema({
         unique: true,
         required: true
     },
-	address:{
+    address:{
         type: String
     },
     contact_number:{
@@ -42,7 +42,10 @@ var teacherSchema = mongoose.Schema({
     qualification:{
         type: String
     },
-	job_description:{
+    job_description:{
+        type: String
+    },
+    last_lesson:{
         type: String
     },
     teaching_experience:{

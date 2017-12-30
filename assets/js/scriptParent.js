@@ -1,52 +1,52 @@
 // creating the module
-  var myApp = angular.module('myApp', ['ngRoute']);
+var myApp = angular.module('myApp', ['ngRoute']);
 // configuring routes
-  myApp.config(function($routeProvider, $locationProvider){
-    $routeProvider
-    .when('/reportParent', {
-      templateUrl : '/views/reportParent.html',
-      controller  : 'controllerParent'
-    })
-    .when('/recommendationParent', {
-      templateUrl : '/views/recommendationParent.html',
-      controller  : 'controllerParent'
-    });
-    $locationProvider.html5Mode(true);
+myApp.config(function($routeProvider, $locationProvider){
+  $routeProvider
+  .when('/reportParent', {
+    templateUrl : '/views/reportParent.html',
+    controller  : 'controllerParent'
+  })
+  .when('/recommendationParent', {
+    templateUrl : '/views/recommendationParent.html',
+    controller  : 'controllerParent'
   });
+  $locationProvider.html5Mode(true);
+});
 
 // creating mainController
-  myApp.controller('controllerParent', function($scope, $http) {
+myApp.controller('controllerParent', function($scope, $http) {
 
   
-    $http.get('/api/getReport').success(function(res){
+  $http.get('/api/getReport').success(function(res){
     $scope.reports = res;
     console.log($scope.reports);
     if(res.length === 0){
       $scope.msg = "No reports found";
     }
-	  
+    
   })
 
 
-   $scope.parentRecomm = function(myselect){
+  $scope.parentRecomm = function(myselect){
 // console.log(myselect);
-      $scope.msg = "";
-    $scope.msg2 = "";
-    var standard=$scope.standard;
-    var section=$scope.section;
-    var subject=$scope.subject;
+$scope.msg = "";
+$scope.msg2 = "";
+var standard=$scope.standard;
+var section=$scope.section;
+var subject=$scope.subject;
 
-    var data={"class":standard, "subject":subject, "section":section, "assesment_name" : myselect};
-    console.log(data);
+var data={"class":standard, "subject":subject, "section":section, "assesment_name" : myselect};
+console.log(data);
 
-    $http.get('/api/parent/getRecomm',{ params: data }).success(function(res){
-    $scope.recommendations = res;
-    if(res.length === 0){
-      $scope.msg2 = "Student has not taken his/her assesment or is not enrolled in this class!";
-    }
-    console.log($scope.recommendations);
+$http.get('/api/parent/getRecomm',{ params: data }).success(function(res){
+  $scope.recommendations = res;
+  if(res.length === 0){
+    $scope.msg2 = "Student has not taken his/her assesment or is not enrolled in this class!";
+  }
+  console.log($scope.recommendations);
 
-  })
+})
 
 }
 

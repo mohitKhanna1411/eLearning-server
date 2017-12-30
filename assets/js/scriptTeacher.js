@@ -19,11 +19,11 @@ myApp.config(function($routeProvider, $locationProvider){
     templateUrl : '/views/createAssesment.html',
     controller  : 'controllerTeacher'
   })
-   .when('/viewStudents', {
+  .when('/viewStudents', {
     templateUrl : '/views/viewStudents.html',
     controller  : 'controllerTeacher'
   })
-   .when('/overallRecommend', {
+  .when('/overallRecommend', {
     templateUrl : '/views/overallRecommend.html',
     controller  : 'controllerTeacher'
   })
@@ -35,9 +35,9 @@ myApp.config(function($routeProvider, $locationProvider){
 });
 
 myApp.filter('trusted', ['$sce', function ($sce) {
-    return function(url) {
-        return $sce.trustAsResourceUrl(url);
-    };
+  return function(url) {
+    return $sce.trustAsResourceUrl(url);
+  };
 }]);
 
 
@@ -45,74 +45,108 @@ myApp.filter('trusted', ['$sce', function ($sce) {
 // creating mainController
 myApp.controller('controllerTeacher', function($scope, $http,$window) {
 
-$http.get('/api/listStudentIDs').success(function(res){
-      $scope.options = res;
-      console.log($scope.options);
-    })
-$http.get('/api/getClasses').success(function(res){
-      $scope.list4 = res;
-      console.log(res);
-    })
+  $http.get('/api/listStudentIDs').success(function(res){
+    $scope.options = res;
+    console.log($scope.options);
+  })
+  $http.get('/api/getClasses').success(function(res){
+    $scope.list4 = res;
+    console.log(res);
+  })
 
+  $http.get('/api/teacher/getLastLesson').success(function(res){
+   
+    if(res.last_lesson){
+     $scope.lastLessonTeacher = res.last_lesson; 
+   }
+   else{
+    $scope.lastLessonTeacher = "No lesson"; 
+  }
+  // console.log($scope.lastLessonTeacher);
+})
 
- $scope.msg1 = ""
- $scope.msg = "";
- $scope.manageGrade= function()
- {
   $scope.msg1 = ""
   $scope.msg = "";
-  console.log("inside manageGrade");
-  var standard=$scope.standard;
-  var section=$scope.section;
-  var subject=$scope.subject;
-  var data={"class":standard, "section":section, "subject":subject};
-  console.log("data "+data);
-  $http.post('/api/teacher/manageGrade', data).success(function(res){
-    $scope.msg = res;
-    $scope.standard = "";
-    $scope.section ="";
-    $scope.subject = "";
-  })
-  
-}
+  $scope.manageGrade= function()
+  {
+    $scope.msg1 = ""
+    $scope.msg = "";
+    console.log("inside manageGrade");
+    var standard=$scope.standard;
+    var section=$scope.section;
+    var subject=$scope.subject;
+    var data={"class":standard, "section":section, "subject":subject};
+    console.log("data "+data);
+    $http.post('/api/teacher/manageGrade', data).success(function(res){
+      $scope.msg = res;
+      $scope.standard = "";
+      $scope.section ="";
+      $scope.subject = "";
+    })
+    
+  }
 
 
-$scope.ok = "not";
-$scope.lessons= function()
-{
+  $scope.notok = "not";
+  $scope.getSpecificLessonTeacher= function(title_lesson)
+  {
+    
+    $scope.msg = "";
+    $scope.msg1 = "";
+    $scope.msg2="";
+    $scope.msg4="";
+    
+    var data={"Title" : title_lesson};
+    console.log(data);
+    $http.get('/api/teacher/getSpecificLesson', { params: data }).success(function(res){
+      $scope.notok="ok";
+      $scope.list5 = res;
+      
+      console.log(res);
+      
+    })
+
+    
+  }
+
+
+
   $scope.ok = "not";
-  $scope.msg = "";
-  $scope.msg1 = "";
-  var standard=$scope.standard;
-  var section=$scope.section;
-  var subject=$scope.subject;
-  
-  var data={"class":standard, "subject":subject, "section":section};
-  console.log(data);
-  $http.get('/api/teacher/getlessons', { params: data }).success(function(res){
-    $scope.list1 = res;
-    console.log("res"   + $scope.list1);
-    if(res == "0"){
-      $scope.msg1 = "No lessons found in this class.";
-      $scope.ok = "not";
-    }else{
-      $scope.msg1 = res.length + " Number of lessons found.";
-      $scope.ok = "ok";
-    }
-  })
-  
-}
+  $scope.lessons= function()
+  {
+    $scope.ok = "not";
+    $scope.msg = "";
+    $scope.msg1 = "";
+    var standard=$scope.standard;
+    var section=$scope.section;
+    var subject=$scope.subject;
+    
+    var data={"class":standard, "subject":subject, "section":section};
+    console.log(data);
+    $http.get('/api/teacher/getlessons', { params: data }).success(function(res){
+      $scope.list1 = res;
+      console.log("res"   + $scope.list1);
+      if(res == "0"){
+        $scope.msg1 = "No lessons found in this class.";
+        $scope.ok = "not";
+      }else{
+        $scope.msg1 = res.length + " Number of lessons found.";
+        $scope.ok = "ok";
+      }
+    })
+    
+  }
 
 
-$scope.optionsArr = [];
-$scope.contents = [];
-var data ={};
-$scope.addAssesment= function(data)
-{
-  $scope.msg = "";
-  console.log(data.right_answer);
-  console.log($scope.optionsArr);
-  console.log(data.question);
+  $scope.optionsArr = [];
+  $scope.contents = [];
+  var data ={};
+  $scope.addAssesment= function(data)
+  {
+    $scope.msg = "";
+    console.log(data.right_answer);
+    console.log($scope.optionsArr);
+    console.log(data.question);
         // console.log($scope.standard);
         // console.log($scope.section);
         // console.log($scope.subject);
@@ -181,175 +215,83 @@ $scope.addAssesment= function(data)
 
         
       }
-      $scope.assesmentTeacher= function()
+
+      $scope.stuID = "";
+      $scope.teacherRecommend= function()
       {
-        var type=$scope.type;
-		//var data={"class":standard, "section":section, "subject":subject};
-                //console.log(data);
-                var config = {
-                  headers : 
-                  {
-                    'Content-Type': 'application/json;'
-                  }
-                }
-
-                $http.post('/api/teacher/assess', type, config)
-                .success(function (data, status, headers, config) {
-                  $scope.ServerResponse = data;
-                  
-                  $window.location.href = $scope.ServerResponse.redirect;
-                  
-                  
-                })
-                .error(function (data, status, header, config) {
-                  $scope.ServerResponse = "Data: " + data +
-                  "<hr />status: " + status +
-                  "<hr />headers: " + header +
-                  "<hr />config: " + config;
-                  
-                  document.getElementById("message").innerHTML="Error";
-                  
-                });
-
-                
-              }
-
-
-
-              // $scope.addinglessons= function()
-              // {
-              //   $scope.msg = "";
-              //   $scope.msg1 = "";
-              //   var standard=$scope.standard2;
-              //   var section=$scope.section2;
-              //   var subject=$scope.subject2;
-              //   var content=$scope.content;
-              //   var ref_link=$scope.ref_link;
-              //   var data={"class":standard, "subject":subject, "section":section,"content":content,"ref_link":ref_link};
-              //   console.log(data);
-              //   $http.post('/api/teacher/addlessons', data).success(function(res){
-              //     $scope.msg1 = res;
-              //     $scope.content = "";
-              //     $scope.ref_link = "";
-              //   })
-
-                
-              // }
-
-
-              $scope.recommend= function()
-              {
-                var student=$scope.student;
-                var topic=$scope.topic;
-                var subject=$scope.subject;
-                var data={"student":student, "topic":topic, "subject":subject};
-                console.log(data);
-                var config = {
-                  headers : 
-                  {
-                    'Content-Type': 'application/json;'
-                  }
-                }
-
-                $http.post('/api/teacher/recommend', data, config)
-                .success(function (data, status, headers, config) {
-                  $scope.ServerResponse = data;
-                  
-                  $window.location.href = $scope.ServerResponse.redirect;
-                  
-                  
-                })
-                .error(function (data, status, header, config) {
-                  $scope.ServerResponse = "Data: " + data +
-                  "<hr />status: " + status +
-                  "<hr />headers: " + header +
-                  "<hr />config: " + config;
-                  
-                  document.getElementById("message").innerHTML="Error";
-                  
-                });
-
-                
-              }
-
-
-
-$scope.stuID = "";
-$scope.teacherRecommend= function()
-{
-  $scope.ok = "not";
-  $scope.msg = "";
-  $scope.msg1 = "";
-  var standard=$scope.standard;
-  var section=$scope.section;
-  var subject=$scope.subject;
-  var studentID=$scope.stuID;
-  console.log("id:  " + $scope.stuID); 
-  
-  var data={"class":standard, "subject":subject, "section":section,"student_id":studentID};
-  console.log("data   " +data);
-  $http.get('/api/teacher/getRes', { params: data }).success(function(res){
+        $scope.ok = "not";
+        $scope.msg = "";
+        $scope.msg1 = "";
+        var standard=$scope.standard;
+        var section=$scope.section;
+        var subject=$scope.subject;
+        var studentID=$scope.stuID;
+        console.log("id:  " + $scope.stuID); 
+        
+        var data={"class":standard, "subject":subject, "section":section,"student_id":studentID};
+        console.log("data   " +data);
+        $http.get('/api/teacher/getRes', { params: data }).success(function(res){
     //$scope.recommend=res;
     console.log(res);
-   if(res == "0"){
+    if(res == "0"){
       $scope.msg1 = "No Recommendations/Assesments Found in this combination";
       $scope.ok = "not";
     }else{
 
       $scope.ok = "ok";
     }
-  
+    
   })
-  
-}
+        
+      }
 
 
-$scope.viewStudents= function()
-  {
-    $scope.ok = "not";
-    $scope.msg = "";
-    $scope.msg1 = "";
-    var standard=$scope.standard;
-    var section=$scope.section;
-    var subject=$scope.subject;
-    
-    var data={"class":standard, "subject":subject, "section":section};
-    console.log(data);
-    $http.get('/api/getClassStudents', { params: data }).success(function(res){
-     $scope.list2= res;
-     console.log($scope.list2);
-     $scope.ok = "ok";
-   })
+      $scope.viewStudents= function()
+      {
+        $scope.ok = "not";
+        $scope.msg = "";
+        $scope.msg1 = "";
+        var standard=$scope.standard;
+        var section=$scope.section;
+        var subject=$scope.subject;
+        
+        var data={"class":standard, "subject":subject, "section":section};
+        console.log(data);
+        $http.get('/api/getClassStudents', { params: data }).success(function(res){
+         $scope.list2= res;
+         console.log($scope.list2);
+         $scope.ok = "ok";
+       })
 
-    
-  }
-
-
+        
+      }
 
 
-$scope.ok = "not";
-$scope.overallRecommend= function()
-{
-  $scope.ok = "not";
-  $scope.msg = "";
-  $scope.msg1 = "";
-  var standard=$scope.standard;
-  var section=$scope.section;
-  var subject=$scope.subject;
-  
-  var data={"class":standard, "subject":subject, "section":section};
-  console.log(data);
-  $http.get('/api/getOverallRecommend', { params: data }).success(function(res){
-    $scope.summary = res;
-   
-    if(res == "0"){
-      $scope.msg1 = "No lessons found.";
+
+
       $scope.ok = "not";
-    }else{
-      $scope.msg1 = " Result Found";
-      $scope.ok = "ok";
+      $scope.overallRecommend= function()
+      {
+        $scope.ok = "not";
+        $scope.msg = "";
+        $scope.msg1 = "";
+        var standard=$scope.standard;
+        var section=$scope.section;
+        var subject=$scope.subject;
+        
+        var data={"class":standard, "subject":subject, "section":section};
+        console.log(data);
+        $http.get('/api/getOverallRecommend', { params: data }).success(function(res){
+          $scope.summary = res;
+          
+          if(res == "0"){
+            $scope.msg1 = "No lessons found.";
+            $scope.ok = "not";
+          }else{
+            $scope.msg1 = " Result Found";
+            $scope.ok = "ok";
 
-      var overall = [];
+            var overall = [];
      // angular.forEach($scope.summary, function(element) {
      //   overall.push(element);
      //   });
@@ -360,7 +302,7 @@ $scope.overallRecommend= function()
         overall.push($scope.summary[i][j].remedial_lesson_title);
 
       }
-     }
+    }
 
     console.log("overall  " + overall);
     // console.log("summ  "   + $scope.summary);
@@ -369,25 +311,25 @@ $scope.overallRecommend= function()
 
 
     function foo(arr) {
-    var a = [], b = [], prev;
-    
-    arr.sort();
-    for ( var i = 0; i < arr.length; i++ ) {
+      var a = [], b = [], prev;
+      
+      arr.sort();
+      for ( var i = 0; i < arr.length; i++ ) {
         if ( arr[i] !== prev ) {
-            a.push(arr[i]);
-            b.push(1);
+          a.push(arr[i]);
+          b.push(1);
         } else {
-            b[b.length-1]++;
+          b[b.length-1]++;
         }
         prev = arr[i];
+      }
+      
+      return [a, b];
     }
-    
-    return [a, b];
-}
-      $scope.list2=[];
+    $scope.list2=[];
 
-     var result = foo(overall);
-     for ( var i = 0; i < result[0].length; i++ ) {
+    var result = foo(overall);
+    for ( var i = 0; i < result[0].length; i++ ) {
       
       $scope.list2.push({
         les_title : result[0][i],
@@ -401,84 +343,64 @@ $scope.overallRecommend= function()
 
     }//else
   })
-  
-}
-
-$scope.ok = "not";
-$scope.getAllAssign= function()
-{
-  $scope.msg = "";
-  $scope.msg1 = "";
-  var standard=$scope.standard;
-  var section=$scope.section;
-  var subject=$scope.subject;
-  var studentID=$scope.stuID;
-  
-  var data={"class":standard, "subject":subject, "section":section, student :studentID };
-  console.log(data);
-  $http.get('/api/teacher/getAllAssign', { params: data }).success(function(res){
-    $scope.assesments = res;
-    console.log(res);
-    if(res == "0"){
-      $scope.msg1 = "No assesment found !";
-      $scope.ok = "not";
-    }else{
-      $scope.ok = "ok";
-      $scope.msg1 = res.length + " assesments found.";
-      if(res.length == 0){
-        $scope.ok = "not";
-        $scope.msg1 = "Assesment yet to be added. Please come again later!";    
+        
       }
-    }
-  })
-}
+
+      $scope.ok = "not";
+      $scope.getAllAssign= function()
+      {
+        $scope.msg = "";
+        $scope.msg1 = "";
+        var standard=$scope.standard;
+        var section=$scope.section;
+        var subject=$scope.subject;
+        var studentID=$scope.stuID;
+        
+        var data={"class":standard, "subject":subject, "section":section, student :studentID };
+        console.log(data);
+        $http.get('/api/teacher/getAllAssign', { params: data }).success(function(res){
+          $scope.assesments = res;
+          console.log(res);
+          if(res == "0"){
+            $scope.msg1 = "No assesment found !";
+            $scope.ok = "not";
+          }else{
+            $scope.ok = "ok";
+            $scope.msg1 = res.length + " assesments found.";
+            if(res.length == 0){
+              $scope.ok = "not";
+              $scope.msg1 = "Assesment yet to be added. Please come again later!";    
+            }
+          }
+        })
+      }
 
 
-$scope.notok = "not";
-$scope.getResults= function(assess_name)
-{
-  $scope.msg = "";
-  $scope.msg1 = "";
-  var standard=$scope.standard;
-  var section=$scope.section;
-  var subject=$scope.subject;
-  var studentID=$scope.stuID;
-  
-  var data={"class":standard, "subject":subject, "section":section, "assesment_name" : assess_name,"student":studentID};
-  console.log(data);
-  $http.get('/api/teacher/getRes', { params: data }).success(function(res){
-    $scope.recommend = res;
-    console.log(res);
-    if(res == "0"){
-      $scope.msg1 = "No results found!";
       $scope.notok = "not";
-    }else{
+      $scope.getResults= function(assess_name)
+      {
+        $scope.msg = "";
+        $scope.msg1 = "";
+        var standard=$scope.standard;
+        var section=$scope.section;
+        var subject=$scope.subject;
+        var studentID=$scope.stuID;
+        
+        var data={"class":standard, "subject":subject, "section":section, "assesment_name" : assess_name,"student":studentID};
+        console.log(data);
+        $http.get('/api/teacher/getRes', { params: data }).success(function(res){
+          $scope.recommend = res;
+          console.log(res);
+          if(res == "0"){
+            $scope.msg1 = "No results found!";
+            $scope.notok = "not";
+          }else{
             // $scope.msg1 = res.length + " Number of lessons found.";
             $scope.notok = "ok";
             $scope.okok="ok";
           }
         })
-  
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-              
-              
-            });
+        
+      }
+      
+    });
