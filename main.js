@@ -1040,7 +1040,7 @@ var csvFile = json2csv({ data: csvArr, fields: fields });
 app.get('/api/parent/getReportCSV', function(req,res,next){
 
   Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
-	 	console.log("id  :  " + docs[0].student_id)
+	 	//console.log("id  :  " + docs[0].student_id)
 	 	Result.find({ student_id: docs[0].student_id }, function(request,docu){
     res.setHeader('Content-disposition', 'attachment; filename=StudentReport.csv');
   res.set('Content-Type', 'text/csv');
