@@ -403,7 +403,7 @@ app.get('/api/getReport', function(req,res,next){
 	 // console.log("inside g et username    :"  + req.user.username);
 
 	 Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
-	 	console.log("id  :  " + docs[0].student_id)
+	 	console.log("id  :  " + docs)
 	 	Result.find({ student_id: docs[0].student_id }, function(request,docu){
 	 		console.log("docu :  "+  docu);
 	 		res.end(JSON.stringify(docu));
@@ -459,7 +459,7 @@ app.get('/api/getErrorCodes', function(req,res,next){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				console.log("error_codes else : "+ docs[0].error_codes);
+				console.log("error_codes else : "+ docs);
 				res.end(JSON.stringify(docs[0].error_codes));
 			} 
 			
@@ -529,7 +529,7 @@ app.get('/api/student/getlessons', function(req,res,next){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				console.log("lessons else : "+ docs[0].lessons);
+				console.log("lessons else : "+ docs);
 				res.end(JSON.stringify(docs[0].lessons));
 			} 
 			
@@ -578,7 +578,7 @@ app.get('/api/teacher/getlessons', function(req,res,next){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				console.log("lessons else : "+ docs[0].lessons);
+				console.log("lessons else : "+ docs);
 				res.end(JSON.stringify(docs[0].lessons));
 			} 		
 		});
@@ -599,7 +599,7 @@ app.get('/api/admin/getremedialLessons', function(req,res,next){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				console.log("remedial_lessons else : "+ docs[0].remedial_lessons);
+				console.log("remedial_lessons else : "+ docs);
 				res.end(JSON.stringify(docs[0].remedial_lessons));
 			} 
 			
@@ -617,7 +617,7 @@ app.get('/api/getClassStudents', function(req,res,next){
 		{ section: req.query.section },
 		{ subject: req.query.subject }
 		]},{ students : 1, _id: 0 },function(request,docs){
-			console.log(docs[0].students);
+			console.log(docs);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
