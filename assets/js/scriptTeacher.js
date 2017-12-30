@@ -54,6 +54,16 @@ $http.get('/api/getClasses').success(function(res){
       console.log(res);
     })
 
+$http.get('/api/teacher/getLastLesson').success(function(res){
+   
+  if(res.last_lesson){
+   $scope.lastLessonTeacher = res.last_lesson; 
+  }
+  else{
+      $scope.lastLessonTeacher = "No lesson"; 
+  }
+  // console.log($scope.lastLessonTeacher);
+})
 
  $scope.msg1 = ""
  $scope.msg = "";
@@ -78,7 +88,7 @@ $http.get('/api/getClasses').success(function(res){
 
 
 $scope.notok = "not";
-$scope.getSpecificLesson= function(title_lesson)
+$scope.getSpecificLessonTeacher= function(title_lesson)
 {
   
   $scope.msg = "";
@@ -88,7 +98,7 @@ $scope.getSpecificLesson= function(title_lesson)
   
   var data={"Title" : title_lesson};
   console.log(data);
-  $http.get('/api/getSpecificLesson', { params: data }).success(function(res){
+  $http.get('/api/teacher/getSpecificLesson', { params: data }).success(function(res){
     $scope.notok="ok";
     $scope.list5 = res;
     
@@ -98,26 +108,6 @@ $scope.getSpecificLesson= function(title_lesson)
 
   
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -504,25 +494,5 @@ $scope.getResults= function(assess_name)
         })
   
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
               
-              
-            });
+});

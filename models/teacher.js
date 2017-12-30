@@ -45,6 +45,9 @@ var teacherSchema = mongoose.Schema({
 	job_description:{
         type: String
     },
+    last_lesson:{
+        type: String
+    },
     teaching_experience:{
         type: Number
     }

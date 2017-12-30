@@ -34,6 +34,21 @@ myApp.filter('trusted', ['$sce', function ($sce) {
 // creating mainController
 myApp.controller('controllerStudent', function($scope, $http,$timeout) {
 
+
+$http.get('/api/student/getLastLesson').success(function(res){
+ if(res.last_lesson){
+   $scope.lastLessonStudent = res.last_lesson; 
+  }
+  else{
+      $scope.lastLessonStudent = "No lesson"; 
+  }
+  console.log($scope.lastLessonStudent);
+})
+
+
+
+
+
  $scope.ok = "not";
  $scope.lessons= function()
  {
@@ -61,8 +76,7 @@ myApp.controller('controllerStudent', function($scope, $http,$timeout) {
       }
   console.log($scope.list);
 })
-
-  
+ 
 }
 
 
@@ -113,14 +127,11 @@ $scope.getAssign= function(assess_name)
     console.log(res);
     console.log($scope.questions);
   })
-
   
 }
 
-
-
 $scope.notok = "not";
-$scope.getSpecificLesson= function(title_lesson)
+$scope.getSpecificLessonStudent= function(title_lesson)
 {
   
   $scope.msg = "";
@@ -130,7 +141,7 @@ $scope.getSpecificLesson= function(title_lesson)
   
   var data={"Title" : title_lesson};
   console.log(data);
-  $http.get('/api/getSpecificLesson', { params: data }).success(function(res){
+  $http.get('/api/student/getSpecificLesson', { params: data }).success(function(res){
     $scope.notok="ok";
     $scope.list5 = res;
     
@@ -140,18 +151,6 @@ $scope.getSpecificLesson= function(title_lesson)
 
   
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 $scope.notok = "not";
 $scope.getResults= function(assess_name)
@@ -288,17 +287,6 @@ $scope.remedialLessons= function()
   })
 
 }
-
-
-
-
-
-
-
-
-
-
-
 
 
 

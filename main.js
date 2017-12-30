@@ -679,21 +679,6 @@ app.get('/api/teacher/getAllAssign', function(req,res,next){
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 app.get('/api/getRemedialTitle', function(req,res,next){
 	// req.query.error_code="E001";
 	// console.log("error code   "+req.query.error_code);
@@ -724,10 +709,35 @@ app.get('/api/getAssign', function(req,res,next){
 
 
 
-app.get('/api/getSpecificLesson', function(req,res,next){
+app.get('/api/student/getSpecificLesson', function(req,res,next){
 	// req.query.assesment_name = "assesment2";
-	console.log("req   "+req.query.Title);
+	console.log("req   "+ req.query.Title);
+	Student.update({ username : req.user.username },{$set : { last_lesson : req.query.Title }}, function(request,docs){
+
+		console.log(docs);
+
+	})
+
+	Class.findOne( {lessons : {$elemMatch: {Title: req.query.Title}}},
+		{lessons: {$elemMatch: {Title: req.query.Title}}},
+		function(request,docs){
+			console.log("inside find specific lesson");
+			console.log(docs);
+		res.end(JSON.stringify(docs.lessons[0]));
 	
+	});
+	
+}); 
+
+app.get('/api/teacher/getSpecificLesson', function(req,res,next){
+	// req.query.assesment_name = "assesment2";
+	console.log("req   "+ req.query.Title);
+	Teacher.update({ username : req.user.username },{$set : { last_lesson : req.query.Title }}, function(request,docs){
+
+		console.log(docs);
+
+	})
+
 	Class.findOne( {lessons : {$elemMatch: {Title: req.query.Title}}},
 		{lessons: {$elemMatch: {Title: req.query.Title}}},
 		function(request,docs){
@@ -740,17 +750,26 @@ app.get('/api/getSpecificLesson', function(req,res,next){
 }); 
 
 
+app.get('/api/student/getLastLesson', function(req,res,next){
+	// req.query.assesment_name = "assesment2";
+	Student.find({ username : req.user.username },{ last_lesson : 1}, function(request,docs){
+
+		console.log("docsssssssss get lesson" + docs);
+		
+			res.end(JSON.stringify(docs[0]));
+	})
+});
 
 
+app.get('/api/teacher/getLastLesson', function(req,res,next){
+	// req.query.assesment_name = "assesment2";
+	Teacher.find({ username : req.user.username },{ last_lesson : 1 }, function(request,docs){
 
-
-
-
-
-
-
-
-
+		console.log("docsssssssss get lesson" + docs);
+		
+			res.end(JSON.stringify(docs[0]));
+	})
+});
 
 
 
@@ -805,21 +824,6 @@ app.get('/api/teacher/getRes', function(req,res,next){
 		});
 	
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 app.get('/api/parent/getRecomm', function(req,res,next){
@@ -945,61 +949,6 @@ var csvFile = json2csv({ data: csvArr, fields: fields });
 
 
 
-app.post('/api/admin/deleteStudent', function(req,res,next){
-	console.log(req.body);
-	var stu_id = req.body.student_id ;
-	console.log(stu_id);
-    Student.remove({ student_id: stu_id }, function(err) {
-    if (!err) {
-
-            res.end('Student Removed');
-    }
-    else {
-            res.end('Student could not be removed. Please try again later!');
-
-    }
-});
-	
-});
-
-app.post('/api/admin/deleteTeacher', function(req,res,next){
-	console.log(req.body);
-	var tea_id = req.body.teacher_id ;
-	console.log(tea_id);
-
-    Teacher.remove( { teacher_id: tea_id }, function(err) {
-    if (!err) {
-            res.end('Teacher Removed');
-    }
-    else {
-            res.end('Teacher could not be removed. Please try again later!');
-
-    }
-});
-	
-});
-
-
-app.post('/api/admin/deleteParent', function(req,res,next){
-	console.log(req.body);
-	var par_id = req.body.parent_id ;
-	console.log(par_id);
-
-    Parent.remove( { parent_id: par_id }, function(err) {
-    if (!err) {
-            res.end('Parent Removed');
-    }
-    else {
-            res.end('Parent could not be removed. Please try again later!');
-
-    }
-});
-	
-});
-
-
-
-
 
 
 app.get('/api/parent/getCSV', function(req,res,next){
@@ -1070,6 +1019,61 @@ var csvFile = json2csv({ data: csvArr, fields: fields });
 }); 
   });
 
+
+
+
+
+app.post('/api/admin/deleteStudent', function(req,res,next){
+	console.log(req.body);
+	var stu_id = req.body.student_id ;
+	console.log(stu_id);
+    Student.remove({ student_id: stu_id }, function(err) {
+    if (!err) {
+
+            res.end('Student Removed');
+    }
+    else {
+            res.end('Student could not be removed. Please try again later!');
+
+    }
+});
+	
+});
+
+app.post('/api/admin/deleteTeacher', function(req,res,next){
+	console.log(req.body);
+	var tea_id = req.body.teacher_id ;
+	console.log(tea_id);
+
+    Teacher.remove( { teacher_id: tea_id }, function(err) {
+    if (!err) {
+            res.end('Teacher Removed');
+    }
+    else {
+            res.end('Teacher could not be removed. Please try again later!');
+
+    }
+});
+	
+});
+
+
+app.post('/api/admin/deleteParent', function(req,res,next){
+	console.log(req.body);
+	var par_id = req.body.parent_id ;
+	console.log(par_id);
+
+    Parent.remove( { parent_id: par_id }, function(err) {
+    if (!err) {
+            res.end('Parent Removed');
+    }
+    else {
+            res.end('Parent could not be removed. Please try again later!');
+
+    }
+});
+	
+});
 
 
 
