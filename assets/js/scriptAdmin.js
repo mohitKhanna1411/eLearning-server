@@ -167,7 +167,7 @@ myApp.factory('readErrorCodeData',['$http', function($http) {
       var lines = [];
       var json = {};
 
-      for (var i = 0; i < record.length; i++) {
+      for (var i = 1; i < record.length; i++) {
         var data = record[i].split(',');
         if (data.length == headers.length) {
           var tarr = [];
