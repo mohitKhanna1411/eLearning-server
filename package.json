@@ -40,7 +40,8 @@
     "xls-to-json-lc": "^0.3.4",
     "xlsx-to-json-lc": "^0.5.0"
   },
-  "contributors": [{
+  "contributors": [
+    {
       "name": "Adityaa Chaubey",
       "email": "adityaa.chaubey@gmail.com",
       "url": "https://github.com/adityaachaubey"

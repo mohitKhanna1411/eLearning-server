@@ -244,24 +244,33 @@ var storage	=	multer.diskStorage({
 	}
 });
 
-var upload = multer({ storage : storage }).single('file');
+var upload = multer({ storage : storage }).fields([{
+           name: 'file', maxCount: 1
+         }, {
+           name: 'file2', maxCount: 1
+         }]);
 
 app.post('/api/teacher/addlessons', function(req,res,next){
 	upload(req,res,function(err) {
 		console.log("post==============")
 		console.log(req.body);
-		console.log(req.file);
-		if(typeof req.file !== 'undefined' && req.file !== null ){
+		console.log(req.files);
+		if(req.files.file){
 			console.log("here=======");
-			console.log(req.file);
-			var filePath = "./" + req.file.path;
+			console.log(req.files.file);
+			var filePath = "./" + req.files.file[0].path;
 		}else{
 			var filePath = "";
 		}
+		if(req.files.file2){
+			console.log("file2 here========");
+			var file2Path = "./" + req.files.file2[0].path;
+		}else{
+			var file2Path = "";
+		}
 	// console.log(req.file.path);
-	var data = { Title:req.body.title,Content: req.body.content,Ref_Link: req.body.ref_link, Ref_Video : filePath };
-
-
+	var data = { Title:req.body.title,Content: req.body.content, Ref_Link: req.body.ref_link, 
+		Ref_Video : filePath , Ref_Upload_File : file2Path};
 
 
 	Class.update( { $and: [
@@ -287,19 +296,26 @@ app.post('/api/admin/addRemedialLessons', function(req,res,next){
 	upload(req,res,function(err) {
 		console.log("post====")
 		console.log(req.body);
-		console.log(req.file);
-		if(typeof req.file !== 'undefined' && req.file !== null ){
-			console.log("here===");
-			console.log(req.file);
-			var filePath = "./" + req.file.path;
+		console.log(req.files);
+		if(req.files.file){
+			console.log("here=======");
+			console.log(req.files.file);
+			var filePath = "./" + req.files.file[0].path;
 		}else{
 			var filePath = "";
+		}
+		if(req.files.file2){
+			console.log("file2 here========");
+			var file2Path = "./" + req.files.file2[0].path;
+		}else{
+			var file2Path = "";
 		}
 	// console.log(req.file.path);
 	var data = { 	remedial_title : req.body.title,
 		remedial_content : req.body.content,
 		remedial_ref_link : req.body.ref_link,
-		remedial_ref_video : filePath 
+		remedial_ref_video : filePath,
+		remedial_ref_upload_file : file2Path 
 	};
 
 	Class.update( { $and: [

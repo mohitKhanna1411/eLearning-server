@@ -23,6 +23,7 @@ var classSchema = mongoose.Schema({
             Content : {type : String},
             Ref_Link : {type : String},
             Ref_Video : {type : String},
+            Ref_Upload_File : {type : String},
             _id : false
       }
       ] ,
@@ -32,6 +33,7 @@ var classSchema = mongoose.Schema({
             remedial_content : {type : String},
             remedial_ref_link : {type : String},
             remedial_ref_video : {type : String},
+            remedial_ref_upload_file : {type : String},
             _id : false
       }
       ] ,
@@ -54,9 +56,9 @@ var classSchema = mongoose.Schema({
                               correct : {type : Boolean},
                               error_code : {type : String},
                               _id : false
-                        }] //options
+                        }]//options
                   }]//questions
-      }]//assesments                   
+      }]//assesments
 });
 
 classSchema.index({ standard: 1, section: 1, subject: 1}, { unique: true });

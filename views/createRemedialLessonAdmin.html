@@ -12,7 +12,7 @@
 
         <div class="panel-body">
          
-          <form ng-submit="addingRemedialLessons(file)">
+          <form ng-submit="addingRemedialLessons(file , file2)">
            <div class="row">
 
             <div class="form-group">
@@ -96,7 +96,17 @@
     </div>
 
   </br>
+    <div class="row">
 
+  <div class="form-group">
+    <label for="Ref_Video" class="col-md-4 control-label">Upload Content File</label>
+
+    <div class="col-md-6">
+      <input class="form-control" type="file" ngf-select ng-model="file2" name="file2" required=""/>
+      
+    </div>
+  </div>
+</div>
   <div class="row">
 
     <div class="form-group">
