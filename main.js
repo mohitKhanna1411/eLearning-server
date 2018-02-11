@@ -292,6 +292,56 @@ app.post('/api/teacher/addlessons', function(req,res,next){
 });
 });
 
+
+app.post('/api/admin/editlesson', function(req,res){
+    upload(req,res,function(err) {
+        console.log("post==============")
+        console.log(req.body);
+        console.log(req.files);
+        if(req.files.file){
+            console.log("here=======");
+            console.log(req.files.file);
+            var filePath = "./" + req.files.file[0].path;
+        }else{
+            var filePath = "";
+        }
+        if(req.body.ref_link) {
+            var link = req.body.ref_link;
+        }
+        else {
+        	var link="";
+        }
+
+
+        Class.update({"lessons" :{$elemMatch : {"Title" : req.body.title}}}, { //TODO : $ thing to be tested
+            $set: {
+
+                "lessons.$.Content": req.body.content,
+                "lessons.$.Ref_Link": link,
+                "lessons.$.Ref_Video": filePath
+
+            }
+        }, function (request, docs) {
+            console.log("good update------------------");
+            res.send("Lesson Updated");
+            console.log(docs);
+
+        });
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.post('/api/admin/addRemedialLessons', function(req,res,next){
 	upload(req,res,function(err) {
 		console.log("post====")
@@ -747,7 +797,30 @@ app.get('/api/student/getSpecificLesson', function(req,res,next){
 
 		});
 	
-}); 
+});
+
+app.get('/api/admin/getSpecificLesson', function(req,res,next){
+    // req.query.assesment_name = "assesment2";
+    console.log("req   "+ req.query.Title);
+
+    Class.findOne( {lessons : {$elemMatch: {Title: req.query.Title}}},
+        {lessons: {$elemMatch: {Title: req.query.Title}}},
+        function(request,docs){
+            console.log("inside find specific lesson");
+            console.log(docs);
+            res.end(JSON.stringify(docs.lessons[0]));
+
+        });
+
+});
+
+
+
+
+
+
+
+
 
 app.get('/api/teacher/getSpecificLesson', function(req,res,next){
 	// req.query.assesment_name = "assesment2";
