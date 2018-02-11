@@ -98,8 +98,8 @@
       <tr>
         <th>S.NO</th>
         <th>Title</th>
-        
         <th>Content</th>
+        <th>Reference File</th>
         <th>Reference Link</th>
       </tr>
     </thead>
@@ -108,13 +108,21 @@
         <td>{{$index+1}}</td>
         <td>{{list.remedial_title}}</td>   
         <td>{{list.remedial_content}}</td>
-        <td ng-if="list.remedial_ref_link.length > 0"><iframe width="320" height="240" src="{{list.remedial_ref_link|trusted}}" frameborder="0" allowfullscreen></iframe></td>
-        
-        <td ng-if="list.remedial_ref_video.length > 0"><video width="320" height="240" controls>
-          <source src="{{list.remedial_ref_video}}" type="video/mp4">
-          </video></td>
-          
-        </tr>
+        <td ng-if="list5.remedial_ref_upload_file > 0">
+          <button>
+          <a target="_self" href="{{list5.remedial_ref_upload_file}}" download >Click to Download!</a>
+          </button>
+        </td>
+        <td ng-if="list.remedial_ref_link.length > 0">
+          <iframe width="320" height="240" src="{{list.remedial_ref_link|trusted}}" frameborder="0" allowfullscreen>
+          </iframe>
+        </td>
+        <td ng-if="list.remedial_ref_video.length > 0">
+          <video width="320" height="240" controls>
+            <source src="{{list.remedial_ref_video}}" type="video/mp4">
+          </video>
+        </td>
+      </tr>
       </tbody>
     </table>
   </div>

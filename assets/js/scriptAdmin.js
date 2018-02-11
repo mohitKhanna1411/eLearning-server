@@ -377,7 +377,7 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
     }
 
 
-    $scope.addinglessons= function(file)
+    $scope.addinglessons= function(file, file2)
     {
       $scope.progressPercentage = 0;
       $scope.progress = "";
@@ -390,7 +390,7 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
       var title=$scope.lesson_title;
       var ref_link=$scope.ref_link;
       var data={"class":standard, "subject":subject, "section":section,
-      "title":title,"content":content,"ref_link":ref_link, "file" : file};
+      "title":title,"content":content,"ref_link":ref_link, "file" : file , "file2" : file2};
       console.log(data);
       Upload.upload({
         url   : '/api/teacher/addlessons', 
@@ -417,7 +417,7 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
 
       }
 
-      $scope.addingRemedialLessons= function(file)
+      $scope.addingRemedialLessons= function(file , file2)
       {
         $scope.progressPercentage = 0;
         $scope.progress = "";
@@ -430,7 +430,7 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
         var title=$scope.lesson_title;
         var ref_link=$scope.ref_link;
         var data={"class":standard, "subject":subject, "section":section,
-        "title":title,"content":content,"ref_link":ref_link, "file" : file};
+        "title":title,"content":content,"ref_link":ref_link, "file" : file , "file2" : file2};
         console.log(data);
         Upload.upload({
           url   : '/api/admin/addRemedialLessons', 
