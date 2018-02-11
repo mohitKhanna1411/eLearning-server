@@ -39,6 +39,10 @@ myApp.config(function($routeProvider, $locationProvider){
     templateUrl : '/views/deleteLessonAdmin.html',
     controller  : 'controllerAdmin'
   })
+  .when('/deleteRemedialLessonAdmin', {
+    templateUrl : '/views/deleteRemedialLessonAdmin.html',
+    controller  : 'controllerAdmin'
+  })
   .when('/showErrorCodes', {
     templateUrl : '/views/showErrorCodes.html',
     controller  : 'controllerAdmin'
@@ -361,7 +365,7 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
           $scope.ok = "not";
           return;
         }if(res.length == 0){
-          $scope.msg1 = "No remedial lessons found!, Please add lessons to continue";
+          $scope.msg1 = "No remedial lessons found! Please add remedial lessons to continue";
           $scope.ok = "not";
           return;
         }else{
@@ -383,6 +387,23 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
       var data={"class":standard, "subject":subject, "section":section, "title_lesson" : title_lesson};
       console.log(data);
       $http.post('/api/admin/deleteLesson', data ).success(function(res){
+        // $scope.list = res;
+        console.log(res);
+        $scope.message = res;
+      })
+
+    }
+        $scope.deleteSpecificRemedialLesson= function(remedial_title_lesson)
+    {
+    
+      var standard=$scope.standard;
+      var section=$scope.section;
+      var subject=$scope.subject;
+
+      var data={"class":standard, "subject":subject, "section":section,
+                "remedial_title_lesson" : remedial_title_lesson};
+      console.log(data);
+      $http.post('/api/admin/deleteRemedialLesson', data ).success(function(res){
         // $scope.list = res;
         console.log(res);
         $scope.message = res;
