@@ -165,10 +165,10 @@
       <div class="panel-body">
         <ul class="list-group">
           <li class="list-group-item" ng-repeat="question in questions">
-           <strong>Question {{$index+1}} :-</strong> &emsp <strong>{{ question.questionText}}</strong>
+           <strong>Question {{$index+1}} :-{{ question.questionText}}</strong>
            <ul class="list-group" id="quest_{{$parent.$index}}"">
             <li class="list-group-item" ng-repeat="answer in question.options">
-              <label class="radio" class="isCorrect_{{answer.selected}}" 
+              <label class="isCorrect_{{answer.selected}}" 
               for="quest_{{$parent.$index}}_answer_{{$index}}">
                 <input type="radio" id="quest_{{$parent.$index}}_answer_{{$index}}" 
                 ng-model="answers[$parent.$index]" value="{{ answer.answerText }}"  
