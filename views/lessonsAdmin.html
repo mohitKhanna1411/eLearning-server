@@ -33,7 +33,7 @@
               </div>
             </div>
           </div>
-        </br>
+        <br>
 
         <div class="row">
 
@@ -49,7 +49,7 @@
               </div>
             </div>
           </div>
-        </br>
+        <br>
         <div class="row">
 
           <div class="form-group">
@@ -65,7 +65,7 @@
             </div>
           </div>
 
-        </br>
+        <br>
         <div class="row">
 
           <div class="form-group">
@@ -84,7 +84,7 @@
       </div>
     </div>
   </div>
-</br>
+<br>
 </form>
 </div>
 </div>
@@ -98,9 +98,9 @@
       <tr>
         <th>S.NO</th>
         <th>Title</th>
-        
         <th>Content</th>
-        <th>Reference Link</th>
+        <th>Reference File</th>
+        <th>Reference Video</th>
       </tr>
     </thead>
     <tbody  ng-repeat = "list in list">
@@ -108,6 +108,11 @@
         <td>{{$index+1}}</td>
         <td>{{list.Title}}</td>   
         <td>{{list.Content}}</td>
+        <td ng-if="list.Ref_Upload_File.length > 0">
+        <button>
+        <a target="_self" href="{{list.Ref_Upload_File}}" download >Click to Download!</a>
+        </button>
+      </td>
         <td ng-if="list.Ref_Link.length > 0"><iframe width="320" height="240" src="{{list.Ref_Link|trusted}}" frameborder="0" allowfullscreen></iframe></td>
         
         <td ng-if="list.Ref_Video.length > 0"><video width="320" height="240" controls>

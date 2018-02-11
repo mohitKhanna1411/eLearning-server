@@ -549,7 +549,39 @@ app.get('/api/admin/getlessons', function(req,res,next){
 	
 });
 
+app.post('/api/admin/deleteLesson', function(req,res,next){
+		Class.update( { $and: [
+		{ standard : req.body.class }, 
+		{ section: req.body.section },
+		{ subject: req.body.subject } ] },
+		{ "$pull": { lessons: { Title : req.body.title_lesson } }}, { safe: true, multi:true },
+		function(request,docs){
+			console.log(docs);
+			if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+				res.end("Lesson successfully deleted.");
+			}else{
+				res.end("Some Internal Error. Plase try again!");
+			}
+		});
+	
+});
 
+app.post('/api/admin/deleteRemedialLesson', function(req,res,next){
+		Class.update( { $and: [
+		{ standard : req.body.class }, 
+		{ section: req.body.section },
+		{ subject: req.body.subject } ] },
+		{ "$pull": { remedial_lessons: { remedial_title : req.body.remedial_title_lesson } }}, { safe: true, multi:true },
+		function(request,docs){
+			console.log(docs);
+			if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+				res.end("Remedial Lesson successfully deleted.");
+			}else{
+				res.end("Some Internal Error. Plase try again!");
+			}
+		});
+	
+});
 
 app.get('/api/teacher/getlessons', function(req,res,next){
 	console.log("req   "+req.query.class);
