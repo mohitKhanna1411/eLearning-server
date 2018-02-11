@@ -153,6 +153,7 @@
         <th>S.NO</th>
         <th>Lesson Title</th>
         <th>Content</th>
+        <th>Reference File</th>
         <th>Reference Video</th>
       </tr>
     </thead>
@@ -161,6 +162,11 @@
       <td>{{$index+1}}</td>
       <td>{{list5.Title}}</td>
       <td>{{list5.Content}}</td>
+      <td ng-if="list5.Ref_Upload_File.length > 0">
+        <button>
+        <a target="_self" href="{{list5.Ref_Upload_File}}" download >Click to Download!</a>
+        </button>
+      </td>
       <td ng-if="list5.Ref_Link.length > 0"><iframe width="320" height="240" src="{{list5.Ref_Link|trusted}}" frameborder="0" allowfullscreen></iframe></td>
       
       <td ng-if="list5.Ref_Video.length > 0"><video width="320" height="240" controls>

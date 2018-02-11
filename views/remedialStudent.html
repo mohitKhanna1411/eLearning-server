@@ -100,7 +100,7 @@
         <th>Title</th>
         <th>Content</th>
         <th>Reference File</th>
-        <th>Reference Link</th>
+        <th>Reference Video</th>
       </tr>
     </thead>
     <tbody  ng-repeat = "list in list">
@@ -108,7 +108,7 @@
         <td>{{$index+1}}</td>
         <td>{{list.remedial_title}}</td>   
         <td>{{list.remedial_content}}</td>
-        <td ng-if="list5.remedial_ref_upload_file > 0">
+        <td ng-if="list5.remedial_ref_upload_file.length > 0">
           <button>
           <a target="_self" href="{{list5.remedial_ref_upload_file}}" download >Click to Download!</a>
           </button>

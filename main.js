@@ -549,6 +549,26 @@ app.get('/api/admin/getlessons', function(req,res,next){
 	
 });
 
+app.post('/api/admin/deleteLesson', function(req,res,next){
+	console.log("req   "+req.body.class);
+	console.log("req   "+req.body.subject);
+	console.log("req   "+req.body.section);
+	
+		Class.update( { $and: [
+		{ standard : req.body.class }, 
+		{ section: req.body.section },
+		{ subject: req.body.subject } ] },
+		{ "$pull": { lessons: { Title : req.body.title_lesson } }}, { safe: true, multi:true },
+		function(request,docs){
+			console.log(docs);
+			if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
+				res.end("Lesson successfully deleted.");
+			}else{
+				res.end("Some Internal Error. Plase try again!");
+			}
+		});
+	
+});
 
 
 app.get('/api/teacher/getlessons', function(req,res,next){
