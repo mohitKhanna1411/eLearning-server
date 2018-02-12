@@ -42,6 +42,10 @@ myApp.config(function($routeProvider, $locationProvider){
   .when('/editLessonAdmin', {
           templateUrl : '/views/editLessonAdmin.html',
           controller  : 'controllerAdmin'
+  })
+      .when('/editRemedialLessonAdmin', {
+          templateUrl : '/views/editRemedialLessonAdmin.html',
+          controller  : 'controllerAdmin'
       })
   .when('/deleteRemedialLessonAdmin', {
     templateUrl : '/views/deleteRemedialLessonAdmin.html',
