@@ -163,26 +163,28 @@
       <div class="panel-heading"><h4>GoodLuck!</h4></div>
 
       <div class="panel-body">
-        <ul class="unstyled">
-          <li ng-repeat="question in questions">
-           <strong>{{ question.questionText}}</strong>
-           <ul class="unstyled" id="quest_{{$parent.$index}}"">
-            <li ng-repeat="answer in question.options">
-              <label class="isCorrect_{{answer.selected}}" for="quest_{{$parent.$index}}_answer_{{$index}}">
+        <ul class="list-group">
+          <li class="list-group-item" ng-repeat="question in questions">
+           <strong>Question {{$index+1}} :-{{ question.questionText}}</strong>
+           <ul class="list-group" id="quest_{{$parent.$index}}"">
+            <li class="list-group-item" ng-repeat="answer in question.options">
+              <label class="isCorrect_{{answer.selected}}" 
+              for="quest_{{$parent.$index}}_answer_{{$index}}">
                 <input type="radio" id="quest_{{$parent.$index}}_answer_{{$index}}" 
-                ng-model="answers[$parent.$index]" value="{{ answer.answerText }}"  name="quest_{{$parent.$index}}_answers" required="">{{ answer.answerText }}</label>
+                ng-model="answers[$parent.$index]" value="{{ answer.answerText }}"  
+                name="quest_{{$parent.$index}}_answers" required="" />{{ answer.answerText }}</label>
               </li>
             </ul>
           </li>
         </ul>
         <button class="btn btn-success" type="submit" ng-click="showResult()" ng-hide="hide">Submit</button>
-        <div class="well" ng-if="msg.length > 0" class="alert alert-info">
+        <div class="alert alert-info" ng-if="msg.length > 0">
+        <strong><center>You got {{ correctCount }} out of {{ql}} right </center></strong>
+      </div>
+      </br>
+      <div class="alert alert-info" ng-if="msg.length > 0">
           <strong><center>{{msg}}</center></strong>
         </div>
-      </br>
-      <div class="well" ng-if="msg.length > 0" class="alert alert-info">
-        <strong><center>you got {{ correctCount }} out of {{ql}} right </center></strong>
-      </div>
     </div>
   </div>
 </div>
