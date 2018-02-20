@@ -572,8 +572,6 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
                 data  : data //pass file as data, should be user ng-model
             }).then(function (resp) { //upload function returns a promise
                 $scope.msg6 = resp.data;
-
-
             }, function (resp) {
                 $scope.msg6 = 'Error status: ' + resp.status;
 
