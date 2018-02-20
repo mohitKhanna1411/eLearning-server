@@ -28,7 +28,6 @@ module.exports = function(app,passport){
     failureFlash : true
   }),(req,res)=>{
 
-        // console.log(req.body);
         if (req.body.role=="teacher") {
           res.redirect('/dashboardTeacher');
         }
@@ -99,8 +98,6 @@ module.exports = function(app,passport){
     res.redirect('/');
   });
 
-
-
 // forgot password
 app.get('/forgot', function(req, res) {
   res.render('forgot',{success : req.flash('success') , error : req.flash('error')});
@@ -115,10 +112,8 @@ app.post('/forgot', function(req, res, next) {
       });
     },
     function(token, done) {
-      console.log("role" + req.body.role);
       if(req.body.role == "student"){
         Student.findOne({ email: req.body.email }, function(err, user) {
-          console.log("stu============");
           console.log(user);
           if (!user) {
 
@@ -126,7 +121,7 @@ app.post('/forgot', function(req, res, next) {
             return res.redirect('/forgot');
           }
 
-          user.resetPasswordToken = token;
+        user.resetPasswordToken = token;
         user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
         user.save(function(err) {
@@ -175,13 +170,13 @@ app.post('/forgot', function(req, res, next) {
         var smtpTransport = nodemailer.createTransport({
           service: 'Gmail', 
           auth: {
-            user: 'sksmartysabhya@gmail.com',
-            pass: '12345sabu'
+            user: 'stu.tea.portal@gmail.com',
+            pass: 'F9DKEyC@'
           }
         });
         var mailOptions = {
           to: user.email,
-          from: 'sksmartysabhya@gmail.com',
+          from: 'stu.tea.portal@gmail.com',
           subject: 'Node.js Password Reset',
           text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -200,13 +195,13 @@ app.post('/forgot', function(req, res, next) {
         var smtpTransport = nodemailer.createTransport({
           service: 'Gmail', 
           auth: {
-            user: 'sksmartysabhya@gmail.com',
-            pass: '12345sabu'
+            user: 'stu.tea.portal@gmail.com',
+            pass: 'F9DKEyC@'
           }
         });
         var mailOptions = {
           to: user.email_id,
-          from: 'sksmartysabhya@gmail.com',
+          from: 'stu.tea.portal@gmail.com',
           subject: 'Node.js Password Reset',
           text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -226,13 +221,13 @@ app.post('/forgot', function(req, res, next) {
         var smtpTransport = nodemailer.createTransport({
           service: 'Gmail', 
           auth: {
-            user: 'sksmartysabhya@gmail.com',
-            pass: '12345sabu'
+            user: 'stu.tea.portal@gmail.com',
+            pass: 'F9DKEyC@'
           }
         });
         var mailOptions = {
           to: user.email,
-          from: 'sksmartysabhya@gmail.com',
+          from: 'stu.tea.portal@gmail.com',
           subject: 'Node.js Password Reset',
           text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
           'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -254,7 +249,6 @@ app.post('/forgot', function(req, res, next) {
 });
 
 app.get('/reset/student/:token', function(req, res) {
-  console.log(req.user);
   Student.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
     if (!user) {
       req.flash('error', 'Password reset token is invalid or has expired.');
@@ -265,7 +259,6 @@ app.get('/reset/student/:token', function(req, res) {
 });
 
 app.get('/reset/teacher/:token', function(req, res) {
-  console.log(req.user);
   Teacher.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
     if (!user) {
       req.flash('error', 'Password reset token is invalid or has expired.');
@@ -276,7 +269,6 @@ app.get('/reset/teacher/:token', function(req, res) {
 });
 
 app.get('/reset/parent/:token', function(req, res) {
-  console.log(req.user);
   Parent.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
     if (!user) {
       req.flash('error', 'Password reset token is invalid or has expired.');
@@ -315,13 +307,13 @@ app.post('/reset/teacher/:token', function(req, res) {
       var smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
         auth: {
-          user: 'sksmartysabhya@gmail.com',
-          pass: '12345sabu'
-        }
+            user: 'stu.tea.portal@gmail.com',
+            pass: 'F9DKEyC@'
+          }
       });
       var mailOptions = {
         to: user.email,
-        from: 'sksmartysabhya@gmail.com',
+        from: 'stu.tea.portal@gmail.com',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
         'This is a confirmation that the password for your account ' + user.email_id + ' has just been changed.\n'
@@ -341,8 +333,6 @@ app.post('/reset/student/:token', function(req, res) {
   async.waterfall([
     function(done) {
       Student.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-        console.log("stu----");
-        console.log(user);
         if (!user) {
           req.flash('error', 'Password reset token is invalid or has expired.');
           return res.redirect('back');
@@ -353,11 +343,7 @@ app.post('/reset/student/:token', function(req, res) {
             user.resetPasswordExpires = undefined;
 
             user.save(function(err) {
-              console.log("save========");
-              console.log(err);
               req.logIn(user, function(err) {
-                console.log("logIn=======")
-                console.log(err);
                 done(err, user);
               });
             });
@@ -371,14 +357,14 @@ app.post('/reset/student/:token', function(req, res) {
     function(user, done) {
       var smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
-        auth: {
-          user: 'sksmartysabhya@gmail.com',
-          pass: '12345sabu'
-        }
+       auth: {
+            user: 'stu.tea.portal@gmail.com',
+            pass: 'F9DKEyC@'
+          }
       });
       var mailOptions = {
         to: user.email,
-        from: 'sksmartysabhya@gmail.com',
+        from: 'stu.tea.portal@gmail.com',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
         'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
@@ -389,7 +375,6 @@ app.post('/reset/student/:token', function(req, res) {
       });
     }
     ], function(err) {
-      console.log(err);
       res.redirect('/dashboardStudent');
     });
 });
@@ -423,13 +408,13 @@ app.post('/reset/parent/:token', function(req, res) {
       var smtpTransport = nodemailer.createTransport({
         service: 'Gmail', 
         auth: {
-          user: 'sksmartysabhya@gmail.com',
-          pass: '12345sabu'
-        }
+            user: 'stu.tea.portal@gmail.com',
+            pass: 'F9DKEyC@'
+          }
       });
       var mailOptions = {
         to: user.email,
-        from: 'sksmartysabhya@gmail.com',
+        from: 'stu.tea.portal@gmail.com',
         subject: 'Your password has been changed',
         text: 'Hello,\n\n' +
         'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
@@ -447,8 +432,6 @@ app.post('/reset/parent/:token', function(req, res) {
 };
 //checking logged in user
 function isLoggedIn(req, res, next){
-  console.log("isloggedin checking");
-  console.log(req.isAuthenticated());
   if(req.isAuthenticated())
     return next();
   res.redirect('/');
