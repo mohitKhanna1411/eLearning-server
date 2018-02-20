@@ -376,7 +376,27 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
 
         }
 
+        $scope.notok = "not";
+        $scope.getSpecificRemedialLessonAdmin= function(title_lesson)
+        {
 
+            $scope.msg = "";
+            $scope.msg1 = "";
+            $scope.msg2="";
+            $scope.msg4="";
+
+            var data={"Title" : title_lesson};
+            console.log(data);
+            $http.get('/api/admin/getSpecificRemedialLesson', { params: data }).success(function(res){
+                $scope.notok="ok";
+                $scope.list6 = res;
+
+                console.log(res);
+
+            })
+
+
+        }
 
 
 
@@ -518,6 +538,37 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
             console.log(data);
             Upload.upload({
                 url   : '/api/admin/editlesson',
+                data  : data //pass file as data, should be user ng-model
+            }).then(function (resp) { //upload function returns a promise
+                $scope.msg6 = resp.data;
+
+
+            }, function (resp) {
+                $scope.msg6 = 'Error status: ' + resp.status;
+
+            }, function (evt) {
+                $scope.progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
+                $scope.progress = 'uploading progress: ' + $scope.progressPercentage + '%'; // capture upload progress
+            });
+
+
+
+        }
+
+        $scope.editRemedialLesson= function(title,content,link,video)
+        {
+            $scope.progressPercentage = 0;
+            $scope.progress = "";
+            $scope.msg = "";
+            $scope.msg6 = "";
+            var standard=$scope.standard;
+            var section=$scope.section;
+            var subject=$scope.subject;
+            var data={"class":standard, "subject":subject, "section":section,
+                "title":title,"content":content,"ref_link":link, "file" : video };
+            console.log(data);
+            Upload.upload({
+                url   : '/api/admin/editRemediallesson',
                 data  : data //pass file as data, should be user ng-model
             }).then(function (resp) { //upload function returns a promise
                 $scope.msg6 = resp.data;

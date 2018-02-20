@@ -330,6 +330,43 @@ app.post('/api/admin/editlesson', function(req,res){
     });
 });
 
+app.post('/api/admin/editRemediallesson', function(req,res){
+    upload(req,res,function(err) {
+        console.log("post==============")
+        console.log(req.body);
+        console.log(req.files);
+        if(req.files.file){
+            console.log("here=======");
+            console.log(req.files.file);
+            var filePath = "./" + req.files.file[0].path;
+        }else{
+            var filePath = "";
+        }
+        if(req.body.ref_link) {
+            var link = req.body.ref_link;
+        }
+        else {
+            var link="";
+        }
+
+
+        Class.update({"remedial_lessons" :{$elemMatch : {"remedial_title" : req.body.title}}}, { //TODO : $ thing to be tested
+            $set: {
+
+                "remedial_lessons.$.remedial_content": req.body.content,
+                "remedial_lessons.$.remedial_ref_link": link,
+                "remedial_lessons.$.remedial_ref_video": filePath
+
+            }
+        }, function (request, docs) {
+            console.log("good update------------------");
+            res.send("Lesson Updated");
+            console.log(docs);
+
+        });
+    });
+});
+
 
 
 
@@ -809,6 +846,21 @@ app.get('/api/admin/getSpecificLesson', function(req,res,next){
             console.log("inside find specific lesson");
             console.log(docs);
             res.end(JSON.stringify(docs.lessons[0]));
+
+        });
+
+});
+
+app.get('/api/admin/getSpecificRemedialLesson', function(req,res,next){
+    // req.query.assesment_name = "assesment2";
+    console.log("req   "+ req.query.Title);
+
+    Class.findOne( {remedial_lessons : {$elemMatch: {remedial_title: req.query.Title}}},
+        {remedial_lessons: {$elemMatch: {remedial_title: req.query.Title}}},
+        function(request,docs){
+            console.log("inside find specific Remedial lesson");
+            console.log(docs);
+            res.end(JSON.stringify(docs.remedial_lessons[0]));
 
         });
 
