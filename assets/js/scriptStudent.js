@@ -4,19 +4,19 @@ var myApp = angular.module('myApp', ['ngRoute']);
 myApp.config(function($routeProvider, $locationProvider){
   $routeProvider
   .when('/lessonsStudent', {
-    templateUrl : '/views/lessonsStudent.html',
+    templateUrl : '/views/student/lessonsStudent.html',
     controller  : 'controllerStudent'
   })
   .when('/assesmentStudent', {
-    templateUrl : '/views/assesmentStudent.html',
+    templateUrl : '/views/student/assesmentStudent.html',
     controller  : 'controllerStudent'
   })
   .when('/remedialStudent', {
-    templateUrl : '/views/remedialStudent.html',
+    templateUrl : '/views/student/remedialStudent.html',
     controller  : 'controllerStudent'
   })
   .when('/recommendationStudent', {
-    templateUrl : '/views/recommendationStudent.html',
+    templateUrl : '/views/student/recommendationStudent.html',
     controller  : 'controllerStudent'
   });
   $locationProvider.html5Mode(true);
@@ -74,7 +74,6 @@ myApp.controller('controllerStudent', function($scope, $http,$timeout) {
       $scope.msg1 = " Number of lessons found : " + res.length ;
       $scope.ok = "ok";
     }
-    console.log($scope.list);
   })
     
   }

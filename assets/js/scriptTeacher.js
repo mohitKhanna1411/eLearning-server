@@ -4,31 +4,27 @@ var myApp = angular.module('myApp', ['ngRoute']);
 myApp.config(function($routeProvider, $locationProvider){
   $routeProvider
   .when('/manageGradeTeacher', {
-    templateUrl : '/views/manageGradeTeacher.html',
+    templateUrl : '/views/teacher/manageGradeTeacher.html',
     controller  : 'controllerTeacher'
   })
   .when('/lessonsTeacher', {
-    templateUrl : '/views/lessonsTeacher.html',
+    templateUrl : '/views/teacher/lessonsTeacher.html',
     controller  : 'controllerTeacher'
   })
   .when('/assesmentTeacher', {
-    templateUrl : '/views/assesmentTeacher.html',
-    controller  : 'controllerTeacher'
-  })
-  .when('/createAssesment', {
-    templateUrl : '/views/createAssesment.html',
+    templateUrl : '/views/teacher/assesmentTeacher.html',
     controller  : 'controllerTeacher'
   })
   .when('/viewStudents', {
-    templateUrl : '/views/viewStudents.html',
+    templateUrl : '/views/teacher/viewStudents.html',
     controller  : 'controllerTeacher'
   })
   .when('/overallRecommend', {
-    templateUrl : '/views/overallRecommend.html',
+    templateUrl : '/views/teacher/overallRecommend.html',
     controller  : 'controllerTeacher'
   })
   .when('/teacherRecommend', {
-    templateUrl : '/views/teacherRecommend.html',
+    templateUrl : '/views/teacher/teacherRecommend.html',
     controller  : 'controllerTeacher'
   });
   $locationProvider.html5Mode(true);
@@ -125,14 +121,20 @@ myApp.controller('controllerTeacher', function($scope, $http,$window) {
     console.log(data);
     $http.get('/api/teacher/getlessons', { params: data }).success(function(res){
       $scope.list1 = res;
-      console.log("res"   + $scope.list1);
-      if(res == "0"){
-        $scope.msg1 = "No lessons found in this class.";
-        $scope.ok = "not";
-      }else{
-        $scope.msg1 = res.length + " Number of lessons found.";
-        $scope.ok = "ok";
-      }
+      if(res === "0"){
+      $scope.msg1 = "No lesson found!";
+      $scope.ok = "not";
+      return;
+    }if(res.length === 0){
+      $scope.msg1 = "No lesson found!";
+      $scope.ok = "not";
+      return;
+    }else{
+      $scope.msg1 = " Number of lessons found : " + res.length ;
+      $scope.ok = "ok";
+    }
+
+
     })
     
   }
