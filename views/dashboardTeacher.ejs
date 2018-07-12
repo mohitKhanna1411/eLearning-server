@@ -100,6 +100,9 @@
                         <span class="icon-bar bar3"></span>
                     </button>
                     <a class="navbar-brand"> Welcome <%= user.username %> ( ID : <%= user.teacher_id %> )</a>
+                            <a class="navbar-brand" href="/dashboardTeacher">
+                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                            </a>
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
@@ -111,6 +114,8 @@
                                 <p>Logout</p>
                             </a>
                         </li>
+
+
                     </ul>
 
                 </div>

@@ -3,12 +3,16 @@ var myApp = angular.module('myApp', ['ngRoute']);
 // configuring routes
 myApp.config(function($routeProvider, $locationProvider){
   $routeProvider
+  .when('/dashboardParent', {
+    templateUrl : '/views/parent/reportParent.html',
+    controller  : 'controllerParent'
+  })
   .when('/reportParent', {
-    templateUrl : '/views/reportParent.html',
+    templateUrl : '/views/parent/reportParent.html',
     controller  : 'controllerParent'
   })
   .when('/recommendationParent', {
-    templateUrl : '/views/recommendationParent.html',
+    templateUrl : '/views/parent/recommendationParent.html',
     controller  : 'controllerParent'
   });
   $locationProvider.html5Mode(true);

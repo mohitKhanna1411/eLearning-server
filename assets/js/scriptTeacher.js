@@ -3,10 +3,15 @@ var myApp = angular.module('myApp', ['ngRoute']);
 // configuring routes
 myApp.config(function($routeProvider, $locationProvider){
   $routeProvider
+  .when('/dashboardTeacher', {
+    templateUrl : '/views/teacher/manageGradeTeacher.html',
+    controller  : 'controllerTeacher'
+  })
   .when('/manageGradeTeacher', {
     templateUrl : '/views/teacher/manageGradeTeacher.html',
     controller  : 'controllerTeacher'
   })
+
   .when('/lessonsTeacher', {
     templateUrl : '/views/teacher/lessonsTeacher.html',
     controller  : 'controllerTeacher'
@@ -364,7 +369,7 @@ myApp.controller('controllerTeacher', function($scope, $http,$window) {
           $scope.assesments = res;
           console.log(res);
           if(res == "0"){
-            $scope.msg1 = "No assesment found !";
+            $scope.msg1 = "No assessments found to give recommends for!";
             $scope.ok = "not";
           }else{
             $scope.ok = "ok";

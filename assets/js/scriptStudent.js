@@ -3,6 +3,10 @@ var myApp = angular.module('myApp', ['ngRoute']);
 // configuring routes
 myApp.config(function($routeProvider, $locationProvider){
   $routeProvider
+  .when('/dashboardStudent', {
+    templateUrl : '/views/student/lessonsStudent.html',
+    controller  : 'controllerStudent'
+  })
   .when('/lessonsStudent', {
     templateUrl : '/views/student/lessonsStudent.html',
     controller  : 'controllerStudent'
