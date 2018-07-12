@@ -22,7 +22,16 @@
             }
         });
     </script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+
+    <!-- Bootstrap core CSS     -->
+    <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Animation library for notifications   -->
+    <link href="../assets/css/animate.min.css" rel="stylesheet"/>
+
+    <!--  Paper Dashboard core CSS    -->
+    <link href="../assets/css/paper-dashboard.css" rel="stylesheet"/>
+
 </head>
 <body ng-app="myApp" ng-controller ="admin">
 
@@ -45,7 +54,7 @@
                             <label for="username" class="col-md-4 control-label"> Admin Username</label>
 
                             <div class="col-md-6">
-                                <input type="text" class="form-control" ng-model="adminUsername" required="" autofocus>
+                                <input type="text" class="form-control border-input" ng-model="adminUsername" required="" autofocus>
                             </div>
                         </div>
                     </div>
@@ -56,7 +65,7 @@
                         <label for="password" class="col-md-4 control-label">Admin Password</label>
 
                         <div class="col-md-6">
-                            <input type="password" class="form-control" ng-model="adminPassword" required="">
+                            <input type="password" class="form-control border-input" ng-model="adminPassword" required="">
                         </div>
                     </div>
                 </div>
@@ -64,12 +73,12 @@
             </br>
             <div class="row">
                 <div class="form-group">
-                    <div class="col-md-8 col-md-offset-4">
-                        <button type="submit" class="btn btn-success">
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-wd btn-fill btn-success">
                             Login
                         </button>
 
-                        <a class="btn btn-link" href="/">
+                        <a class="btn btn-fill btn-wd btn-info" href="/">
                             Exit
                         </a>
                     </div>

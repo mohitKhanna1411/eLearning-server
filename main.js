@@ -114,11 +114,11 @@ app.post('/api/teacher/manageGrade', function(req,res,next){
 			if(err.code == 11000){
 				
 			}
-			res.end("Error : " + err.code);
+			res.end("Class already exists.")
 		}
 		else{
 			console.log(savedObject);
-			
+						res.end("Class : "+savedObject.standard+"-"+savedObject.section+"-"+savedObject.subject+"  successfully created.")
 		}
 	});
 

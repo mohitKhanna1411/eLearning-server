@@ -1,6 +1,6 @@
 {
-  "name": "demo",
-  "version": "4.2.1",
+  "name": "Portal",
+  "version": "4.3.1",
   "description": "webapp",
   "main": "main.js",
   "scripts": {
@@ -9,10 +9,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mohitKhanna1411/demo"
+    "url": "https://github.com/mohitKhanna1411/StudentTeacherPortal"
   },
   "bugs": {
-    "url": "https://github.com/mohitKhanna1411/demo/issues"
+    "url": "https://github.com/mohitKhanna1411/StudentTeacherPortal/issues"
   },
   "author": {
     "name": "Mohit Khanna",

@@ -1,13 +1,6 @@
-
-<html>
-<head>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
-</head>
-<body style="background:#eef1f6;" ng-app="myApp" ng-controller ="controllerAdmin">
-
-  <div class="container">
+<div class="container-fluid">
     <h2>Student Information</h2>
-    <table class="table table-condensed">
+    <table class="table table-hover table-condensed">
       <thead>
         <tr>
           <th>S.NO</th>
@@ -46,11 +39,10 @@
 
   <div class="container" >
     <div class="row">
-      <div class="col-md-10"></div>
       <div class="col-md-2">
        <div class="panel-body">
          
-        <a href="/api/student/getCSV" target="_self" class="btn btn-success" ng-disabled="btnDisabled" download>
+        <a href="/api/student/getCSV" target="_self" class="btn btn-wd btn-fill btn-success" ng-disabled="btn btn-wdDisabled" download>
           Download CSV
         </a>
       </div>
@@ -63,7 +55,7 @@
 
 <div class="container">
   <h2>Teachers Information</h2>
-  <table class="table table-condensed">
+  <table class="table table-hover table-condensed">
     <thead>
       <tr>
         <th>S.NO</th>
@@ -99,11 +91,10 @@
 
 <div class="container" >
   <div class="row">
-    <div class="col-md-10"></div>
     <div class="col-md-2">
      <div class="panel-body">
        
-      <a href="/api/teacher/getCSV" target="_self" class="btn btn-success" ng-disabled="btnDisabled" download>
+      <a href="/api/teacher/getCSV" target="_self" class="btn btn-wd btn-fill btn-success" ng-disabled="btn btn-wdDisabled" download>
         Download CSV
       </a>
     </div>
@@ -116,7 +107,7 @@
 
 <div class="container">
   <h2>Parents Information</h2>            
-  <table class="table table-condensed">
+  <table class="table table-hover table-condensed">
     <thead>
       <tr>
         <th>S.NO</th>
@@ -151,11 +142,10 @@
 
 <div class="container" >
   <div class="row">
-    <div class="col-md-10"></div>
     <div class="col-md-2">
      <div class="panel-body">
        
-      <a href="/api/parent/getCSV" target="_self" class="btn btn-success" ng-disabled="btnDisabled" download>
+      <a href="/api/parent/getCSV" target="_self" class="btn btn-wd btn-fill btn-success" ng-disabled="btn btn-wdDisabled" download>
         Download CSV
       </a>
     </div>

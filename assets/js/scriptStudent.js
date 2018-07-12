@@ -3,20 +3,24 @@ var myApp = angular.module('myApp', ['ngRoute']);
 // configuring routes
 myApp.config(function($routeProvider, $locationProvider){
   $routeProvider
+  .when('/dashboardStudent', {
+    templateUrl : '/views/student/lessonsStudent.html',
+    controller  : 'controllerStudent'
+  })
   .when('/lessonsStudent', {
-    templateUrl : '/views/lessonsStudent.html',
+    templateUrl : '/views/student/lessonsStudent.html',
     controller  : 'controllerStudent'
   })
   .when('/assesmentStudent', {
-    templateUrl : '/views/assesmentStudent.html',
+    templateUrl : '/views/student/assesmentStudent.html',
     controller  : 'controllerStudent'
   })
   .when('/remedialStudent', {
-    templateUrl : '/views/remedialStudent.html',
+    templateUrl : '/views/student/remedialStudent.html',
     controller  : 'controllerStudent'
   })
   .when('/recommendationStudent', {
-    templateUrl : '/views/recommendationStudent.html',
+    templateUrl : '/views/student/recommendationStudent.html',
     controller  : 'controllerStudent'
   });
   $locationProvider.html5Mode(true);
@@ -63,18 +67,17 @@ myApp.controller('controllerStudent', function($scope, $http,$timeout) {
     $http.get('/api/student/getlessons', { params: data }).success(function(res){
      $scope.list = res;
      if(res === "0"){
-      $scope.msg1 = "No Class found, Please create a class and add lessons!";
+      $scope.msg1 = "No lesson found or you are not enrolled in this class!";
       $scope.ok = "not";
       return;
     }if(res.length === 0){
-      $scope.msg1 = "No lessons found!, Please add lessons to continue";
+      $scope.msg1 = "No lesson found or you are not enrolled in this class!";
       $scope.ok = "not";
       return;
     }else{
       $scope.msg1 = " Number of lessons found : " + res.length ;
       $scope.ok = "ok";
     }
-    console.log($scope.list);
   })
     
   }
@@ -273,11 +276,11 @@ $scope.remedialLessons= function()
     $scope.list = res;
     console.log(res);
     if(res == "0"){
-      $scope.msg1 = "No Class found, Please create a class and add remedial lessons!";
+      $scope.msg1 = "No remedial lessons found or you are not enrolled in this class!";
       $scope.ok = "not";
       return;
     }if(res.length == 0){
-      $scope.msg1 = "No remedial lessons found!, Please add lessons to continue";
+      $scope.msg1 = "No remedial lessons found or you are not enrolled in this class!";
       $scope.ok = "not";
       return;
     }else{

@@ -1,24 +1,17 @@
-
-<html>
-<head>
-  <!-- <script src = "/assets/js/fileUpload.js"></script> -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
-</head>
-<body style="background:#eef1f6;" ng-app="myApp" ng-controller ="controllerAdmin">
   <div class="container" style ="margin-top: 0.5cm;">
     <div class="col-md-8">
       <div class="panel panel-default">
-        <div class="panel-heading"><h3>Create Lessons</h3></div>
+        <div class="panel-heading"><h3>Create Remedial Lessons</h3></div>
 
         <div class="panel-body">
          
-          <form ng-submit="addinglessons(file, file2)">
+          <form ng-submit="addingRemedialLessons(file , file2)">
            <div class="row">
 
             <div class="form-group">
               <label for="role" class="col-md-4 control-label">Standard </label>
               <div class="col-md-6">
-               <select name="standard" ng-model="standard2" class="form-control" required="">
+               <select name="standard" ng-model="standard2" class="form-control border-input" required="">
                 <option value="">Make a selection</option>
                 <option value="1">Class 1</option>
                 <option value="2">Class 2</option>
@@ -42,7 +35,7 @@
           <label for="Section" class="col-md-4 control-label">Section</label>
 
           <div class="col-md-6">
-            <select name="section" ng-model="section2" class="form-control" required="">
+            <select name="section" ng-model="section2" class="form-control border-input" required="">
               <option value="">Make a selection</option>
 
               <option value="A">Sec A</option>
@@ -58,7 +51,7 @@
           <label for="subject" class="col-md-4 control-label">Subject</label>
 
           <div class="col-md-6">
-            <select name="subject" ng-model="subject2" class="form-control" required="">
+            <select name="subject" ng-model="subject2" class="form-control border-input" required="">
               <option value="">Make a selection</option>
               <option value="maths">Maths</option>
               <option value="science">Science</option>
@@ -74,7 +67,7 @@
           <label for="Content" class="col-md-4 control-label">Title (Unique)</label>
 
           <div class="col-md-6">
-            <input type="textarea" name="lesson_title" ng-model="lesson_title" class="form-control" required="">
+            <input type="textarea" name="lesson_title" ng-model="lesson_title" class="form-control border-input" required="">
             
           </div>
         </div>
@@ -89,32 +82,31 @@
         <label for="Content" class="col-md-4 control-label">Content</label>
 
         <div class="col-md-6">
-          <textarea name="content" rows="3" ng-model="content" class="form-control" required=""></textarea>
+          <textarea name="content" rows="3" ng-model="content" class="form-control border-input" required=""></textarea>
           
         </div>
       </div>
     </div>
 
   </br>
-  <div class="row">
+    <div class="row">
 
   <div class="form-group">
     <label for="Ref_Video" class="col-md-4 control-label">Upload Content File</label>
 
     <div class="col-md-6">
-      <input class="form-control" type="file" ngf-select ng-model="file2" name="file2" required=""/>
+      <input class="form-control border-input" type="file" ngf-select ng-model="file2" name="file2" required=""/>
       
     </div>
   </div>
 </div>
-</br>
   <div class="row">
 
     <div class="form-group">
       <label for="Ref" class="col-md-4 control-label">Reference Link(Embeded link only)</label>
 
       <div class="col-md-6">
-        <input type="text" name="ref_link" ng-model="ref_link" class="form-control" ng-change=syncLink()>
+        <input type="text" name="ref_link" ng-model="ref_link" class="form-control border-input" ng-change=syncLink()>
       </div>
     </div>
   </div>
@@ -131,7 +123,7 @@
     <label for="Ref_Video" class="col-md-4 control-label">Reference Video Upload</label>
 
     <div class="col-md-6">
-      <input class="form-control" type="file" ngf-select ng-model="file" ng-click=syncVideo() name="file" 
+      <input class="form-control border-input" type="file" ngf-select ng-model="file" ng-click=syncVideo() name="file" 
       accept = "video/mp4,video/x-m4v,video/*" />
       
     </div>
@@ -142,8 +134,8 @@
 <div class="row">
   <div class="form-group">
     <div class="col-md-8 col-md-offset-4">
-      <button type="submit" class="btn btn-success" >
-        Add New Lesson
+      <button type="submit" class="btn btn-wd btn-fill btn-success" >
+        Add New Remedial  Lesson
       </button>
       <div>{{progress}}</div>
 
@@ -160,10 +152,3 @@
 </div>
 </div>
 </div>
-
-
-
-
-
-</body>
-</html>
