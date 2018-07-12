@@ -19,7 +19,7 @@
     <!-- <script src = "../assets/js/fileUpload.js"></script> -->
     <base href="/dashboardAdmin">
     
-
+      <script data-require="jquery@3.1.1" data-semver="3.1.1" src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <!-- Bootstrap core CSS     -->
     <link href="../assets/css/bootstrap.min.css" rel="stylesheet" />
 
@@ -58,102 +58,101 @@
         </div>
 
         <ul class="nav">
-            <li>
+            <li ng-class="{ active: isActive('/viewUsers') || isActive('/dashboardAdmin')}">
                 <a href="/viewUsers">
                     <i class="fa fa-user" aria-hidden="true"></i>
                     <p>View Users</p>
                 </a>
             </li>
-            <li>
+            <li ng-class="{ active: isActive('/deleteUsers')}">
                 <a href="/deleteUsers">
                     <i class="fa fa-user-times" aria-hidden="true"></i>
                     <p>Delete Users</p>
                 </a>
             </li>
-            <li>
+            <li ng-class="{ active: isActive('/lessonsAdmin')}">
                 <a href="/lessonsAdmin">
                     <i class="fa fa-book" aria-hidden="true"></i>
                     <p> View Lessons</p>
                 </a>
             </li>
-            <li>
+            <li ng-class="{ active: isActive('/remedialLessonsAdmin')}">
                 <a href="/remedialLessonsAdmin">
                     <i class="fa fa-book" aria-hidden="true"></i>
                     <p> View Remedial Lessons</p>
                 </a>
             </li>
-            <li>
+            <li ng-class="{ active: isActive('/viewClasses')}">
                 <a href="/viewClasses">
                     <i class="fa fa-users" aria-hidden="true"></i>
                     <p>View Classes</p>
                 </a>
             </li>
-            <li>
+            <li ng-class="{ active: isActive('/createLessonAdmin')}">
                 <a href="/createLessonAdmin">
                     <i class="fa fa-plus-square" aria-hidden="true"></i>
                     <p>Create Lesson</p>
                 </a>
             </li>
-            <li>
+            <li ng-class="{ active: isActive('/createRemedialLessonAdmin')}">
                 <a href="/createRemedialLessonAdmin">
                     <i class="fa fa-plus-square" aria-hidden="true"></i>
                     <p>Create Remedial Lesson</p>
                 </a>
             </li>
 
-            <li>
+            <li ng-class="{ active: isActive('/editLessonAdmin')}">
                 <a href="/editLessonAdmin">
                     <i class="fa fa-edit"></i>
                     <p>Edit Lessons</p>
                 </a>
             </li>
-            <li>
+            <li ng-class="{ active: isActive('/editRemedialLessonAdmin')}">
                 <a href="/editRemedialLessonAdmin">
                     <i class="fa fa-edit"></i>
                     <p>Edit Remedial Lessons</p>
                 </a>
             </li>
-            <li>
+            <li ng-class="{ active: isActive('/deleteLessonAdmin')}">
                 <a href="/deleteLessonAdmin">
                     <i class="fa fa-trash"></i>
                     <p>Delete Lessons</p>
                 </a>
             </li>
-            <li>
+            <li ng-class="{ active: isActive('/deleteRemedialLessonAdmin')}">
                 <a href="/deleteRemedialLessonAdmin"> 
                     <i class="fa fa-trash"></i>
                     <p>Delete Remedial Lessons</p>
                 </a>
             </li>
-            <li>
+            <li ng-class="{ active: isActive('/showErrorCodes')}">
                 <a href="/showErrorCodes">
                     <i class="fa fa-file-code-o" aria-hidden="true"></i>
                     <p>Show Error Codes</p>
                 </a>
             </li>
-            <li>
+            <li ng-class="{ active: isActive('/createErrorCodes')}">
                 <a href="/createErrorCodes">
                     <i class="fa fa-plus-square" aria-hidden="true"></i>
                     <p>Create Error Codes</p>
                 </a>
             </li>
             
-            <li>
+            <li ng-class="{ active: isActive('/assesmentAdmin')}">
                 <a href="/assesmentAdmin">
                     <i class="fa fa-plus-square" aria-hidden="true"></i>
                     <p>Add Assesment</p>
                 </a>
             </li>
-            <li>
+            <li ng-class="{ active: isActive('/recommendationAdmin')}">
                 <a href="/recommendationAdmin">
                     <i class="fa fa-list-alt" aria-hidden="true"></i>
                     <p>Recommendation</p>
                 </a>
             </li>
-            <li>
+            <li ng-class="{ active: isActive('/overallRecommendation')}">
                 <a href="/overallRecommendation">
                     <i class="fa fa-file-text" aria-hidden="true"></i>
-
                     <p>Assesment Summary</p>
                 </a>
             </li>
@@ -165,7 +164,16 @@
     <nav class="navbar navbar-default">
         <div class="container-fluid">
             <div class="navbar-header">
+                <button type="button" class="navbar-toggle">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar bar1"></span>
+                        <span class="icon-bar bar2"></span>
+                        <span class="icon-bar bar3"></span>
+                    </button>
                 <a class="navbar-brand"> Welcome Admin </a>
+                <a class="navbar-brand" href="/dashboardAdmin" target="_self">
+                                <i class="fa fa-refresh" aria-hidden="true"></i>
+                            </a>
             </div>
             <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">

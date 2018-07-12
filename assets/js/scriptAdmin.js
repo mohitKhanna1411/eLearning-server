@@ -3,73 +3,74 @@ var myApp = angular.module('myApp', ['ngRoute' , 'ngFileUpload']);
 // configuring routes
 myApp.config(function($routeProvider, $locationProvider){
   $routeProvider
+  .when('/dashboardAdmin', {
+    templateUrl : '/views/admin/viewUsers.html',
+    controller  : 'controllerAdmin'
+  })
   .when('/viewUsers', {
-    templateUrl : '/views/viewUsers.html',
+    templateUrl : '/views/admin/viewUsers.html',
     controller  : 'controllerAdmin'
   })
   .when('/lessonsAdmin', {
-    templateUrl : '/views/lessonsAdmin.html',
+    templateUrl : '/views/admin/lessonsAdmin.html',
     controller  : 'controllerAdmin'
   })
   .when('/remedialLessonsAdmin', {
-    templateUrl : '/views/remedialLessonsAdmin.html',
+    templateUrl : '/views/admin/remedialLessonsAdmin.html',
     controller  : 'controllerAdmin'
   })
   .when('/viewClasses', {
-    templateUrl : '/views/viewClasses.html',
+    templateUrl : '/views/admin/viewClasses.html',
     controller  : 'controllerAdmin'
   })
   .when('/assesmentAdmin', {
-    templateUrl : '/csvupload.html',
+    templateUrl : 'views/admin/assessmentAdmin.html',
     controller  : 'controllerAdmin'
   })
   .when('/createErrorCodes', {
-    templateUrl : '/views/createErrorCodes.html',
+    templateUrl : '/views/admin/createErrorCodes.html',
     controller  : 'controllerAdmin'
   })
   .when('/createLessonAdmin', {
-    templateUrl : '/views/createLessonAdmin.html',
+    templateUrl : '/views/admin/createLessonAdmin.html',
     controller  : 'controllerAdmin'
   })
   .when('/createRemedialLessonAdmin', {
-    templateUrl : '/views/createRemedialLessonAdmin.html',
+    templateUrl : '/views/admin/createRemedialLessonAdmin.html',
     controller  : 'controllerAdmin'
   })
   .when('/deleteLessonAdmin', {
-      templateUrl: '/views/deleteLessonAdmin.html',
+      templateUrl: '/views/admin/deleteLessonAdmin.html',
       controller: 'controllerAdmin'
   })
   .when('/editLessonAdmin', {
-          templateUrl : '/views/editLessonAdmin.html',
-          controller  : 'controllerAdmin'
+    templateUrl : '/views/admin/editLessonAdmin.html',
+    controller  : 'controllerAdmin'
   })
-      .when('/editRemedialLessonAdmin', {
-          templateUrl : '/views/editRemedialLessonAdmin.html',
-          controller  : 'controllerAdmin'
-      })
+  .when('/editRemedialLessonAdmin', {
+    templateUrl : '/views/admin/editRemedialLessonAdmin.html',
+    controller  : 'controllerAdmin'
+  })
   .when('/deleteRemedialLessonAdmin', {
-    templateUrl : '/views/deleteRemedialLessonAdmin.html',
+    templateUrl : '/views/admin/deleteRemedialLessonAdmin.html',
     controller  : 'controllerAdmin'
   })
   .when('/showErrorCodes', {
-    templateUrl : '/views/showErrorCodes.html',
+    templateUrl : '/views/admin/showErrorCodes.html',
     controller  : 'controllerAdmin'
   })
   .when('/recommendationAdmin', {
-    templateUrl : '/views/recommendationAdmin.html',
+    templateUrl : '/views/admin/recommendationAdmin.html',
     controller  : 'controllerAdmin'
   })
   .when('/deleteUsers', {
-    templateUrl : '/views/deleteUsers.html',
+    templateUrl : '/views/admin/deleteUsers.html',
     controller  : 'controllerAdmin'
   })
   .when('/overallRecommendation', {
-    templateUrl : '/views/overallRecommendation.html',
+    templateUrl : '/views/admin/overallRecommendation.html',
     controller  : 'controllerAdmin'
   })
-  .otherwise({
-    redirectTo: '/dashboardAdmin'
-  });
   $locationProvider.html5Mode(true);
 });
 
@@ -106,9 +107,6 @@ myApp.directive('fileReaderDirective', function() {
     }
   };
 });
-
-
-
 
 
 myApp.factory('readFileData',['$http', function($http) {
@@ -217,9 +215,14 @@ myApp.factory('readErrorCodeData',['$http', function($http) {
 
 // creating mainController
 myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
-  'readFileData', 'readErrorCodeData' , function($scope,Upload,$window, $http,readFileData,readErrorCodeData) {
+  'readFileData', 'readErrorCodeData','$location', function($scope,Upload,$window, $http,readFileData,readErrorCodeData,$location) {
     $scope.fileDataObj = {};
     $scope.message = null;
+    
+    $scope.isActive = function (viewLocation) { 
+        return viewLocation === $location.path();
+    };
+    
     $scope.uploadFile = function() {
       if ($scope.fileContent) {
         $scope.fileDataObj = readFileData.processData($scope.fileContent);
@@ -317,11 +320,6 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
 })
 
 
-
-
-
-
-
     $scope.ok = "not";
     $scope.lessons= function()
     {
@@ -398,16 +396,7 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
 
         }
 
-
-
-
-
-
-
-
-
-
-    
+  
     $scope.remedialLessons= function()
     {
       $scope.ok = "not";
@@ -584,16 +573,6 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
 
         }
 
-
-
-
-
-
-
-
-
-
-
       $scope.addingRemedialLessons= function(file , file2)
       {
         $scope.progressPercentage = 0;
@@ -634,26 +613,6 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
 
       }
 
-      // $scope.addingErrorCodes= function(error_c , title)
-      // {
-      //   $scope.msg = "";
-      //   $scope.msg1 = "";
-      //   var standard=$scope.standard;
-      //   var section=$scope.section;
-      //   var subject=$scope.subject;
-      //   console.log(error_c);
-      //   console.log(title);
-      
-      //   var data={"class":standard, "subject":subject, "section":section,"error_code":error_c,"title":title};
-      //   console.log(data);
-      //   $http.post('/api/admin/addErrorCodes', data).success(function(res){
-      //     $scope.msg = res;
-      //     $scope.error_c="";
-      
-      //   })
-
-
-      // }
 
       $scope.ok = "not";
       $scope.findErrorCodes= function()
@@ -778,36 +737,6 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
         
       }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       $scope.deleteStudent= function()
       {
         $scope.msg = "";
@@ -872,9 +801,6 @@ myApp.controller('controllerAdmin',['$scope','Upload','$window','$http',
           $scope.par_id = "";
         })        
       }
-
-
-
 
       $scope.ok = "not";
       $scope.overallRecommend= function()
