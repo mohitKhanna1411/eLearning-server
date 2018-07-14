@@ -164,11 +164,11 @@ module.exports = function(passport){
                     newUser.fav_subject = req.body.fav_subject;
                     newUser.role = "student";
                     newUser.teacher_id = req.body.teacherID.replace('string:','');
-                    newUser.parent_id = req.body.parentID.replace('string:','');
+                    // newUser.parent_id = req.body.parentID.replace('string:','');
                     
-                    Parent.update( { parent_id : req.body.parentID.replace('string:','') },{$set : {student_id : newUser.student_id }},function(request,docs){
-                       console.log(docs);
-                   });
+                   //  Parent.update( { parent_id : req.body.parentID.replace('string:','') },{$set : {student_id : newUser.student_id }},function(request,docs){
+                   //     console.log(docs);
+                   // });
 
                     newUser.save(function(err){
                         if(err) throw err;
