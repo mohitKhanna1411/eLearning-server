@@ -1,0 +1,178 @@
+<div class="container" style ="margin-top: 0.5cm;">
+    <div class="col-md-8">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h3>Select Class to Add Assignment</h3></div>
+
+        <div class="panel-body">
+
+
+          <div class="row">
+
+            <div class="form-group">
+              <label for="error_code" class="col-md-4 control-label">Upload CSV file</label>
+              <div class="col-md-6">
+                <input type="file" data-file-reader-directive="fileContent" accept=".csv" name="file" 
+                class="form-control border-input" />
+              </div>
+            </div>
+          </div>
+
+        </br>
+        <div class="row">
+          <div class="form-group">
+            <div class="col-md-8 col-md-offset-4">
+              <button type="submit" class="btn btn-fill btn-success" ng-click="uploadFile()">
+                Upload File
+              </button>
+            </div>
+          </div>
+        </div>
+      </br>
+      <div class="row">
+        <div ng-if="message.length > 0" class="alert alert-info">
+          <strong><center>{{message}}</center></strong>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<div class="container" style ="margin-top: 0.5cm;">
+  <div class="col-md-8">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h3>Select Class to Add Assignment</h3></div>
+
+      <div class="panel-body">
+
+        <form ng-submit = "lessons()">
+          <div class="row">
+
+            <div class="form-group">
+              <label for="role" class="col-md-4 control-label">Standard </label>
+              <div class="col-md-6">
+               <select name="standard" ng-model="standard" class="form-control border-input" required>
+                <option value="">Make a selection</option>
+                <option value="1">Class 1</option>
+                <option value="2">Class 2</option>
+                <option value="3">Class 3</option>
+                <option value="4">Class 4</option>
+                <option value="5">Class 5</option>
+                <option value="6">Class 6</option>
+                <option value="7">Class 7</option>
+                <option value="8">Class 8</option>
+                <option value="9">Class 9</option>
+                <option value="10">Class 10</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+      </br>
+      <div class="row">
+
+        <div class="form-group">
+          <label for="Section" class="col-md-4 control-label">Section</label>
+
+          <div class="col-md-6">
+            <select name="section" ng-model="section" class="form-control border-input" required>
+              <option value="">Make a selection</option>
+              <option value="A">Sec A</option>
+              <option value="B">Sec B</option>
+              <option value="C">Sec C</option></select>
+            </div>
+          </div>
+        </div>
+      </br>
+      <div class="row">
+
+        <div class="form-group">
+          <label for="subject" class="col-md-4 control-label">Subject</label>
+
+          <div class="col-md-6">
+            <select name="subject" ng-model="subject" class="form-control border-input" required>
+              <option value="">Make a selection</option>
+              <option value="maths">Maths</option>
+              <option value="science">Science</option>
+              <option value="english">English</option></select>
+            </div>
+          </div>
+        </div>
+
+      </br>
+      <div class="row">
+
+        <div class="form-group">
+          <div class="col-md-8 col-md-offset-4">
+            <button type="submit" class="btn btn-fill btn-success">
+              Go
+            </button>
+          </div>
+        </div>
+      </div>
+    </br>
+    <div class="row">
+      <div ng-if="msg1.length > 0" class="alert alert-info">
+        <strong><center>{{msg1}}</center></strong>
+      </div>
+    </div>
+
+  </form>
+</div>
+</div>
+</div>
+</div>
+
+
+<div class="container" style ="margin-top: 0.5cm;" ng-if = "ok == 'ok'">
+  <div class="col-md-8">
+    <div class="panel panel-default">
+      <div class="panel-heading"><h3>Create Assignment</h3></div>
+
+      <div class="panel-body">
+
+        <form ng-submit = "addAssesmentFunc(title_lesson , assesment_name , standard , section , subject)">
+          <div class="row">
+
+            <div class="form-group">
+              <label for="lesson" class="col-md-4 control-label">Select Lesson Title</label>
+
+              <div class="col-md-6">
+                <select name="lesson" ng-model="title_lesson" class="form-control border-input" required="">
+                  <option value="">Make a selection</option>
+                  <option ng-repeat = "list in list">{{list.Title}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+        </br>
+
+        <div class="row">
+
+          <div class="form-group">
+            <label for="error_code" class="col-md-4 control-label">Enter Assesment Name(Unique)</label>
+            <div class="col-md-6">
+             <input type="text" class="form-control border-input" ng-model="assesment_name" required=""/>
+           </div>
+         </div>
+       </div>
+
+     </br>
+
+     <div class="row">
+      <div class="form-group">
+        <div class="col-md-8 col-md-offset-4">
+          <button type="submit" class="btn btn-fill btn-success">
+            Create Assesment
+          </button>
+        </div>
+      </div>
+    </div>
+  </br>
+  <div class="row">
+    <div ng-if="msg4.length > 0" class="alert alert-info">
+      <strong><center>{{msg4}}</center></strong>
+    </div>
+  </div>
+</form>
+</div>
