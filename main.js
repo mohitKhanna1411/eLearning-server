@@ -1,4 +1,5 @@
 // importing modules
+'use strict';
 var express = require('express'),
 app = express();
 var bodyParser = require('body-parser');
@@ -13,6 +14,10 @@ var config = require('./config/database');
 var port = process.env.PORT || 8080;
 var multer	=	require('multer');
 var json2csv = require('json2csv');
+const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
+const validateJwt = expressJwt({secret: "secret"});
+const compose = require('composable-middleware');
 mongoose.Promise = global.Promise;
 mongoose.connect(config.db,{
 	useMongoClient : true
@@ -1054,6 +1059,353 @@ app.post('/api/admin/deleteParent', function(req,res,next){
 		}
 	});
 	
+});
+
+
+
+
+//jwt apis(for android app)
+
+//jwt teacher login
+
+app.get('/jwt/teacherLogin', function(req,res,next){
+    Teacher.findOne({username: req.body.username}, function (err,Teacher) {
+        if (err) return err;
+        console.log(Teacher);
+        if (!Teacher) {
+            res.json({
+                status: 200,
+                "message": "This username is not registered"
+            });
+        }
+        else {
+            if (!Teacher.authenticate(req.body.password)) {
+                if (err) console.log(err);
+                res.json({
+                    status: 200,
+                    "message": "This password is not correct."
+                })
+            }
+            else {
+                let token = jwt.sign({_id: Tecaher._id}, "secret", {expiresIn: "7d"});
+                res.json({
+                    status: 200,
+                    token: token,
+                    message: "You are logged in successfully",
+                })
+            }
+        }
+
+    })
+});
+
+app.get('/jwt/studentLogin', function(req,res,next){
+    Student.findOne({username: req.body.username}, function (err,Student) {
+        if (err) return err;
+        console.log(Student);
+        if (!Student) {
+            res.json({
+                status: 200,
+                "message": "This username is not registered"
+            });
+        }
+        else {
+            if (!Student.authenticate(req.body.password)) {
+                if (err) console.log(err);
+                res.json({
+                    status: 200,
+                    "message": "This password is not correct."
+                })
+            }
+            else {
+                let token = jwt.sign({_id: Student._id}, "secret", {expiresIn: "7d"});
+                res.json({
+                    status: 200,
+                    token: token,
+                    message: "You are logged in successfully"
+                })
+            }
+        }
+
+    })
+});
+
+app.get('/jwt/parentLogin', function(req,res,next){
+    Parent.findOne({username: req.body.username}, function (err,Parent) {
+        if (err) return err;
+        console.log(Parent);
+        if (!Parent) {
+            res.json({
+                status: 200,
+                "message": "This username is not registered"
+            });
+        }
+        else {
+            if (!Parent.authenticate(req.body.password)) {
+                if (err) console.log(err);
+                res.json({
+                    status: 200,
+                    "message": "This password is not correct."
+                })
+            }
+            else {
+                let token = jwt.sign({_id: Parent._id}, "secret", {expiresIn: "7d"});
+                res.json({
+                    status: 200,
+                    token: token,
+                    message: "You are logged in successfully"
+                })
+            }
+        }
+
+    })
+});
+
+function isAuthenticated(tablename) {
+    return compose()
+    // Validate jwt
+        .use(function (req, res, next) {
+            // allow access_token to be passed through query parameter as well
+            if (req.query && req.query.hasOwnProperty('access_token')) {
+                req.headers.authorization = 'Bearer ' + req.query.access_token;
+            }
+            //check what is applicable if set in cookies
+            // if(req.query && req.cookies['token']) {
+            //  req.headers.authorization = 'Bearer ' + req.cookies.token;
+            //}
+            validateJwt(req, res, next);
+        })
+        // Attaching user to request
+        .use(function (req, res, next) {
+            tablename.findById(req.user._id, function (err, user) {
+                if (err) return next(err);
+                if (!user) return res.status(401).send({message: 'user not found'});
+                req.user = user;
+                delete req.headers['authorization'];
+                next();
+            });
+        });
+}
+
+app.post('/jwt/api/addResults',isAuthenticated('Student'), function(req,res){
+
+    var newRes = new Result();
+    newRes.standard = req.body.class;
+    newRes.section = req.body.section;
+    newRes.subject = req.body.subject;
+    newRes.student_id = req.user.student_id;
+    newRes.assesment_name=req.body.assesment;
+    newRes.marks = req.body.count;
+    newRes.recommendations = req.body.recommendations;
+    newRes.save(function(err,savedObject){
+        if(err){
+            console.log(err);
+            if(err.code == 11000){
+                res.end("This assesment is avaiable for practice only because you have already taken this Test.")
+            }
+            res.end("Error : " + err.code);
+        }
+        else{
+            console.log(savedObject);
+            res.end("Test Results Saved successfully!");
+        }
+    });
+
+
+
+    Recommend.update( { $and: [
+            { standard : req.body.class },
+            { section: req.body.section },
+            { subject: req.body.subject }
+        ]},{$addToSet : { remedial_lessons: req.body.remedial_lessons } },function(request,docs,err){
+        if(err){
+            res.end("Error : " + err);
+        }
+        else{
+            console.log("saved");
+        }
+    });
+
+
+
+});
+
+app.get('/jwt/api/getReport',isAuthenticated('Parent'), function(req,res){
+    // console.log("inside g et username    :"  + req.user.username);
+
+    Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
+        Result.find({ student_id: docs[0].student_id }, function(request,docu){
+            res.end(JSON.stringify(docu));
+
+        });
+    });
+
+});
+
+app.get('/jwt/api/student/getlessons',isAuthenticated('Student'),function(req,res,next){
+
+    Class.find( { $and: [
+            { standard : req.query.class },
+            { section: req.query.section },
+            { subject: req.query.subject }
+        ],students : {$elemMatch : { Student_ID : req.user.student_id } }
+    },{ lessons : 1, _id: 0 },function(request,docs){
+        console.log(docs);
+        if(docs.length == 0){
+            res.end(JSON.stringify(docs.length));
+        }
+        else{
+            console.log("lessons else : "+ docs);
+            res.end(JSON.stringify(docs[0].lessons));
+        }
+
+    });
+
+});
+
+
+
+app.get('/jwt/api/getAllAssign',isAuthenticated('Student'), function(req,res,next){
+
+    Class.find( { $and: [
+            { standard : req.query.class },
+            { section: req.query.section },
+            { subject: req.query.subject }
+        ],students : { $elemMatch : { Student_ID : req.user.student_id } }
+    },{ assesments : 1, _id: 0 },function(request,docs){
+        console.log(docs);
+        if(docs.length == 0){
+            res.end(JSON.stringify(docs.length));
+        }
+        else{
+            res.end(JSON.stringify(docs[0].assesments));
+        }
+
+    });
+
+});
+
+app.get('/jwt/api/student/getSpecificLesson',isAuthenticated('Student'),function(req,res,next){
+    Student.update({ username : req.user.username },{$set : { last_lesson : req.query.Title }}, function(request,docs){
+
+        console.log(docs);
+
+    })
+
+    Class.findOne( {lessons : {$elemMatch: {Title: req.query.Title}}},
+        {lessons: {$elemMatch: {Title: req.query.Title}}},
+        function(request,docs){
+            console.log(docs);
+            res.end(JSON.stringify(docs.lessons[0]));
+
+        });
+
+});
+
+app.get('/jwt/api/teacher/getSpecificLesson',isAuthenticated('Teacher'), function(req,res,next){
+    Teacher.update({ username : req.user.username },{$set : { last_lesson : req.query.Title }}, function(request,docs){
+
+        console.log(docs);
+
+    })
+
+    Class.findOne( {lessons : {$elemMatch: {Title: req.query.Title}}},
+        {lessons: {$elemMatch: {Title: req.query.Title}}},
+        function(request,docs){
+            console.log(docs);
+            res.end(JSON.stringify(docs.lessons[0]));
+
+        });
+
+});
+
+
+app.get('/jwt/api/student/getLastLesson',isAuthenticated('Student'), function(req,res,next){
+    // req.query.assesment_name = "assesment2";
+    Student.find({ username : req.user.username },{ last_lesson : 1}, function(request,docs){
+
+        res.end(JSON.stringify(docs[0]));
+    })
+});
+
+
+app.get('/api/teacher/getLastLesson',isAuthenticated('Teacher'), function(req,res,next){
+    // req.query.assesment_name = "assesment2";
+    Teacher.find({ username : req.user.username },{ last_lesson : 1 }, function(request,docs){
+
+        res.end(JSON.stringify(docs[0]));
+    })
+});
+
+app.get('/jwt/api/getRes',isAuthenticated('Student'), function(req,res,next){
+
+    Result.find( { $and: [
+            { standard : req.query.class },
+            { section: req.query.section },
+            { subject: req.query.subject },
+            {assesment_name : req.query.assesment_name}
+            ,{ student_id: req.user.student_id }
+
+        ]},{ recommendations : 1, marks: 1 , _id: 0 },function(request,docs){
+        console.log(docs);
+        if(docs.length == 0){
+            res.end(JSON.stringify(docs.length));
+        }
+        else{
+            res.end(JSON.stringify(docs[0]));
+        }
+
+    });
+
+});
+
+app.get('/jwt/api/parent/getRecomm',isAuthenticated('Parent'), function(req,res,next){
+    Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
+        console.log(docs);
+        Result.find( { $and: [
+                { standard : req.query.class },
+                { section: req.query.section },
+                { subject: req.query.subject },
+                { assesment_name: req.query.assesment_name },
+                { student_id: docs[0].student_id }
+            ]},{ recommendations : 1 },function(request,docu){
+            console.log(docu);
+
+            res.end(JSON.stringify(docu[0].recommendations));
+
+
+        });
+    });
+});
+
+app.get('/jwt/api/parent/getReportCSV',isAuthenticated('Parent'), function(req,res,next){
+
+    Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
+        Result.find({ student_id: docs[0].student_id }, function(request,docu){
+            res.setHeader('Content-disposition', 'attachment; filename=StudentReport.csv');
+            res.set('Content-Type', 'text/csv');
+            var fields = ['S.NO.', 'Class', 'Section','Subject', 'Assesment Name','Marks'];
+            var csvArr =[];
+            for(var i=0;i<docu.length;i++){
+                csvArr.push(
+                    {
+                        "S.NO.": i+1,
+                        "Class": docu[i].standard,
+                        "Section": docu[i].section,
+                        "Subject": docu[i].subject,
+                        "Assesment Name": docu[i].assesment_name,
+                        "Marks": docu[i].marks,
+
+                    }
+                );
+            }//for loop
+
+            var csvFile = json2csv({ data: csvArr, fields: fields });
+
+            res.send(csvFile);
+        });
+
+    });
 });
 
 app.listen(port,function()
