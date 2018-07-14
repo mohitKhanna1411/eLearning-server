@@ -1329,7 +1329,7 @@ app.get('/jwt/api/student/getLastLesson',isAuthenticated('Student'), function(re
 });
 
 
-app.get('/api/teacher/getLastLesson',isAuthenticated('Teacher'), function(req,res,next){
+app.get('/jwt/api/teacher/getLastLesson',isAuthenticated('Teacher'), function(req,res,next){
     // req.query.assesment_name = "assesment2";
     Teacher.find({ username : req.user.username },{ last_lesson : 1 }, function(request,docs){
 
