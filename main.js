@@ -1099,6 +1099,7 @@ app.get('/jwt/teacherLogin', function(req,res,next){
     })
 });
 
+//jwt student login
 app.get('/jwt/studentLogin', function(req,res,next){
     Student.findOne({username: req.body.username}, function (err,Student) {
         if (err) return err;
@@ -1130,6 +1131,7 @@ app.get('/jwt/studentLogin', function(req,res,next){
     })
 });
 
+//jwt parent login
 app.get('/jwt/parentLogin', function(req,res,next){
     Parent.findOne({username: req.body.username}, function (err,Parent) {
         if (err) return err;
@@ -1187,6 +1189,8 @@ function isAuthenticated(tablename) {
         });
 }
 
+
+//APIs with isAuthenticated function for (req.user)
 app.post('/jwt/api/addResults',isAuthenticated('Student'), function(req,res){
 
     var newRes = new Result();
@@ -1394,7 +1398,7 @@ app.get('/jwt/api/parent/getReportCSV',isAuthenticated('Parent'), function(req,r
                         "Section": docu[i].section,
                         "Subject": docu[i].subject,
                         "Assesment Name": docu[i].assesment_name,
-                        "Marks": docu[i].marks,
+                        "Marks": docu[i].marks
 
                     }
                 );

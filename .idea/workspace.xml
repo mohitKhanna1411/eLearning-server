@@ -45,10 +45,24 @@
       <file leaf-file-name="main.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/main.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
-              <caret line="1331" column="13" selection-start-line="1331" selection-start-column="13" selection-end-line="1331" selection-end-column="13" />
+            <state relative-caret-position="-2984">
+              <caret line="1200" column="45" selection-start-line="1200" selection-start-column="45" selection-end-line="1200" selection-end-column="45" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="passport.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/passport.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2031">
+              <caret line="63" column="24" lean-forward="true" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="database.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/config/database.js">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="student.js" pinned="false" current-in-tab="false">
@@ -145,6 +159,22 @@
               <item name="StudentTeacherPortal" type="b2602c69:ProjectViewProjectNode" />
               <item name="StudentTeacherPortal" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="StudentTeacherPortal" type="b2602c69:ProjectViewProjectNode" />
+              <item name="StudentTeacherPortal" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="StudentTeacherPortal" type="b2602c69:ProjectViewProjectNode" />
+              <item name="StudentTeacherPortal" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="js" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="StudentTeacherPortal" type="b2602c69:ProjectViewProjectNode" />
+              <item name="StudentTeacherPortal" type="462c0819:PsiDirectoryNode" />
+              <item name="config" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -189,16 +219,15 @@
       <workItem from="1519141607350" duration="3170000" />
       <workItem from="1531423845986" duration="1015000" />
       <workItem from="1531578318022" duration="7988000" />
-      <workItem from="1531603169715" duration="3385000" />
+      <workItem from="1531603169715" duration="4062000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="28096000" />
+    <option name="totallyTimeSpent" value="28773000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="800" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24947146" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -258,9 +287,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/views/resetStudent.ejs">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/views/resetParent.ejs">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -419,13 +445,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/config/passport.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="168" column="17" selection-start-line="168" selection-start-column="17" selection-end-line="170" selection-end-column="25" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/assets/js/scriptAdmin.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
@@ -494,10 +513,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/config/database.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/config/passport.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2031">
+          <caret line="63" column="24" lean-forward="true" selection-start-line="63" selection-start-column="24" selection-end-line="63" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/main.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="1331" column="13" selection-start-line="1331" selection-start-column="13" selection-end-line="1331" selection-end-column="13" />
+        <state relative-caret-position="-2984">
+          <caret line="1200" column="45" selection-start-line="1200" selection-start-column="45" selection-end-line="1200" selection-end-column="45" />
         </state>
       </provider>
     </entry>
