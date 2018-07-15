@@ -1477,7 +1477,7 @@ app.post('/app/teacherRegister', function(req,res){
                 newUser.role = "teacher";
                 newUser.save(function(err){
                     if(err) throw err;
-                    return done(null,newUser);
+                    //return done(null,newUser);
                                  res.json({
                 status: "200",
                 message: "you are registered successfully"
@@ -1527,7 +1527,7 @@ app.post('/app/studentRegister', function(req,res){
 
                 newUser.save(function(err){
                     if(err) throw err;
-                    return done(null,newUser);
+                    //return done(null,newUser);
                                  res.json({
                 status: "200",
                 message: "you are registered successfully"
@@ -1568,7 +1568,7 @@ app.post('/app/parentRegister', function(req,res){
                 newUser.student_id = req.body.studentID.replace('string:','');
                 newUser.save(function(err){
                     if(err) throw err;
-                    return done(null,newUser);
+                    //return done(null,newUser);
                      res.json({
                 status: "200",
                 message: "you are registered successfully"
