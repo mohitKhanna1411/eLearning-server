@@ -87,7 +87,7 @@
 
 <div class="container" ng-if="list.length > 0 && ok == 'ok'">
   <h2>Lessons Information</h2>
-  <table class="table table-hover table-condensed">
+  <table class="table table-hover table-condensed" alink="#FF0000">
     <thead>
       <tr>
         <th>S.NO</th>
@@ -104,7 +104,8 @@
         <td>{{list.Content}}</td>
         <td ng-if="list.Ref_Upload_File.length > 0">
         <button>
-        <a target="_self" href="{{list.Ref_Upload_File}}" download >Click to Download!</a>
+        <a target="_self" href="{{list.Ref_Upload_File}}" download >Click to Download!</a><br/>
+          <embed src="{{list.Ref_Upload_File}}" type="application/pdf"  width="400px" height="300px" />
         </button>
       </td>
         <td ng-if="list.Ref_Link.length > 0"><iframe width="320" height="240" src="{{list.Ref_Link|trusted}}" frameborder="0" allowfullscreen></iframe></td>
