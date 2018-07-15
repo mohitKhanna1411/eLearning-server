@@ -62,7 +62,6 @@ var studentSchema = mongoose.Schema({
 
 studentSchema.plugin(passportLocalMongoose)
 
-
 studentSchema.methods.generateHash = function(password){
     return bcrypt.hashSync(password,bcrypt.genSaltSync(8),null);
 };

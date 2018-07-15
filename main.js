@@ -18,6 +18,7 @@ const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 const validateJwt = expressJwt({secret: "secret"});
 const compose = require('composable-middleware');
+const bcrypt = require('bcrypt-nodejs');
 mongoose.Promise = global.Promise;
 mongoose.connect(config.db,{
 	useMongoClient : true
@@ -66,14 +67,14 @@ require('./routes/routes')(app, passport);
 
 app.get('/api/listTeacherIDs', function(req,res,next){
 	Teacher.find( {}, { teacher_id : 1} , function(request,docs){
-		console.log(docs);
+		// console.log(docs);
 		res.send(JSON.stringify(docs));
 	});
 });
 
 app.get('/api/listStudentIDs', function(req,res,next){
 	Student.find({},{ student_id : 1},function(request,docs){
-		console.log(docs);
+		// console.log(docs);
 		res.send(JSON.stringify(docs));
 	});
 });
@@ -81,7 +82,7 @@ app.get('/api/listStudentIDs', function(req,res,next){
 
 app.get('/api/listParentIDs', function(req,res,next){
 	Parent.find( {},{parent_id : 1} ,function(request,docs){
-		console.log(docs);
+		// console.log(docs);
 		res.send(JSON.stringify(docs));
 	});
 });
@@ -102,12 +103,12 @@ app.post('/api/teacher/manageGrade', function(req,res,next){
 
 	newModel.save(function(err,savedObject){
 		if(err){
-			console.log(err);
+			// console.log(err);
 			if(err.code == 11000)
 				res.end("Class already exists.")
 		}
 		else{
-			console.log(savedObject);
+			// console.log(savedObject);
 			res.end("Class : "+savedObject.standard+"-"+savedObject.section+"-"+savedObject.subject+"  successfully created.")
 		}
 	});
@@ -115,14 +116,14 @@ app.post('/api/teacher/manageGrade', function(req,res,next){
 
 	newRec.save(function(err,savedObject){
 		if(err){
-			console.log(err);
+			// console.log(err);
 			if(err.code == 11000){
 				
 			}
 			res.end("Class already exists.")
 		}
 		else{
-			console.log(savedObject);
+			// console.log(savedObject);
 						res.end("Class : "+savedObject.standard+"-"+savedObject.section+"-"+savedObject.subject+"  successfully created.")
 		}
 	});
@@ -185,14 +186,14 @@ app.post('/api/addResults', function(req,res,next){
 	newRes.recommendations = req.body.recommendations;
 	newRes.save(function(err,savedObject){
 		if(err){
-			console.log(err);
+			// console.log(err);
 			if(err.code == 11000){
 				res.end("This assesment is avaiable for practice only because you have already taken this Test.")
 			}
 			res.end("Error : " + err.code);
 		}
 		else{
-			console.log(savedObject);
+			// console.log(savedObject);
 			res.end("Test Results Saved successfully!");
 		}
 	});
@@ -362,7 +363,7 @@ app.post('/api/admin/addRemedialLessons', function(req,res,next){
 		{ section: req.body.section },
 		{ subject: req.body.subject }
 		]},{$addToSet : { remedial_lessons : data } },function(request,docs){
-			console.log(docs);
+			// console.log(docs);
 			if(docs.n == 0 && docs.nModified == 0){
 				res.end("Class combination does not exist! Please add remedial lesson into a valid class");
 			}
@@ -383,7 +384,7 @@ app.post('/api/admin/addErrorCodes', function(req,res,next){
 		{ section: req.body.section },
 		{ subject: req.body.subject }
 		]},{$addToSet : { error_codes : { $each : req.body.error_codes } } },function(request,docs){
-			console.log(docs);
+			// console.log(docs);
 			if(docs.n == 0 && docs.nModified == 0){
 				res.end("Combination does not exist! Please add error codes into a valid class");
 			}
@@ -408,7 +409,7 @@ app.post('/api/teacher/deleteStudent', function(req,res,next){
 		{ section: req.body.section },
 		{ subject: req.body.subject }
 		]}, { "$pull": { students: { Student_ID : stu_id } }}, { safe: true, multi:true },function(request,docs){
-			console.log(docs);
+			// console.log(docs);
 			if(docs.n == 0 && docs.nModified == 0){
 				res.end("Class combination does not exist! Please delete Student from a valid class");
 			}
@@ -468,12 +469,12 @@ app.get('/api/getErrorCodes', function(req,res,next){
 		{ section: req.query.section },
 		{ subject: req.query.subject }
 		] },{ error_codes : 1, _id: 0 },function(request,docs){
-			console.log(docs);
+			// console.log(docs);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				console.log("error_codes else : "+ docs);
+				// console.log("error_codes else : "+ docs);
 				res.end(JSON.stringify(docs[0].error_codes));
 			} 
 			
@@ -489,13 +490,13 @@ app.get('/api/getOverallRecommend', function(req,res,next){
 		{ section: req.query.section },
 		{ subject: req.query.subject }
 		] },{ remedial_lessons : 1, _id: 0 },function(request,docs){
-			console.log(docs);
+			// console.log(docs);
 			// res.end(JSON.stringify(docs[0].remedial_lessons));
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				console.log("getOverallRecommend else : "+ docs);
+				// console.log("getOverallRecommend else : "+ docs);
 				res.end(JSON.stringify(docs[0].remedial_lessons));
 			} 
 			
@@ -512,12 +513,12 @@ app.get('/api/student/getlessons', function(req,res,next){
 		{ subject: req.query.subject }
 		],students : {$elemMatch : { Student_ID : req.user.student_id } }
 	},{ lessons : 1, _id: 0 },function(request,docs){
-		console.log(docs);
+		// console.log(docs);
 		if(docs.length == 0){
 			res.end(JSON.stringify(docs.length));
 		}
 		else{
-			console.log("lessons else : "+ docs);
+			// console.log("lessons else : "+ docs);
 			res.end(JSON.stringify(docs[0].lessons));
 		} 
 
@@ -533,12 +534,12 @@ app.get('/api/admin/getlessons', function(req,res,next){
 		{ section: req.query.section },
 		{ subject: req.query.subject }
 		]},{ lessons : 1, _id: 0 },function(request,docs){
-			console.log(docs);
+			// console.log(docs);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				console.log("lessons else : "+ docs[0].lessons);
+				// console.log("lessons else : "+ docs[0].lessons);
 				res.end(JSON.stringify(docs[0].lessons));
 			} 
 			
@@ -553,7 +554,7 @@ app.post('/api/admin/deleteLesson', function(req,res,next){
 		{ subject: req.body.subject } ] },
 		{ "$pull": { lessons: { Title : req.body.title_lesson } }}, { safe: true, multi:true },
 		function(request,docs){
-			console.log(docs);
+			// console.log(docs);
 			if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
 				res.end("Lesson successfully deleted.");
 			}else{
@@ -570,7 +571,7 @@ app.post('/api/admin/deleteRemedialLesson', function(req,res,next){
 		{ subject: req.body.subject } ] },
 		{ "$pull": { remedial_lessons: { remedial_title : req.body.remedial_title_lesson } }}, { safe: true, multi:true },
 		function(request,docs){
-			console.log(docs);
+			// console.log(docs);
 			if(docs.n == 1 && docs.nModified == 1 && docs.ok == 1){
 				res.end("Remedial Lesson successfully deleted.");
 			}else{
@@ -587,12 +588,12 @@ app.get('/api/teacher/getlessons', function(req,res,next){
 		{ section: req.query.section },
 		{ subject: req.query.subject }
 		]},{ lessons : 1, _id: 0 },function(request,docs){
-			console.log(docs);
+			// console.log(docs);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				console.log("lessons else : "+ docs);
+				// console.log("lessons else : "+ docs);
 				res.end(JSON.stringify(docs[0].lessons));
 			} 		
 		});
@@ -605,12 +606,12 @@ app.get('/api/admin/getremedialLessons', function(req,res,next){
 		{ section: req.query.section },
 		{ subject: req.query.subject }
 		]},{ remedial_lessons : 1, _id: 0 },function(request,docs){
-			console.log(docs);
+			// console.log(docs);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
-				console.log("remedial_lessons else : "+ docs);
+				// console.log("remedial_lessons else : "+ docs);
 				res.end(JSON.stringify(docs[0].remedial_lessons));
 			} 
 			
@@ -625,7 +626,7 @@ app.get('/api/getClassStudents', function(req,res,next){
 		{ subject: req.query.subject }
 		]},{ students : 1, _id: 0 },function(request,docs){
 			// console.log(docs[0].students);
-			if(docs.length == 0){
+			if(docs.length === 0){
 				res.end(JSON.stringify(docs.length));
 			}
 			else{
@@ -645,7 +646,7 @@ app.get('/api/getAllAssign', function(req,res,next){
 		{ subject: req.query.subject }
 		],students : { $elemMatch : { Student_ID : req.user.student_id } }
 	},{ assesments : 1, _id: 0 },function(request,docs){
-		console.log(docs);
+		// console.log(docs);
 		if(docs.length == 0){
 			res.end(JSON.stringify(docs.length));
 		}
@@ -707,14 +708,14 @@ app.get('/api/getAssign', function(req,res,next){
 app.get('/api/student/getSpecificLesson', function(req,res,next){
 	Student.update({ username : req.user.username },{$set : { last_lesson : req.query.Title }}, function(request,docs){
 
-		console.log(docs);
+		// console.log(docs);
 
 	})
 
 	Class.findOne( {lessons : {$elemMatch: {Title: req.query.Title}}},
 		{lessons: {$elemMatch: {Title: req.query.Title}}},
 		function(request,docs){
-			console.log(docs);
+			// console.log(docs);
 			res.end(JSON.stringify(docs.lessons[0]));
 
 		});
@@ -726,8 +727,8 @@ app.get('/api/admin/getSpecificLesson', function(req,res,next){
     Class.findOne( {lessons : {$elemMatch: {Title: req.query.Title}}},
         {lessons: {$elemMatch: {Title: req.query.Title}}},
         function(request,docs){
-            console.log("inside find specific lesson");
-            console.log(docs);
+            // console.log("inside find specific lesson");
+            // console.log(docs);
             res.end(JSON.stringify(docs.lessons[0]));
 
         });
@@ -739,8 +740,8 @@ app.get('/api/admin/getSpecificRemedialLesson', function(req,res,next){
     Class.findOne( {remedial_lessons : {$elemMatch: {remedial_title: req.query.Title}}},
         {remedial_lessons: {$elemMatch: {remedial_title: req.query.Title}}},
         function(request,docs){
-            console.log("inside find specific Remedial lesson");
-            console.log(docs);
+            // console.log("inside find specific Remedial lesson");
+            // console.log(docs);
             res.end(JSON.stringify(docs.remedial_lessons[0]));
 
         });
@@ -751,7 +752,7 @@ app.get('/api/admin/getSpecificRemedialLesson', function(req,res,next){
 app.get('/api/teacher/getSpecificLesson', function(req,res,next){
 	Teacher.update({ username : req.user.username },{$set : { last_lesson : req.query.Title }}, function(request,docs){
 
-		console.log(docs);
+		// console.log(docs);
 
 	})
 
@@ -795,7 +796,7 @@ app.get('/api/getRes', function(req,res,next){
 		,{ student_id: req.user.student_id }
 
 		]},{ recommendations : 1, marks: 1 , _id: 0 },function(request,docs){
-			console.log(docs);
+			// console.log(docs);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
@@ -819,7 +820,7 @@ app.get('/api/teacher/getRes', function(req,res,next){
 		,{ student_id: req.query.student }
 
 		]},{ recommendations : 1, marks: 1 , _id: 0 },function(request,docs){
-			console.log(docs);
+			// console.log(docs);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
@@ -834,7 +835,7 @@ app.get('/api/teacher/getRes', function(req,res,next){
 
 app.get('/api/parent/getRecomm', function(req,res,next){
 	Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
-		console.log(docs);
+		// console.log(docs);
 		Result.find( { $and: [
 			{ standard : req.query.class }, 
 			{ section: req.query.section },
@@ -842,7 +843,7 @@ app.get('/api/parent/getRecomm', function(req,res,next){
 			{ assesment_name: req.query.assesment_name },
 			{ student_id: docs[0].student_id }
 			]},{ recommendations : 1 },function(request,docu){
-				console.log(docu);
+				// console.log(docu);
 				
 				res.end(JSON.stringify(docu[0].recommendations));
 
@@ -860,7 +861,7 @@ app.get('/api/teacher/getRes', function(req,res,next){
 		{ assesment_name: req.query.assesment_name },
 		{ student_id: req.query.student_id }
 		]},{ recommendations : 1, marks: 1 , _id: 0 },function(request,docs){
-			console.log(docs);
+			// console.log(docs);
 			if(docs.length == 0){
 				res.end(JSON.stringify(docs.length));
 			}
@@ -1068,10 +1069,10 @@ app.post('/api/admin/deleteParent', function(req,res,next){
 
 //jwt teacher login
 
-app.get('/jwt/teacherLogin', function(req,res,next){
+app.post('/jwt/teacherLogin', function(req,res,next){
     Teacher.findOne({username: req.body.username}, function (err,Teacher) {
         if (err) return err;
-        console.log(Teacher);
+        // console.log(Teacher);
         if (!Teacher) {
             res.json({
                 status: 200,
@@ -1079,7 +1080,7 @@ app.get('/jwt/teacherLogin', function(req,res,next){
             });
         }
         else {
-            if (!Teacher.authenticate(req.body.password)) {
+            if (!Teacher.validPassword(req.body.password)) {
                 if (err) console.log(err);
                 res.json({
                     status: 200,
@@ -1087,7 +1088,7 @@ app.get('/jwt/teacherLogin', function(req,res,next){
                 })
             }
             else {
-                let token = jwt.sign({_id: Tecaher._id}, "secret", {expiresIn: "7d"});
+                let token = jwt.sign({_id: Teacher._id}, "secret", {expiresIn: "7d"});
                 res.json({
                     status: 200,
                     token: token,
@@ -1099,11 +1100,12 @@ app.get('/jwt/teacherLogin', function(req,res,next){
     })
 });
 
-//jwt student login
-app.get('/jwt/studentLogin', function(req,res,next){
+
+
+app.post('/jwt/studentLogin', function(req,res,next){
     Student.findOne({username: req.body.username}, function (err,Student) {
         if (err) return err;
-        console.log(Student);
+        // console.log(Student);
         if (!Student) {
             res.json({
                 status: 200,
@@ -1111,7 +1113,7 @@ app.get('/jwt/studentLogin', function(req,res,next){
             });
         }
         else {
-            if (!Student.authenticate(req.body.password)) {
+            if (!Student.validPassword(req.body.password)) {
                 if (err) console.log(err);
                 res.json({
                     status: 200,
@@ -1131,11 +1133,12 @@ app.get('/jwt/studentLogin', function(req,res,next){
     })
 });
 
-//jwt parent login
-app.get('/jwt/parentLogin', function(req,res,next){
+app.post('/jwt/parentLogin', function(req,res,next){
+	// console.log(req.body);
+
     Parent.findOne({username: req.body.username}, function (err,Parent) {
         if (err) return err;
-        console.log(Parent);
+        // console.log(Parent);
         if (!Parent) {
             res.json({
                 status: 200,
@@ -1143,7 +1146,7 @@ app.get('/jwt/parentLogin', function(req,res,next){
             });
         }
         else {
-            if (!Parent.authenticate(req.body.password)) {
+            if (!Parent.validPassword(req.body.password)) {
                 if (err) console.log(err);
                 res.json({
                     status: 200,
@@ -1164,6 +1167,7 @@ app.get('/jwt/parentLogin', function(req,res,next){
 });
 
 function isAuthenticated(tablename) {
+	console.log("here")
     return compose()
     // Validate jwt
         .use(function (req, res, next) {
@@ -1179,6 +1183,7 @@ function isAuthenticated(tablename) {
         })
         // Attaching user to request
         .use(function (req, res, next) {
+        	// console.log(tablename);
             tablename.findById(req.user._id, function (err, user) {
                 if (err) return next(err);
                 if (!user) return res.status(401).send({message: 'user not found'});
@@ -1190,8 +1195,7 @@ function isAuthenticated(tablename) {
 }
 
 
-//APIs with isAuthenticated function for (req.user)
-app.post('/jwt/api/addResults',isAuthenticated('Student'), function(req,res){
+app.post('/jwt/api/addResults',isAuthenticated(Student), function(req,res){
 
     var newRes = new Result();
     newRes.standard = req.body.class;
@@ -1210,7 +1214,7 @@ app.post('/jwt/api/addResults',isAuthenticated('Student'), function(req,res){
             res.end("Error : " + err.code);
         }
         else{
-            console.log(savedObject);
+            // console.log(savedObject);
             res.end("Test Results Saved successfully!");
         }
     });
@@ -1234,7 +1238,7 @@ app.post('/jwt/api/addResults',isAuthenticated('Student'), function(req,res){
 
 });
 
-app.get('/jwt/api/getReport',isAuthenticated('Parent'), function(req,res){
+app.get('/jwt/api/getReport',isAuthenticated(Parent), function(req,res){
     // console.log("inside g et username    :"  + req.user.username);
 
     Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
@@ -1246,20 +1250,20 @@ app.get('/jwt/api/getReport',isAuthenticated('Parent'), function(req,res){
 
 });
 
-app.get('/jwt/api/student/getlessons',isAuthenticated('Student'),function(req,res,next){
+app.post('/jwt/api/student/getlessons',isAuthenticated(Student),function(req,res,next){
 
     Class.find( { $and: [
-            { standard : req.query.class },
-            { section: req.query.section },
-            { subject: req.query.subject }
+            { standard : req.body.class },
+            { section: req.body.section },
+            { subject: req.body.subject }
         ],students : {$elemMatch : { Student_ID : req.user.student_id } }
     },{ lessons : 1, _id: 0 },function(request,docs){
-        console.log(docs);
+        // console.log(docs);
         if(docs.length == 0){
             res.end(JSON.stringify(docs.length));
         }
         else{
-            console.log("lessons else : "+ docs);
+            // console.log("lessons else : "+ docs);
             res.end(JSON.stringify(docs[0].lessons));
         }
 
@@ -1269,15 +1273,15 @@ app.get('/jwt/api/student/getlessons',isAuthenticated('Student'),function(req,re
 
 
 
-app.get('/jwt/api/getAllAssign',isAuthenticated('Student'), function(req,res,next){
+app.post('/jwt/api/student/getAllAssign',isAuthenticated(Student), function(req,res,next){
 
     Class.find( { $and: [
-            { standard : req.query.class },
-            { section: req.query.section },
-            { subject: req.query.subject }
+            { standard : req.body.class },
+            { section: req.body.section },
+            { subject: req.body.subject }
         ],students : { $elemMatch : { Student_ID : req.user.student_id } }
     },{ assesments : 1, _id: 0 },function(request,docs){
-        console.log(docs);
+        // console.log(docs);
         if(docs.length == 0){
             res.end(JSON.stringify(docs.length));
         }
@@ -1288,35 +1292,53 @@ app.get('/jwt/api/getAllAssign',isAuthenticated('Student'), function(req,res,nex
     });
 
 });
+app.post('/jwt/api/parent/getAllAssign',isAuthenticated(Parent), function(req,res,next){
 
-app.get('/jwt/api/student/getSpecificLesson',isAuthenticated('Student'),function(req,res,next){
-    Student.update({ username : req.user.username },{$set : { last_lesson : req.query.Title }}, function(request,docs){
+    Class.find( { $and: [
+            { standard : req.body.class },
+            { section: req.body.section },
+            { subject: req.body.subject }
+        ],students : { $elemMatch : { Student_ID : req.user.student_id } }
+    },{ assesments : 1, _id: 0 },function(request,docs){
+        // console.log(docs);
+        if(docs.length == 0){
+            res.end(JSON.stringify(docs.length));
+        }
+        else{
+            res.end(JSON.stringify(docs[0].assesments));
+        }
 
-        console.log(docs);
+    });
+
+});
+app.post('/jwt/api/student/getSpecificLesson',isAuthenticated(Student),function(req,res,next){
+    Student.update({ username : req.user.username },{$set : { last_lesson : req.body.Title }}, function(request,docs){
+
+        // console.log(docs);
 
     })
 
-    Class.findOne( {lessons : {$elemMatch: {Title: req.query.Title}}},
-        {lessons: {$elemMatch: {Title: req.query.Title}}},
+    Class.findOne( {lessons : {$elemMatch: {Title: req.body.Title}}},
+        {lessons: {$elemMatch: {Title: req.body.Title}}},
         function(request,docs){
-            console.log(docs);
+            // console.log(docs);
             res.end(JSON.stringify(docs.lessons[0]));
 
         });
 
 });
 
-app.get('/jwt/api/teacher/getSpecificLesson',isAuthenticated('Teacher'), function(req,res,next){
-    Teacher.update({ username : req.user.username },{$set : { last_lesson : req.query.Title }}, function(request,docs){
+app.post('/jwt/api/teacher/getSpecificLesson',isAuthenticated(Teacher), function(req,res,next){
+    Teacher.update({ username : req.user.username },{$set : { last_lesson : req.body.Title }}, function(request,docs){
 
-        console.log(docs);
+        // console.log(docs);
 
     })
 
-    Class.findOne( {lessons : {$elemMatch: {Title: req.query.Title}}},
-        {lessons: {$elemMatch: {Title: req.query.Title}}},
+    Class.findOne( {lessons : {$elemMatch: {Title: req.body.Title}}},
+        {lessons: {$elemMatch: {Title: req.body.Title}}},
         function(request,docs){
-            console.log(docs);
+            // console.log(docs);
             res.end(JSON.stringify(docs.lessons[0]));
 
         });
@@ -1324,7 +1346,7 @@ app.get('/jwt/api/teacher/getSpecificLesson',isAuthenticated('Teacher'), functio
 });
 
 
-app.get('/jwt/api/student/getLastLesson',isAuthenticated('Student'), function(req,res,next){
+app.get('/jwt/api/student/getLastLesson',isAuthenticated(Student), function(req,res,next){
     // req.query.assesment_name = "assesment2";
     Student.find({ username : req.user.username },{ last_lesson : 1}, function(request,docs){
 
@@ -1333,7 +1355,7 @@ app.get('/jwt/api/student/getLastLesson',isAuthenticated('Student'), function(re
 });
 
 
-app.get('/jwt/api/teacher/getLastLesson',isAuthenticated('Teacher'), function(req,res,next){
+app.get('/jwt/api/teacher/getLastLesson',isAuthenticated(Teacher), function(req,res,next){
     // req.query.assesment_name = "assesment2";
     Teacher.find({ username : req.user.username },{ last_lesson : 1 }, function(request,docs){
 
@@ -1341,17 +1363,32 @@ app.get('/jwt/api/teacher/getLastLesson',isAuthenticated('Teacher'), function(re
     })
 });
 
-app.get('/jwt/api/getRes',isAuthenticated('Student'), function(req,res,next){
+app.get('/jwt/api/teacher/getInfo',isAuthenticated(Teacher), function(req,res,next){
+    // req.query.assesment_name = "assesment2";
+        res.end(JSON.stringify(req.user));
+});
+
+app.get('/jwt/api/student/getInfo',isAuthenticated(Student), function(req,res,next){
+    // req.query.assesment_name = "assesment2";
+        res.end(JSON.stringify(req.user));
+});
+
+app.get('/jwt/api/parent/getInfo',isAuthenticated(Parent), function(req,res,next){
+    // req.query.assesment_name = "assesment2";
+        res.end(JSON.stringify(req.user));
+});
+
+app.post('/jwt/api/getRes',isAuthenticated(Student), function(req,res,next){
 
     Result.find( { $and: [
-            { standard : req.query.class },
-            { section: req.query.section },
-            { subject: req.query.subject },
-            {assesment_name : req.query.assesment_name}
+            { standard : req.body.class },
+            { section: req.body.section },
+            { subject: req.body.subject },
+            {assesment_name : req.body.assesment_name}
             ,{ student_id: req.user.student_id }
 
         ]},{ recommendations : 1, marks: 1 , _id: 0 },function(request,docs){
-        console.log(docs);
+        // console.log(docs);
         if(docs.length == 0){
             res.end(JSON.stringify(docs.length));
         }
@@ -1363,17 +1400,17 @@ app.get('/jwt/api/getRes',isAuthenticated('Student'), function(req,res,next){
 
 });
 
-app.get('/jwt/api/parent/getRecomm',isAuthenticated('Parent'), function(req,res,next){
+app.post('/jwt/api/parent/getRecomm',isAuthenticated(Parent), function(req,res,next){
     Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
-        console.log(docs);
+        // console.log(docs);
         Result.find( { $and: [
-                { standard : req.query.class },
-                { section: req.query.section },
-                { subject: req.query.subject },
-                { assesment_name: req.query.assesment_name },
+                { standard : req.body.class },
+                { section: req.body.section },
+                { subject: req.body.subject },
+                { assesment_name: req.body.assesment_name },
                 { student_id: docs[0].student_id }
             ]},{ recommendations : 1 },function(request,docu){
-            console.log(docu);
+            // console.log(docu);
 
             res.end(JSON.stringify(docu[0].recommendations));
 
@@ -1382,7 +1419,7 @@ app.get('/jwt/api/parent/getRecomm',isAuthenticated('Parent'), function(req,res,
     });
 });
 
-app.get('/jwt/api/parent/getReportCSV',isAuthenticated('Parent'), function(req,res,next){
+app.get('/jwt/api/parent/getReportCSV',isAuthenticated(Parent), function(req,res,next){
 
     Parent.find({username : req.user.username},{ student_id: 1},function(request,docs){
         Result.find({ student_id: docs[0].student_id }, function(request,docu){
@@ -1411,6 +1448,131 @@ app.get('/jwt/api/parent/getReportCSV',isAuthenticated('Parent'), function(req,r
 
     });
 });
+
+
+
+//registration apis
+app.post('/app/teacherRegister', function(req,res){
+    Teacher.find({username: req.body.username}, function (err, doctor) {
+        if (doctor.length) {
+            res.json({
+                status: "200",
+                registerMessage: "Username is already taken..."
+            })
+        } else {
+            Teacher.count({},function(err,count){
+                console.log("teacher count : " + count);
+                var newUser = new Teacher();
+                newUser.username = req.body.username;
+                newUser.password = newUser.generateHash(req.body.password);
+                newUser.teacher_id = "TEA-00" + (count+1) + "-" + req.body.aadhar_no;
+                console.log("teacherid" + newUser.teacher_id);
+                newUser.qualification = req.body.qualification;
+                newUser.job_description = req.body.job_description;
+                newUser.teaching_experience = req.body.teaching_experience;
+                newUser.email_id = req.body.email_id;
+                newUser.contact_number = req.body.contact_number;
+                newUser.address = req.body.address;
+                newUser.aadhar_no = req.body.aadhar_no;
+                newUser.role = "teacher";
+                newUser.save(function(err){
+                    if(err) throw err;
+                    return done(null,newUser);
+                });
+            })//teacher.count
+
+
+
+
+        }
+    })
+});
+
+
+
+
+app.post('/app/studentRegister', function(req,res){
+    Student.find({username: req.body.username}, function (err, doctor) {
+        if (doctor.length) {
+            res.json({
+                status: "200",
+                registerMessage: "Username is already taken..."
+            })
+        } else {
+            Student.count({},function(err,count){
+                console.log("student count : " + count);
+                var newUser = new Student();
+                newUser.username = req.body.username;
+                newUser.password = newUser.generateHash(req.body.password);
+                newUser.student_id = "STU -00" + (count+1) + "-" + req.body.aadhar;
+                console.log("studentid : " + newUser.student_id);
+                newUser.email = req.body.email;
+                newUser.grade = req.body.grade;
+                newUser.contact = req.body.contact;
+                newUser.address = req.body.address;
+                newUser.aadhar = req.body.aadhar;
+                newUser.school = req.body.school;
+                newUser.fav_subject = req.body.fav_subject;
+                newUser.role = "student";
+                newUser.teacher_id = req.body.teacherID.replace('string:','');
+                // newUser.parent_id = req.body.parentID.replace('string:','');
+
+                //  Parent.update( { parent_id : req.body.parentID.replace('string:','') },{$set : {student_id : newUser.student_id }},function(request,docs){
+                //     console.log(docs);
+                // });
+
+                newUser.save(function(err){
+                    if(err) throw err;
+                    return done(null,newUser);
+                });
+
+            })//student count
+
+
+
+
+        }
+    })
+});
+
+app.post('/app/parentRegister', function(req,res){
+    Student.find({username: req.body.username}, function (err, doctor) {
+        if (doctor.length) {
+            res.json({
+                status: "200",
+                registerMessage: "Username is already taken..."
+            })
+        } else {
+            Parent.count({},function(err,count){
+                console.log("parent count : " + count);
+                var newUser = new Parent();
+                newUser.username = req.body.username;
+                newUser.password = newUser.generateHash(req.body.password);
+                newUser.parent_id = "PAR -00" + (count+1) + "-" + req.body.aadhar;
+                console.log("parentid : " + newUser.parent_id);
+                newUser.email = req.body.email;
+                newUser.qualification = req.body.qualification;
+                newUser.job_description = req.body.job_description;
+                newUser.contact = req.body.contact;
+                newUser.aadhar = req.body.aadhar;
+                newUser.address = req.body.address;
+                newUser.role = "parent";
+                newUser.student_id = req.body.studentID.replace('string:','');
+                newUser.save(function(err){
+                    if(err) throw err;
+                    return done(null,newUser);
+                });
+            })
+
+
+
+
+        }
+    })
+});
+
+
+
 
 app.listen(port,function()
 {
