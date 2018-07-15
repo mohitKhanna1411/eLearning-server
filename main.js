@@ -1457,7 +1457,7 @@ app.post('/app/teacherRegister', function(req,res){
         if (teacher.length) {
             res.json({
                 status: "200",
-                registerMessage: "Username is already taken..."
+                message: "Username is already taken..."
             })
         } else {
             Teacher.count({},function(err,count){
@@ -1478,6 +1478,10 @@ app.post('/app/teacherRegister', function(req,res){
                 newUser.save(function(err){
                     if(err) throw err;
                     return done(null,newUser);
+                                 res.json({
+                status: "200",
+                message: "you are registered successfully"
+            })
                 });
             })//teacher.count
 
@@ -1496,7 +1500,7 @@ app.post('/app/studentRegister', function(req,res){
         if (student.length) {
             res.json({
                 status: "200",
-                registerMessage: "Username is already taken..."
+                message: "Username is already taken..."
             })
         } else {
             Student.count({},function(err,count){
@@ -1524,6 +1528,10 @@ app.post('/app/studentRegister', function(req,res){
                 newUser.save(function(err){
                     if(err) throw err;
                     return done(null,newUser);
+                                 res.json({
+                status: "200",
+                message: "you are registered successfully"
+            })
                 });
 
             })//student count
@@ -1540,7 +1548,7 @@ app.post('/app/parentRegister', function(req,res){
         if (parent.length) {
             res.json({
                 status: "200",
-                registerMessage: "Username is already taken..."
+                message: "Username is already taken..."
             })
         } else {
             Parent.count({},function(err,count){
@@ -1561,6 +1569,10 @@ app.post('/app/parentRegister', function(req,res){
                 newUser.save(function(err){
                     if(err) throw err;
                     return done(null,newUser);
+                     res.json({
+                status: "200",
+                message: "you are registered successfully"
+            })
                 });
             })
 
