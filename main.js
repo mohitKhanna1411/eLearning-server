@@ -1453,8 +1453,8 @@ app.get('/jwt/api/parent/getReportCSV',isAuthenticated(Parent), function(req,res
 
 //registration apis
 app.post('/app/teacherRegister', function(req,res){
-    Teacher.find({username: req.body.username}, function (err, doctor) {
-        if (doctor.length) {
+    Teacher.find({username: req.body.username}, function (err, teacher) {
+        if (teacher.length) {
             res.json({
                 status: "200",
                 registerMessage: "Username is already taken..."
@@ -1492,8 +1492,8 @@ app.post('/app/teacherRegister', function(req,res){
 
 
 app.post('/app/studentRegister', function(req,res){
-    Student.find({username: req.body.username}, function (err, doctor) {
-        if (doctor.length) {
+    Student.find({username: req.body.username}, function (err, student) {
+        if (student.length) {
             res.json({
                 status: "200",
                 registerMessage: "Username is already taken..."
@@ -1536,8 +1536,8 @@ app.post('/app/studentRegister', function(req,res){
 });
 
 app.post('/app/parentRegister', function(req,res){
-    Student.find({username: req.body.username}, function (err, doctor) {
-        if (doctor.length) {
+    Student.find({username: req.body.username}, function (err, parent) {
+        if (parent.length) {
             res.json({
                 status: "200",
                 registerMessage: "Username is already taken..."
