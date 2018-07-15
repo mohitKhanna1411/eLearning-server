@@ -18,6 +18,7 @@ const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 const validateJwt = expressJwt({secret: "secret"});
 const compose = require('composable-middleware');
+const bcrypt = require('bcrypt-nodejs');
 mongoose.Promise = global.Promise;
 mongoose.connect(config.db,{
 	useMongoClient : true
@@ -1099,6 +1100,8 @@ app.post('/jwt/teacherLogin', function(req,res,next){
     })
 });
 
+
+
 app.post('/jwt/studentLogin', function(req,res,next){
     Student.findOne({username: req.body.username}, function (err,Student) {
         if (err) return err;
@@ -1132,6 +1135,7 @@ app.post('/jwt/studentLogin', function(req,res,next){
 
 app.post('/jwt/parentLogin', function(req,res,next){
 	// console.log(req.body);
+
     Parent.findOne({username: req.body.username}, function (err,Parent) {
         if (err) return err;
         // console.log(Parent);
@@ -1189,6 +1193,7 @@ function isAuthenticated(tablename) {
             });
         });
 }
+
 
 app.post('/jwt/api/addResults',isAuthenticated(Student), function(req,res){
 
@@ -1430,7 +1435,7 @@ app.get('/jwt/api/parent/getReportCSV',isAuthenticated(Parent), function(req,res
                         "Section": docu[i].section,
                         "Subject": docu[i].subject,
                         "Assesment Name": docu[i].assesment_name,
-                        "Marks": docu[i].marks,
+                        "Marks": docu[i].marks
 
                     }
                 );
@@ -1443,6 +1448,131 @@ app.get('/jwt/api/parent/getReportCSV',isAuthenticated(Parent), function(req,res
 
     });
 });
+
+
+
+//registration apis
+app.post('/app/teacherRegister', function(req,res){
+    Teacher.find({username: req.body.username}, function (err, teacher) {
+        if (teacher.length) {
+            res.json({
+                status: "200",
+                registerMessage: "Username is already taken..."
+            })
+        } else {
+            Teacher.count({},function(err,count){
+                console.log("teacher count : " + count);
+                var newUser = new Teacher();
+                newUser.username = req.body.username;
+                newUser.password = newUser.generateHash(req.body.password);
+                newUser.teacher_id = "TEA-00" + (count+1) + "-" + req.body.aadhar_no;
+                console.log("teacherid" + newUser.teacher_id);
+                newUser.qualification = req.body.qualification;
+                newUser.job_description = req.body.job_description;
+                newUser.teaching_experience = req.body.teaching_experience;
+                newUser.email_id = req.body.email_id;
+                newUser.contact_number = req.body.contact_number;
+                newUser.address = req.body.address;
+                newUser.aadhar_no = req.body.aadhar_no;
+                newUser.role = "teacher";
+                newUser.save(function(err){
+                    if(err) throw err;
+                    return done(null,newUser);
+                });
+            })//teacher.count
+
+
+
+
+        }
+    })
+});
+
+
+
+
+app.post('/app/studentRegister', function(req,res){
+    Student.find({username: req.body.username}, function (err, student) {
+        if (student.length) {
+            res.json({
+                status: "200",
+                registerMessage: "Username is already taken..."
+            })
+        } else {
+            Student.count({},function(err,count){
+                console.log("student count : " + count);
+                var newUser = new Student();
+                newUser.username = req.body.username;
+                newUser.password = newUser.generateHash(req.body.password);
+                newUser.student_id = "STU -00" + (count+1) + "-" + req.body.aadhar;
+                console.log("studentid : " + newUser.student_id);
+                newUser.email = req.body.email;
+                newUser.grade = req.body.grade;
+                newUser.contact = req.body.contact;
+                newUser.address = req.body.address;
+                newUser.aadhar = req.body.aadhar;
+                newUser.school = req.body.school;
+                newUser.fav_subject = req.body.fav_subject;
+                newUser.role = "student";
+                newUser.teacher_id = req.body.teacherID.replace('string:','');
+                // newUser.parent_id = req.body.parentID.replace('string:','');
+
+                //  Parent.update( { parent_id : req.body.parentID.replace('string:','') },{$set : {student_id : newUser.student_id }},function(request,docs){
+                //     console.log(docs);
+                // });
+
+                newUser.save(function(err){
+                    if(err) throw err;
+                    return done(null,newUser);
+                });
+
+            })//student count
+
+
+
+
+        }
+    })
+});
+
+app.post('/app/parentRegister', function(req,res){
+    Student.find({username: req.body.username}, function (err, parent) {
+        if (parent.length) {
+            res.json({
+                status: "200",
+                registerMessage: "Username is already taken..."
+            })
+        } else {
+            Parent.count({},function(err,count){
+                console.log("parent count : " + count);
+                var newUser = new Parent();
+                newUser.username = req.body.username;
+                newUser.password = newUser.generateHash(req.body.password);
+                newUser.parent_id = "PAR -00" + (count+1) + "-" + req.body.aadhar;
+                console.log("parentid : " + newUser.parent_id);
+                newUser.email = req.body.email;
+                newUser.qualification = req.body.qualification;
+                newUser.job_description = req.body.job_description;
+                newUser.contact = req.body.contact;
+                newUser.aadhar = req.body.aadhar;
+                newUser.address = req.body.address;
+                newUser.role = "parent";
+                newUser.student_id = req.body.studentID.replace('string:','');
+                newUser.save(function(err){
+                    if(err) throw err;
+                    return done(null,newUser);
+                });
+            })
+
+
+
+
+        }
+    })
+});
+
+
+
 
 app.listen(port,function()
 {
