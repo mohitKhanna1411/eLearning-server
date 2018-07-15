@@ -1519,11 +1519,11 @@ app.post('/app/studentRegister', function(req,res){
                 newUser.fav_subject = req.body.fav_subject;
                 newUser.role = "student";
                 newUser.teacher_id = req.body.teacherID.replace('string:','');
-                // newUser.parent_id = req.body.parentID.replace('string:','');
+                newUser.parent_id = req.body.parentID.replace('string:','');
 
-                //  Parent.update( { parent_id : req.body.parentID.replace('string:','') },{$set : {student_id : newUser.student_id }},function(request,docs){
-                //     console.log(docs);
-                // });
+                 Parent.update( { parent_id : req.body.parentID.replace('string:','') },{$set : {student_id : newUser.student_id }},function(request,docs){
+                    console.log(docs);
+                });
 
                 newUser.save(function(err){
                     if(err) throw err;
@@ -1565,7 +1565,7 @@ app.post('/app/parentRegister', function(req,res){
                 newUser.aadhar = req.body.aadhar;
                 newUser.address = req.body.address;
                 newUser.role = "parent";
-                newUser.student_id = req.body.studentID.replace('string:','');
+                // newUser.student_id = req.body.studentID.replace('string:','');
                 newUser.save(function(err){
                     if(err) throw err;
                     //return done(null,newUser);
