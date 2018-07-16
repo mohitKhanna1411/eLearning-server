@@ -1,0 +1,10 @@
+.DS_Store
+.env
+*.xml
+*.zip
+_config.yml
+Exe/
+.idea/
+files/
+node_modules/
+package-lock.json

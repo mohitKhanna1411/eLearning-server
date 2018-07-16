@@ -154,7 +154,7 @@
                     <td>{{$index+1}}</td>
                     <td>{{list5.Title}}  </td>
 
-                    <td><input type="text" value="{{list5.Content}}" ng-model="list5.Content"/></td>
+                    <td><input class="form-control border-input" type="text" value="{{list5.Content}}" ng-model="list5.Content"/></td>
                     <td ng-if="list5.Ref_Link.length > 0">
                         <iframe width="320" height="240" src="{{list5.Ref_Link|trusted}}" frameborder="0" allowfullscreen></iframe>
 
@@ -168,7 +168,7 @@
 
                     </td>
                     <td>
-                    New Link(Embedded) : <input type="text" ng-model="ref_link" ng-click=syncLink()/> <br>
+                    New Link(Embedded) : <input class="form-control border-input" type="text" ng-model="ref_link" ng-click="syncLink()" /> <br>
                     -OR-  Upload New Video<input class="form-control border-input" type="file" ngf-select ng-model="file" ng-click="syncVideo()" name="file_edit"
                                                       accept = "video/mp4,video/x-m4v,video/*" />
                     </td>
